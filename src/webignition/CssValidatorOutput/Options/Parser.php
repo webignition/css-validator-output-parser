@@ -24,6 +24,7 @@ class Parser {
      */
     public function setOptionsOutput($optionsOutput) {
         $this->optionsOutput = $optionsOutput;
+        $this->options = null;
         return $this;
     }
     
