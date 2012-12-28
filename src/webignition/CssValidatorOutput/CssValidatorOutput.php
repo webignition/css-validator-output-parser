@@ -136,6 +136,10 @@ class CssValidatorOutput {
      * @return \webignition\CssValidatorOutput\Options\Options
      */
     public function getOptions() {
+        if ($this->getIsIncorrectUsageOutput()) {
+            return null;
+        }
+        
         return $this->options;
     }
     
@@ -155,6 +159,10 @@ class CssValidatorOutput {
      * @return \DateTime
      */
     public function getDateTime() {
+        if ($this->getIsIncorrectUsageOutput()) {
+            return null;
+        }        
+        
         return $this->datetime;
     }
     
