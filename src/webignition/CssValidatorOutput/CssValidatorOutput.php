@@ -55,6 +55,13 @@ class CssValidatorOutput {
     
     
     /**
+     *
+     * @var boolean
+     */
+    private $isUnknownMimeTypeError = false;
+    
+    
+    /**
      * Collection of message hashes, used to determine if output already
      * contains a message
      * 
@@ -87,6 +94,26 @@ class CssValidatorOutput {
      */
     public function getIsIncorrectUsageOutput() {
         return $this->isIncorrectUsageOutput;        
+    }
+    
+    
+    /**
+     * 
+     * @param boolean $isUnknownMimeTypeError
+     * @return \webignition\CssValidatorOutput\CssValidatorOutput
+     */
+    public function setIsUnknownMimeTypeError($isUnknownMimeTypeError) {
+        $this->isUnknownMimeTypeError = $isUnknownMimeTypeError;
+        return $this;
+    }
+    
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function getIsUnknownMimeTypeError() {
+        return $this->isUnknownMimeTypeError;
     }
     
     
@@ -159,9 +186,9 @@ class CssValidatorOutput {
      * @return \DateTime
      */
     public function getDateTime() {
-        if ($this->getIsIncorrectUsageOutput()) {
+        if ($this->getIsIncorrectUsageOutput() || $this->getIsUnknownMimeTypeError()) {
             return null;
-        }        
+        }
         
         return $this->datetime;
     }
