@@ -61,16 +61,6 @@ class CssValidatorOutput {
     private $isUnknownMimeTypeError = false;
     
     
-    /**
-     * Collection of message hashes, used to determine if output already
-     * contains a message
-     * 
-     * @var array
-     */
-    private $messageIndex = array();
-    
-    
-    
     public function __construct() {
         $this->options = new CssValidatorOutputOptions();
         $this->datetime = new \DateTime();
@@ -122,28 +112,15 @@ class CssValidatorOutput {
      * @param \webignition\CssValidatorOutput\Message\Message $message
      */
     public function addMessage(Message $message) {
-        if (!$this->contains($message)) {
-            $this->messages[$message->getHash()] = $message;
-            $this->messageIndex[$message->getHash()] = $message->getType();
-            
-            if ($message->isError()) {
-                $this->errorCount++;
-            }
-            
-            if ($message->isWarning()) {
-                $this->warningCount++;
-            }
-        }        
-    }
-    
-    
-    /**
-     * 
-     * @param \webignition\CssValidatorOutput\Message\Message $message
-     * @return boolean
-     */
-    public function contains(Message $message) {        
-        return array_key_exists($message->getHash(), $this->messageIndex);
+        $this->messages[] = $message;
+
+        if ($message->isError()) {
+            $this->errorCount++;
+        }
+
+        if ($message->isWarning()) {
+            $this->warningCount++;
+        }
     }
     
     
@@ -273,9 +250,10 @@ class CssValidatorOutput {
      */
     private function getMessagesOfType($selectedMessageType) {
         $messages = array();
-        foreach ($this->messageIndex as $messageHash => $messageType) {
-            if ($messageType == $selectedMessageType) {
-                $messages[] = $this->messages[$messageHash];
+        
+        foreach ($this->messages as $message) {
+            if ($message->getType() == $selectedMessageType) {
+                $messages[] = $message;
             }
         }
         
