@@ -128,34 +128,12 @@ abstract class Message {
         return $this->getType() == self::TYPE_WARNING;
     }
     
-    
     /**
      * 
-     * @param \webignition\CssValidatorOutput\Message $message
-     * @return boolean
+     * @return string
      */
-    public function equals(Message $message) {
-        if ($this->getBody() != $message->getBody()) {
-            return false;
-        }
-        
-        if ($this->getContext() != $message->getContext()) {
-            return false;
-        }
-        
-        if ($this->getLineNumber() != $message->getLineNumber()) {
-            return false;
-        }
-        
-        if ($this->getRef() != $message->getRef()) {
-            return false;
-        }
-        
-        if ($this->getType() != $message->getType()) {
-            return false;
-        }
-        
-        return true;        
+    public function getHash() {
+        return md5($this->getBody().$this->getContext().$this->getLineNumber().$this->getType());
     }
     
 }
