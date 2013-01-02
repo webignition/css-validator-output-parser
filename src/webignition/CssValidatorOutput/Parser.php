@@ -22,6 +22,33 @@ class Parser {
     
     
     /**
+     *
+     * @var boolean
+     */
+    private $ignoreWarnings = false;
+    
+    
+    /**
+     * 
+     * @param boolean $ignoreWarnings
+     * @return \webignition\CssValidatorOutput\CssValidatorOutput
+     */
+    public function setIgnoreWarnings($ignoreWarnings) {
+        $this->ignoreWarnings = filter_var($ignoreWarnings, FILTER_VALIDATE_BOOLEAN);
+        return $this;
+    }
+    
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function getIgnoreWarnings() {
+        return $this->ignoreWarnings;
+    }    
+    
+    
+    /**
      * 
      * @param string $rawOutput
      */
@@ -82,6 +109,13 @@ class Parser {
         foreach ($messageElements as $messageElement) {
             /* @var $messageElement \DomElement */
             $messageParser->setMessageElement($messageElement);            
+            
+            /* @var $message \webignition\CssValidatorOutput\Message\Message */
+            $message = $messageParser->getMessage();
+            if ($message->isWarning() && $this->getIgnoreWarnings() === true) {
+                continue;
+            }
+            
             $this->output->addMessage($messageParser->getMessage());
         }
     }
