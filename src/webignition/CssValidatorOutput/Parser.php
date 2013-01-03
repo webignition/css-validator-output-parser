@@ -4,6 +4,8 @@ namespace webignition\CssValidatorOutput;
 
 use webignition\CssValidatorOutput\Options\Parser as OptionsParser;
 use webignition\CssValidatorOutput\Message\Parser as MessageParser;
+use webignition\CssValidatorOutput\Message\Message;
+use webignition\NormalisedUrl\NormalisedUrl;
 
 class Parser {
     
@@ -29,6 +31,13 @@ class Parser {
     
     
     /**
+     *
+     * @var array
+     */
+    private $refDomainsToIgnore = array();
+    
+    
+    /**
      * 
      * @param boolean $ignoreWarnings
      * @return \webignition\CssValidatorOutput\CssValidatorOutput
@@ -46,6 +55,30 @@ class Parser {
     public function getIgnoreWarnings() {
         return $this->ignoreWarnings;
     }    
+    
+    
+    /**
+     * 
+     * @param array $refDomainsToIgnore
+     * @return \webignition\CssValidatorOutput\Parser
+     */
+    public function setRefDomainsToIgnore($refDomainsToIgnore) {
+        if (!is_array($refDomainsToIgnore)) {
+            $refDomainsToIgnore = array();
+        }
+        
+        $this->refDomainsToIgnore = $refDomainsToIgnore;
+        return $this;
+    }
+    
+    
+    /**
+     * 
+     * @return array
+     */
+    public function getRefDomainsToIgnore() {
+        return $this->refDomainsToIgnore;
+    }
     
     
     /**
@@ -116,9 +149,31 @@ class Parser {
                 continue;
             }
             
+            if ($this->hasRefDomainToIgnore($message)) {
+                continue;
+            }
+            
             $this->output->addMessage($messageParser->getMessage());
         }
     }
+    
+    
+    /**
+     * 
+     * @param \webignition\CssValidatorOutput\Message\Message $message
+     * @return boolean
+     */
+    private function hasRefDomainToIgnore(Message $message) {
+        if (!$message->isError()) {
+            return false;
+        }
+        
+        /* @var $message \webignition\CssValidatorOutput\Message\Error */        
+        $messageRefUrl = new NormalisedUrl($message->getRef());
+        
+        return in_array((string)$messageRefUrl->getHost(), $this->refDomainsToIgnore);
+    }
+    
     
     
     /**
