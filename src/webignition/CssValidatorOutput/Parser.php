@@ -38,6 +38,13 @@ class Parser {
     
     
     /**
+     *
+     * @var boolean
+     */
+    private $ignoreVendorExtensionIssues = false;
+    
+    
+    /**
      * 
      * @param boolean $ignoreWarnings
      * @return \webignition\CssValidatorOutput\CssValidatorOutput
@@ -78,6 +85,26 @@ class Parser {
      */
     public function getRefDomainsToIgnore() {
         return $this->refDomainsToIgnore;
+    }
+    
+    
+    /**
+     * 
+     * @param boolean $ignoreVendorExtensionIssues
+     * @return \webignition\CssValidatorOutput\Parser
+     */
+    public function setIgnoreVendorExtensionIssues($ignoreVendorExtensionIssues) {
+        $this->ignoreVendorExtensionIssues = filter_Var($ignoreVendorExtensionIssues, FILTER_VALIDATE_BOOLEAN);
+        return $this;
+    }
+    
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function getIgnoreVendorExtensionIssues() {
+        return $this->ignoreVendorExtensionIssues;
     }
     
     
@@ -153,6 +180,10 @@ class Parser {
                 continue;
             }
             
+            if ($this->getIgnoreVendorExtensionIssues() === true && $this->isVendorExtensionMessage($message)) {
+                continue;
+            }
+            
             $this->output->addMessage($messageParser->getMessage());
         }
     }
@@ -196,5 +227,41 @@ class Parser {
         
         return preg_match('/Unknown mime type :/', $bodyFirstLine) > 0;     
     }
+    
+    
+
+    /**
+     * 
+     * @param \webignition\CssValidatorOutput\Message\Message $message
+     * @return boolean
+     */
+    private function isVendorExtensionMessage(Message $message) {       
+        $patterns = array(
+            '/is an unknown vendor extension/', #
+            '/^Property \-[a-z\-]+ doesn\&#39;t exist/', #
+            '/^Unknown pseudo\-element or pseudo\-class [:]{1,2}\-[a-z\-]+/', #
+            '/-webkit\-focus\-ring\-color is not a outline\-color value/',
+            '/Sorry, the at\-rule @\-[a-z\-]+ is not implemented./'
+        );
+        
+        
+        
+/**
+string(57) "Sorry, the at-rule @-webkit-keyframes is not implemented."
+string(54) "Sorry, the at-rule @-moz-keyframes is not implemented."
+string(53) "Sorry, the at-rule @-ms-keyframes is not implemented."
+string(52) "Sorry, the at-rule @-o-keyframes is not implemented."
+
+
+ */        
+        
+        foreach ($patterns as $pattern) {
+            if (preg_match($pattern, $message->getBody()) > 0) {
+                return true;
+            }
+        }
+        
+        return false;
+    }    
     
 }
