@@ -7,3 +7,7 @@ before_script:
   # Install composer for dependency management
   - wget http://getcomposer.org/composer.phar
   - php composer.phar install
+  
+  # Set the GitHub OAuth token to make use of the 6000 per hour rate limit
+  - mkdir ~/.composer
+  - echo '{ "config": { "github-oauth": { "github.com": "84e7543b03c633b6acf289218463d1b9b15cded5" } } }' > ~/.composer/config.json
