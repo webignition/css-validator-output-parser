@@ -21,7 +21,7 @@ class CssValidatorOutputMessageParserTest extends BaseTest {
    
         $this->assertInstanceOf('webignition\CssValidatorOutput\Message\Error', $message);
         $this->assertEquals('Parse Error
-            *display: inline;', $message->getBody());
+            *display: inline;', $message->getMessage());
         $this->assertEquals('audio, canvas, video', $message->getContext());
         $this->assertEquals(28, $message->getLineNumber());        
         $this->assertTrue($message->isError());        
@@ -41,7 +41,7 @@ class CssValidatorOutputMessageParserTest extends BaseTest {
         $message = $parser->getMessage();
    
         $this->assertInstanceOf('webignition\CssValidatorOutput\Message\Warning', $message);
-        $this->assertEquals("You should add a 'type' attribute with a value of 'text/css' to the 'link' element", $message->getBody());
+        $this->assertEquals("You should add a 'type' attribute with a value of 'text/css' to the 'link' element", $message->getMessage());
         $this->assertEquals('', $message->getContext());
         $this->assertEquals(5, $message->getLineNumber());        
         $this->assertTrue($message->isWarning());        

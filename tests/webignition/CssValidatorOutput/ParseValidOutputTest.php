@@ -16,21 +16,21 @@ class ParseValidOutputTest extends BaseTest {
             'ref' => 'http://blog.simplytestable.com/vendor/twitter-bootstrap/bootstrap/css/bootstrap1.css',
             'line' => 28,
             'context' => 'audio, canvas, video',
-            'body' => 'Parse Error
+            'message' => 'Parse Error
 		*display: inline;'
         ),
         array(
             'ref' => 'http://blog.simplytestable.com/vendor/twitter-bootstrap/bootstrap/css/bootstrap2.css',
             'line' => 38,
             'context' => 'html',
-            'body' => 'Property -webkit-text-size-adjust doesn&#39;t exist : 
+            'message' => 'Property -webkit-text-size-adjust doesn&#39;t exist : 
 		100%'
         ),
         array(
             'ref' => 'http://blog.simplytestable.com/vendor/twitter-bootstrap/bootstrap/css/bootstrap3.css',
             'line' => 141,
             'context' => '.hide-text',
-            'body' => 'Value Error :  font (nullfonts.html#propdef-font)
+            'message' => 'Value Error :  font (nullfonts.html#propdef-font)
 		0 is not a font-weight value : 
 		0 / 0 a'
         )        
@@ -41,13 +41,13 @@ class ParseValidOutputTest extends BaseTest {
             'level' => 0,
             'line' => 5,
             'context' => '',
-            'body' => 'You should add a \'type\' attribute with a value of \'text/css\' to the \'link\' element'
+            'message' => 'You should add a \'type\' attribute with a value of \'text/css\' to the \'link\' element'
         ),
         array(
             'level' => 0,
             'line' => 6,
             'context' => '',
-            'body' => 'You should add a \'type\' attribute with a value of \'text/css\' to the \'link\' element'
+            'message' => 'You should add a \'type\' attribute with a value of \'text/css\' to the \'link\' element'
         )      
     );    
     
@@ -98,7 +98,7 @@ class ParseValidOutputTest extends BaseTest {
             $this->assertEquals($this->expectedErrorValues[$errorIndex]['ref'], $error->getRef());
             $this->assertEquals($this->expectedErrorValues[$errorIndex]['line'], $error->getLineNumber());
             $this->assertEquals($this->expectedErrorValues[$errorIndex]['context'], $error->getContext());
-            $this->assertEquals($this->expectedErrorValues[$errorIndex]['body'], $error->getBody());            
+            $this->assertEquals($this->expectedErrorValues[$errorIndex]['message'], $error->getMessage());            
         }       
     }    
     
@@ -113,7 +113,7 @@ class ParseValidOutputTest extends BaseTest {
             $this->assertEquals($this->expectedWarningValues[$warningIndex]['level'], $warning->getLevel());
             $this->assertEquals($this->expectedWarningValues[$warningIndex]['line'], $warning->getLineNumber());
             $this->assertEquals($this->expectedWarningValues[$warningIndex]['context'], $warning->getContext());
-            $this->assertEquals($this->expectedWarningValues[$warningIndex]['body'], $warning->getBody());            
+            $this->assertEquals($this->expectedWarningValues[$warningIndex]['message'], $warning->getMessage());            
         }          
     }
 }

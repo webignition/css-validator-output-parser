@@ -253,21 +253,10 @@ class Parser {
             '/^Unknown pseudo\-element or pseudo\-class [:]{1,2}\-[a-z\-]+/', #
             '/-webkit\-focus\-ring\-color is not a outline\-color value/',
             '/Sorry, the at\-rule @\-[a-z\-]+ is not implemented./'
-        );
-        
-        
-        
-/**
-string(57) "Sorry, the at-rule @-webkit-keyframes is not implemented."
-string(54) "Sorry, the at-rule @-moz-keyframes is not implemented."
-string(53) "Sorry, the at-rule @-ms-keyframes is not implemented."
-string(52) "Sorry, the at-rule @-o-keyframes is not implemented."
-
-
- */        
+        );       
         
         foreach ($patterns as $pattern) {
-            if (preg_match($pattern, $message->getBody()) > 0) {
+            if (preg_match($pattern, $message->getMessage()) > 0) {
                 return true;
             }
         }

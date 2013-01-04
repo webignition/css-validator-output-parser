@@ -14,13 +14,13 @@ class CssValidatorOutputMessageTest extends BaseTest {
     }    
     
     public function testDefaultBody() {      
-        $this->assertEquals('', $this->message->getBody());
+        $this->assertEquals('', $this->message->getMessage());
     }
     
     
-    public function testBody() {
-        $this->message->setBody('body content');        
-        $this->assertEquals('body content', $this->message->getBody());
+    public function testMessageBody() {
+        $this->message->setMessage('body content');        
+        $this->assertEquals('body content', $this->message->getMessage());
     }
     
     

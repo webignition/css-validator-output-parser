@@ -12,37 +12,37 @@ class ParserRefDomainsToIgnoreTest extends BaseTest {
             'ref' => 'http://one.example.com/style.css',
             'line' => 1,
             'context' => 'audio, canvas, video',
-            'body' => 'one.1'
+            'message' => 'one.1'
         ),       
         array(
             'ref' => 'http://two.example.com/style.css',
             'line' => 2,
             'context' => 'html',
-            'body' => 'two.1'
+            'message' => 'two.1'
         ), 
         array(
             'ref' => 'http://three.example.com/style.css',
             'line' => 3,
             'context' => '.hide-text',
-            'body' => 'three.1'
+            'message' => 'three.1'
         ), 
         array(
             'ref' => 'http://one.example.com/style.css',
             'line' => 4,
             'context' => 'audio, canvas, video',
-            'body' => 'one.2'
+            'message' => 'one.2'
         ), 
         array(
             'ref' => 'http://two.example.com/style.css',
             'line' => 5,
             'context' => 'html',
-            'body' => 'two.2'
+            'message' => 'two.2'
         ), 
         array(
             'ref' => 'http://three.example.com/style.css',
             'line' => 6,
             'context' => '.hide-text',
-            'body' => 'three.2'
+            'message' => 'three.2'
         ),         
     );    
     
@@ -68,7 +68,7 @@ class ParserRefDomainsToIgnoreTest extends BaseTest {
             $this->assertEquals($this->expectedErrorValues[$errorIndex]['ref'], $error->getRef());
             $this->assertEquals($this->expectedErrorValues[$errorIndex]['line'], $error->getLineNumber());
             $this->assertEquals($this->expectedErrorValues[$errorIndex]['context'], $error->getContext());
-            $this->assertEquals($this->expectedErrorValues[$errorIndex]['body'], $error->getBody());               
+            $this->assertEquals($this->expectedErrorValues[$errorIndex]['message'], $error->getMessage());               
         }
     }      
     
@@ -94,7 +94,7 @@ class ParserRefDomainsToIgnoreTest extends BaseTest {
             $this->assertEquals($expectedErrorValues[$errorIndex]['ref'], $error->getRef());
             $this->assertEquals($expectedErrorValues[$errorIndex]['line'], $error->getLineNumber());
             $this->assertEquals($expectedErrorValues[$errorIndex]['context'], $error->getContext());
-            $this->assertEquals($expectedErrorValues[$errorIndex]['body'], $error->getBody());               
+            $this->assertEquals($expectedErrorValues[$errorIndex]['message'], $error->getMessage());               
         }
     }
     
@@ -121,7 +121,7 @@ class ParserRefDomainsToIgnoreTest extends BaseTest {
             $this->assertEquals($expectedErrorValues[$errorIndex]['ref'], $error->getRef());
             $this->assertEquals($expectedErrorValues[$errorIndex]['line'], $error->getLineNumber());
             $this->assertEquals($expectedErrorValues[$errorIndex]['context'], $error->getContext());
-            $this->assertEquals($expectedErrorValues[$errorIndex]['body'], $error->getBody());               
+            $this->assertEquals($expectedErrorValues[$errorIndex]['message'], $error->getMessage());               
         }
     }    
 
@@ -147,7 +147,7 @@ class ParserRefDomainsToIgnoreTest extends BaseTest {
             $this->assertEquals($expectedErrorValues[$errorIndex]['ref'], $error->getRef());
             $this->assertEquals($expectedErrorValues[$errorIndex]['line'], $error->getLineNumber());
             $this->assertEquals($expectedErrorValues[$errorIndex]['context'], $error->getContext());
-            $this->assertEquals($expectedErrorValues[$errorIndex]['body'], $error->getBody());               
+            $this->assertEquals($expectedErrorValues[$errorIndex]['message'], $error->getMessage());               
         }
     }     
     

@@ -17,7 +17,7 @@ abstract class Message {
      *
      * @var string
      */
-    private $body = '';
+    private $message = '';
     
     /**
      *
@@ -51,11 +51,11 @@ abstract class Message {
     
     /**
      * 
-     * @param string $body
+     * @param string $message
      * @return \webignition\CssValidatorOutput\Message
      */
-    public function setBody($body) {
-        $this->body = $body;
+    public function setMessage($message) {
+        $this->message = $message;
         return $this;
     }
     
@@ -63,8 +63,8 @@ abstract class Message {
      * 
      * @return string
      */
-    public function getBody() {
-        return $this->body;
+    public function getMessage() {
+        return $this->message;
     }
     
     

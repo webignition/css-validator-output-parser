@@ -11,19 +11,19 @@ class ParserRefDomainsToIgnoreIdnTest extends BaseTest {
             'ref' => 'http://artesan.xn--a-iga.com/style.css',
             'line' => 1,
             'context' => 'audio, canvas, video',
-            'body' => 'one'
+            'message' => 'one'
         ),       
         array(
             'ref' => 'http://artesan.ía.com/style.css',
             'line' => 2,
             'context' => 'html',
-            'body' => 'two'
+            'message' => 'two'
         ), 
         array(
             'ref' => 'http://three.example.com/style.css',
             'line' => 3,
             'context' => '.hide-text',
-            'body' => 'three'
+            'message' => 'three'
         )         
     );    
     
@@ -49,7 +49,7 @@ class ParserRefDomainsToIgnoreIdnTest extends BaseTest {
             $this->assertEquals($this->expectedErrorValues[$errorIndex]['ref'], $error->getRef());
             $this->assertEquals($this->expectedErrorValues[$errorIndex]['line'], $error->getLineNumber());
             $this->assertEquals($this->expectedErrorValues[$errorIndex]['context'], $error->getContext());
-            $this->assertEquals($this->expectedErrorValues[$errorIndex]['body'], $error->getBody());               
+            $this->assertEquals($this->expectedErrorValues[$errorIndex]['message'], $error->getMessage());               
         }
     }      
     

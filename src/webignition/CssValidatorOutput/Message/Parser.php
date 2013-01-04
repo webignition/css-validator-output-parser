@@ -60,7 +60,7 @@ class Parser {
         
         $this->message->setContext($contextNode->nodeValue);
         $this->message->setLineNumber($contextNode->getAttribute('line'));        
-        $this->message->setBody(trim($this->messageElement->getElementsByTagName('title')->item(0)->nodeValue));
+        $this->message->setMessage(trim($this->messageElement->getElementsByTagName('title')->item(0)->nodeValue));
     }
     
 }
