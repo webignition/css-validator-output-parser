@@ -29,9 +29,19 @@ abstract class Message {
     /**
      *
      * @var int
+     * @JMS\Serializer\Annotation\Accessor(getter="getSerializedType")
      */
     private $type = self::TYPE_ERROR;
     
+    
+    /**
+     *
+     * @var array
+     */
+    private $serializedTypes = array(
+        'error',
+        'warning'
+    );    
     
     /**
      * 
@@ -117,6 +127,15 @@ abstract class Message {
     
     /**
      * 
+     * @return string
+     */
+    public function getSerializedType() {
+        return $this->serializedTypes[$this->getType()];
+    }
+    
+    
+    /**
+     * 
      * @return boolean
      */
     public function isError() {
@@ -139,6 +158,6 @@ abstract class Message {
     public function getHash() {
         return md5($this->getBody().$this->getContext().$this->getLineNumber().$this->getType());
     }
-    
-}
- 
+
+    }
+

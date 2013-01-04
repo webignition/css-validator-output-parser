@@ -17,6 +17,11 @@ class CssValidatorOutputErrorTest extends BaseTest {
     public function testGetDefaultType() {
         $error = new webignition\CssValidatorOutput\Message\Error();        
         $this->assertTrue($error->isError());
-    }    
+    }
+    
+    public function tetGetSerializedType() {
+        $error = new webignition\CssValidatorOutput\Message\Error();        
+        $this->assertEquals('error', $error->getSerializedType());        
+    }
    
 }

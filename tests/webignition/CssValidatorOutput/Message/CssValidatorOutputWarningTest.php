@@ -35,6 +35,10 @@ class CssValidatorOutputWarningTest extends BaseTest {
     
     public function testGetDefaultType() {      
         $this->assertTrue($this->warning->isWarning());
-    }   
+    }
+    
+    public function tetGetSerializedType() {        
+        $this->assertEquals('warning', $this->warning->getSerializedType());        
+    }    
    
 }
