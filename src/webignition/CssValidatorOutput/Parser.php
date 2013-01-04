@@ -162,6 +162,10 @@ class Parser {
         
         $container = $bodyDom->getElementsByTagName('observationresponse')->item(0);
         
+        if ($this->isPassedNoMessagesOutput($container)) {
+            return;
+        }
+        
         $this->output->setSourceUrl($container->getAttribute('ref'));
         $this->output->setDateTime(new \DateTime($container->getAttribute('date')));
         
@@ -187,6 +191,26 @@ class Parser {
             
             $this->output->addMessage($messageParser->getMessage());
         }
+    }
+    
+    
+    /**
+     * 
+     * @param \DomElement $outputContainer
+     * @return boolean
+     */
+    private function isPassedNoMessagesOutput(\DomElement $outputContainer) {
+        $statusElements = $outputContainer->getElementsByTagName('status');
+        if ($statusElements->length === 0) {
+            return false;
+        }
+        
+        $statusElement = $statusElements->item(0);
+        if (!$statusElement->hasAttribute('value')) {
+            return false;
+        }        
+        
+        return ($statusElements->item(0)->getAttribute('value')) == 'passed';
     }
     
     
