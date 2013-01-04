@@ -2,6 +2,11 @@
 
 namespace webignition\CssValidatorOutput\Message;
 
+/**
+ * 
+ * @JMS\Serializer\Annotation\ExclusionPolicy("none")
+ * 
+ */
 abstract class Message {
     
     const TYPE_ERROR = 0;
@@ -37,6 +42,7 @@ abstract class Message {
     /**
      *
      * @var array
+     * @JMS\Serializer\Annotation\Exclude
      */
     private $serializedTypes = array(
         'error',
