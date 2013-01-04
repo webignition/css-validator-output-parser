@@ -6,6 +6,7 @@ use webignition\CssValidatorOutput\Options\Parser as OptionsParser;
 use webignition\CssValidatorOutput\Message\Parser as MessageParser;
 use webignition\CssValidatorOutput\Message\Message;
 use webignition\NormalisedUrl\NormalisedUrl;
+use webignition\Url\Url;
 
 class Parser {
     
@@ -199,10 +200,20 @@ class Parser {
             return false;
         }
         
-        /* @var $message \webignition\CssValidatorOutput\Message\Error */        
-        $messageRefUrl = new NormalisedUrl($message->getRef());
+        /* @var $message \webignition\CssValidatorOutput\Message\Error */ 
+        if ($message->getRef() == '') {
+            return false;
+        }        
+               
+        $messageRefUrl = new Url($message->getRef());
         
-        return in_array((string)$messageRefUrl->getHost(), $this->refDomainsToIgnore);
+        foreach ($this->getRefDomainsToIgnore() as $refDomainToIgnore) {                       
+            if ($messageRefUrl->getHost()->isEquivalentTo(new \webignition\Url\Host\Host($refDomainToIgnore))) {
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     
