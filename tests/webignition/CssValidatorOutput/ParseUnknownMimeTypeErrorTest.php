@@ -2,7 +2,7 @@
 
 use webignition\CssValidatorOutput\Parser as Parser;
 
-class ParseUnknownMimeTypeError extends BaseTest {
+class ParseUnknownMimeTypeErrorTest extends BaseTest {
     
     public function setUp() {
         $this->setTestFixturePath(__CLASS__, $this->getName());
