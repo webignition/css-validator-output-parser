@@ -78,7 +78,11 @@ abstract class Message {
      * @return \webignition\CssValidatorOutput\Message
      */
     public function setLineNumber($lineNumber) {
-        $this->lineNumber = (int)$lineNumber;
+        $this->lineNumber = filter_var($lineNumber, FILTER_VALIDATE_INT, array('options' => array(
+            'min_range' => 0,
+            'default' => 0
+        )));
+
         return $this;
     }
     
@@ -97,7 +101,7 @@ abstract class Message {
      * @param int $type
      * @return \webignition\CssValidatorOutput\Message
      */
-    public function setType($type) {
+    protected function setType($type) {
         $this->type = $type;
         return $this;
     }

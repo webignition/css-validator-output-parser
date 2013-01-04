@@ -23,8 +23,12 @@ class Warning extends Message {
      * @return \webignition\CssValidatorOutput\Message\Warning
      */
     public function setLevel($level) {
-        $this->level = (int)$level;
-        return $this;
+        $this->level = filter_var($level, FILTER_VALIDATE_INT, array('options' => array(
+            'min_range' => 0,
+            'default' => 0
+        )));
+
+        return $this;        
     }
     
     
@@ -34,7 +38,7 @@ class Warning extends Message {
      */
     public function getLevel() {
         return $this->level;
-    }
+    }   
     
 }
  
