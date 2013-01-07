@@ -4,10 +4,10 @@ php:
   - 5.4
   
 before_script:
-  # Install composer for dependency management
-  - wget http://getcomposer.org/composer.phar
-  - php composer.phar install
-  
   # Set the GitHub OAuth token to make use of the 6000 per hour rate limit
   - "mkdir -p ~/.composer"
-  - cp .travis.composer.config.json ~/.composer/config.json
+  - cp .travis.composer.config.json ~/.composer/config.json  
+  
+  # Install composer for dependency management
+  - wget http://getcomposer.org/composer.phar
+  - php composer.phar install  
