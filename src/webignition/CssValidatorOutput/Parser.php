@@ -135,7 +135,7 @@ class Parser {
     private function parse() { 
         $headerBodyParts = explode("\n", $this->rawOutput, 2);
         $header = trim($headerBodyParts[0]);
-        $body = trim($headerBodyParts[1]);      
+        $body = trim($headerBodyParts[1]);
         
         if ($this->isIncorrectUsageOutput($header)) {
             $this->output->setIsIncorrectUsageOutput(true);
@@ -144,7 +144,12 @@ class Parser {
         
         if ($this->isUnknownMimeTypeError($body)) {
             $this->output->setIsUnknownMimeTypeError(true);
-        }            
+        }
+        
+        if ($this->isExceptionOutput($body) && !$this->isUnknownMimeTypeError($body)) {
+            $this->output->setIsUnknownExceptionError(true);
+            return;
+        }
         
         $optionsParser = new OptionsParser();
         $optionsParser->setOptionsOutput($header);
@@ -263,6 +268,16 @@ class Parser {
         return preg_match('/Unknown mime type :/', $bodyFirstLine) > 0;     
     }
     
+    
+    /**
+     * 
+     * @param string $body
+     * @return boolean
+     */
+    private function isExceptionOutput($body) {
+        $bodyFirstLine = substr($body, 0, strpos($body, "\n"));                
+        return preg_match('/^[a-z\.Exception:]/', $bodyFirstLine) > 0;
+    }
     
 
     /**

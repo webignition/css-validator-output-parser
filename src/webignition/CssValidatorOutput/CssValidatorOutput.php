@@ -61,6 +61,13 @@ class CssValidatorOutput {
     private $isUnknownMimeTypeError = false;
     
     
+    /**
+     *
+     * @var boolean
+     */
+    private $isUnknownExceptionError = false;
+    
+    
     public function __construct() {
         $this->options = new CssValidatorOutputOptions();
         $this->datetime = new \DateTime();
@@ -106,6 +113,25 @@ class CssValidatorOutput {
         return $this->isUnknownMimeTypeError;
     }
     
+    
+    /**
+     * 
+     * @param boolean $isUnknownExceptionError
+     * @return \webignition\CssValidatorOutput\CssValidatorOutput
+     */
+    public function setIsUnknownExceptionError($isUnknownExceptionError) {
+        $this->isUnknownExceptionError = $isUnknownExceptionError;
+        return $this;
+    }
+    
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function getIsUnknownExceptionError() {
+        return $this->isUnknownExceptionError;
+    }
     
     /**
      * 
