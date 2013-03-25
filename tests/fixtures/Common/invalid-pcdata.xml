@@ -1,0 +1,11 @@
+{vextwarning=false, output=ucn, lang=en, warning=2, medium=all, profile=css3}
+<?xml version='1.0' encoding="utf-8"?>
+<observationresponse xmlns="http://www.w3.org/2009/10/unicorn/observationresponse" ref="http://www.yixieshi.com/pd/140.html" date="2013-03-25T11:43:12Z" xml:lang="en">
+    <message type="error" >
+        <context line="96"></context>
+        <title>
+            Property mso-ascii-font-family doesn&amp;#39;t exist :
+		&#39;&#39;
+        </title>
+    </message>
+</observationresponse>

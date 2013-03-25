@@ -2,6 +2,7 @@
 
 namespace webignition\CssValidatorOutput;
 
+use webignition\CssValidatorOutput\Sanitizer;
 use webignition\CssValidatorOutput\Options\Parser as OptionsParser;
 use webignition\CssValidatorOutput\Message\Parser as MessageParser;
 use webignition\CssValidatorOutput\Message\Message;
@@ -114,7 +115,8 @@ class Parser {
      * @param string $rawOutput
      */
     public function setRawOutput($rawOutput) {
-        $this->rawOutput = trim($rawOutput);
+        $sanitizer = new Sanitizer();        
+        $this->rawOutput = trim($sanitizer->getSanitizedOutput($rawOutput));
     }
     
     
