@@ -47,6 +47,30 @@ class Parser {
     
     
     /**
+     *
+     * @var boolean
+     */
+    private $ignoreFalseBackgroundImageDataUrlMessages = false;
+    
+    
+    /**
+     * 
+     * @param boolean $ignoreFalseBase64BackgroundImageMessages
+     */
+    public function setIgnoreFalseBackgroundImageDataUrlMessages($ignoreFalseBackgroundImageDataUrlMessages) {
+        $this->ignoreFalseBackgroundImageDataUrlMessages = $ignoreFalseBackgroundImageDataUrlMessages;
+    }
+    
+    
+    /**
+     * @return bool
+     */
+    public function getIgnoreFalseBackgroundImageDataUrlMessages() {
+        return $this->ignoreFalseBackgroundImageDataUrlMessages;
+    }    
+    
+    
+    /**
      * 
      * @param boolean $ignoreWarnings
      * @return \webignition\CssValidatorOutput\CssValidatorOutput
@@ -117,6 +141,7 @@ class Parser {
     public function setRawOutput($rawOutput) {
         $sanitizer = new Sanitizer();        
         $this->rawOutput = trim($sanitizer->getSanitizedOutput($rawOutput));
+        $this->output = null;
     }
     
     
@@ -196,8 +221,40 @@ class Parser {
                 continue;
             }
             
+            if ($this->getIgnoreFalseBackgroundImageDataUrlMessages() && $this->isFalseBackgroundImageDataUrlMessage($message)) {
+                continue;
+            }
+            
             $this->output->addMessage($messageParser->getMessage());
         }
+    }
+    
+    
+    /**
+     * 
+     * @param \webignition\CssValidatorOutput\Message\Message $message
+     * @return boolean
+     */
+    private function isFalseBackgroundImageDataUrlMessage(Message $message) {
+        if (preg_match('/Value Error\s*:\s*background-image\s\(nullcolors\.html#propdef-background-image\)/', $message->getMessage())) {
+            $messageLines = explode("\n", $message->getMessage());
+            $firstMessageLine = trim($messageLines[1]);
+            
+            if (preg_match('/\(data:image\/[a-z0-9]{3};base64,/', $firstMessageLine) && $this->stringEndsWith($firstMessageLine, 'is an incorrect URL')) {
+                return true;
+            }
+        }
+    }
+    
+    
+    /**
+     * 
+     * @param string $string
+     * @param string $ending
+     * @return boolean
+     */
+    private function stringEndsWith($string, $ending) {
+        return substr($string, strlen($string) - strlen($ending)) == $ending;
     }
     
     
