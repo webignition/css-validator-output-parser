@@ -2,11 +2,11 @@
 
 use webignition\CssValidatorOutput\Parser;
 
-class ParserIgnoreIncorrectBase64BackgroundImageUrlErrors extends BaseTest {
+class ParserIgnoreFalseBackgroundImageDataUrlErrorsTest extends BaseTest {
 
     
-    public function ParserIgnoreFalseBackgroundImageDataUrlErrors() {        
-        $rawOutput = $this->getFixture('incorrect-base64-background-image-errors.xml');
+    public function testParserIgnoreFalseBackgroundImageDataUrlErrors() {
+        $rawOutput = $this->getFixture('incorrect-data-url-background-image-errors.xml');
         
         $parser = new Parser();
         $parser->setRawOutput($rawOutput);
