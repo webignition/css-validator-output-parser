@@ -177,6 +177,10 @@ class Parser {
             $this->output->setIsInternalServerErrorOutput(true);
         }        
         
+        if (!$this->output->hasExceptionError() && $this->isExceptionOutput($body) && $this->isFileNotFoundError($body)) {
+            $this->output->setIsFileNotFoundErrorOutput(true);
+        }          
+        
         if (!$this->output->hasExceptionError() && $this->isExceptionOutput($body)) {
             $this->output->setIsUnknownExceptionError(true);
             return;
@@ -346,6 +350,21 @@ class Parser {
         return preg_match('/Internal Server Error/', $bodyFirstLine) > 0;
     }
     
+
+    /**
+     * 
+     * @param string $body
+     * @return boolean
+     */    
+    private function isFileNotFoundError($body) {
+        if (!$this->isFileNotFoundException($body)) {
+            return false;
+        }
+        
+        $bodyFirstLine = substr($body, 0, strpos($body, "\n"));
+        
+        return preg_match('/Not Found/', $bodyFirstLine) > 0;
+    }    
     
     /**
      * 

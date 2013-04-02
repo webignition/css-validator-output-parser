@@ -74,6 +74,12 @@ class CssValidatorOutput {
      */
     private $isInternalServerError = false;
     
+    /**
+     *
+     * @var boolean
+     */
+    private $isFileNotFoundError = false;    
+    
     
     public function __construct() {
         $this->options = new CssValidatorOutputOptions();
@@ -94,6 +100,10 @@ class CssValidatorOutput {
         }
         
         if ($this->getIsUnknownExceptionError()) {
+            return true;
+        }
+        
+        if ($this->getIsFileNotFoundErrorOutput()) {
             return true;
         }
         
@@ -119,6 +129,26 @@ class CssValidatorOutput {
     public function getIsInternalServerErrorOutput() {
         return $this->isInternalServerError;
     }    
+    
+    
+    /**
+     * 
+     * @param boolean $isFileNotFoundErrorOutput
+     * @return \webignition\CssValidatorOutput\CssValidatorOutput
+     */
+    public function setIsFileNotFoundErrorOutput($isFileNotFoundErrorOutput) {
+        $this->isFileNotFoundError = $isFileNotFoundErrorOutput;
+        return $this;
+    }
+    
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function getIsFileNotFoundErrorOutput() {
+        return $this->isFileNotFoundError;
+    }     
     
     
     /**
