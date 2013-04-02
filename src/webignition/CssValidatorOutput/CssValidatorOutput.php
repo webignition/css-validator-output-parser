@@ -68,10 +68,57 @@ class CssValidatorOutput {
     private $isUnknownExceptionError = false;
     
     
+    /**
+     *
+     * @var boolean
+     */
+    private $isInternalServerError = false;
+    
+    
     public function __construct() {
         $this->options = new CssValidatorOutputOptions();
-        $this->datetime = new \DateTime();
     }
+    
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function hasExceptionError() {
+        if ($this->getIsInternalServerErrorOutput()) {
+            return true;
+        }
+        
+        if ($this->getIsUnknownMimeTypeError()) {
+            return true;
+        }
+        
+        if ($this->getIsUnknownExceptionError()) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    
+    /**
+     * 
+     * @param boolean $isInternalServerErrorOutput
+     * @return \webignition\CssValidatorOutput\CssValidatorOutput
+     */
+    public function setIsInternalServerErrorOutput($isInternalServerErrorOutput) {
+        $this->isInternalServerError = $isInternalServerErrorOutput;
+        return $this;
+    }
+    
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function getIsInternalServerErrorOutput() {
+        return $this->isInternalServerError;
+    }    
     
     
     /**

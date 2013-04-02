@@ -173,7 +173,11 @@ class Parser {
             $this->output->setIsUnknownMimeTypeError(true);
         }
         
-        if ($this->isExceptionOutput($body) && !$this->isUnknownMimeTypeError($body)) {
+        if (!$this->output->hasExceptionError() && $this->isExceptionOutput($body) && $this->isInternalServerError($body)) {
+            $this->output->setIsInternalServerErrorOutput(true);
+        }        
+        
+        if (!$this->output->hasExceptionError() && $this->isExceptionOutput($body)) {
             $this->output->setIsUnknownExceptionError(true);
             return;
         }
@@ -185,7 +189,7 @@ class Parser {
         
         $this->output->setOptions($optionsParser->getOptions());
         
-        if ($this->output->getIsUnknownMimeTypeError()) {
+        if ($this->output->hasExceptionError()) {
             return;
         }
         
@@ -325,6 +329,33 @@ class Parser {
         $bodyFirstLine = substr($body, 0, strpos($body, "\n"));
         
         return preg_match('/Unknown mime type :/', $bodyFirstLine) > 0;     
+    }
+    
+    /**
+     * 
+     * @param string $body
+     * @return boolean
+     */    
+    private function isInternalServerError($body) {
+        if (!$this->isFileNotFoundException($body)) {
+            return false;
+        }
+        
+        $bodyFirstLine = substr($body, 0, strpos($body, "\n"));
+        
+        return preg_match('/Internal Server Error/', $bodyFirstLine) > 0;
+    }
+    
+    
+    /**
+     * 
+     * @param string $body
+     * @return boolean
+     */
+    private function isFileNotFoundException($body) {
+        $bodyFirstLine = substr($body, 0, strpos($body, "\n"));
+        
+        return preg_match('/^java\.io\.FileNotFoundException:/', $bodyFirstLine) > 0;      
     }
     
     
