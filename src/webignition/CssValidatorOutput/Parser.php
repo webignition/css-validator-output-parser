@@ -181,6 +181,10 @@ class Parser {
             $this->output->setIsFileNotFoundErrorOutput(true);
         }          
         
+        if (!$this->output->hasExceptionError() && $this->isUnknownHostError($body)) {
+            $this->output->setIsUnknownHostErrorOutput(true);
+        }         
+        
         if (!$this->output->hasExceptionError() && $this->isExceptionOutput($body)) {
             $this->output->setIsUnknownExceptionError(true);
             return;
@@ -376,6 +380,17 @@ class Parser {
         
         return preg_match('/^java\.io\.FileNotFoundException:/', $bodyFirstLine) > 0;      
     }
+    
+    
+    /**
+     * 
+     * @param string $body
+     * @return boolean
+     */    
+    private function isUnknownHostError($body) {        
+        $bodyFirstLine = substr($body, 0, strpos($body, "\n"));
+        return preg_match('/^java\.net\.UnknownHostException:/', $bodyFirstLine) > 0;
+    }      
     
     
     /**

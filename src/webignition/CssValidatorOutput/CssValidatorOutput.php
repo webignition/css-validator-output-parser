@@ -78,7 +78,14 @@ class CssValidatorOutput {
      *
      * @var boolean
      */
-    private $isFileNotFoundError = false;    
+    private $isFileNotFoundError = false;   
+    
+    
+    /**
+     *
+     * @var boolean
+     */
+    private $isUknownHostError = false;
     
     
     public function __construct() {
@@ -107,6 +114,10 @@ class CssValidatorOutput {
             return true;
         }
         
+        if ($this->getIsUnknownHostErrorOutput()) {
+            return true;
+        }
+        
         return false;
     }
     
@@ -128,7 +139,27 @@ class CssValidatorOutput {
      */
     public function getIsInternalServerErrorOutput() {
         return $this->isInternalServerError;
-    }    
+    } 
+    
+    
+    /**
+     * 
+     * @param boolean $isUnknownHostErrorOutput
+     * @return \webignition\CssValidatorOutput\CssValidatorOutput
+     */
+    public function setIsUnknownHostErrorOutput($isUnknownHostErrorOutput) {
+        $this->isUknownHostError = $isUnknownHostErrorOutput;
+        return $this;
+    }
+    
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function getIsUnknownHostErrorOutput() {
+        return $this->isUknownHostError;
+    }     
     
     
     /**
