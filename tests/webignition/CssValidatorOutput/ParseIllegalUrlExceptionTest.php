@@ -2,14 +2,14 @@
 
 use webignition\CssValidatorOutput\Parser as Parser;
 
-class ParseIllegalArgumentException extends BaseTest {
+class ParseIllegalUrlExceptionTest extends BaseTest {
     
     public function setUp() {
         $this->setTestFixturePath(__CLASS__, $this->getName());
     }    
     
-    public function testParseIllegalArgumentExceptionOutput() {
-        $rawOutput = $this->getFixture('illegal-argument-exception.txt');
+    public function testParseIllegalUrlExceptionOutput() {
+        $rawOutput = $this->getFixture('illegal-url-exception.txt');
         
         $parser = new Parser();
         $parser->setRawOutput($rawOutput);
@@ -18,7 +18,7 @@ class ParseIllegalArgumentException extends BaseTest {
         
         $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);
         
-        $this->assertTrue($cssValidatorOutput->getIsUnknownExceptionError());
+        $this->assertTrue($cssValidatorOutput->getIsIllegalUrlErrorOutput());
         $this->assertEquals(0, $cssValidatorOutput->getMessageCount());
         $this->assertEquals(0, $cssValidatorOutput->getErrorCount());
         $this->assertEquals(0, $cssValidatorOutput->getWarningCount());      

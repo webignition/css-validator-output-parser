@@ -85,6 +85,13 @@ class CssValidatorOutput {
      *
      * @var boolean
      */
+    private $isIllegalUrlError = false;
+    
+    
+    /**
+     *
+     * @var boolean
+     */
     private $isUknownHostError = false;
     
     
@@ -118,8 +125,32 @@ class CssValidatorOutput {
             return true;
         }
         
+        if ($this->getIsIllegalUrlErrorOutput()) {
+            return true;
+        }
+        
         return false;
     }
+    
+    
+    /**
+     * 
+     * @param boolean $isInternalServerErrorOutput
+     * @return \webignition\CssValidatorOutput\CssValidatorOutput
+     */
+    public function setIsIllegalUrlErrorOutput($isIllegalUrlErrorOutput) {
+        $this->isIllegalUrlError = $isIllegalUrlErrorOutput;
+        return $this;
+    }
+    
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function getIsIllegalUrlErrorOutput() {
+        return $this->isIllegalUrlError;
+    } 
     
     
     /**
@@ -139,7 +170,7 @@ class CssValidatorOutput {
      */
     public function getIsInternalServerErrorOutput() {
         return $this->isInternalServerError;
-    } 
+    }     
     
     
     /**

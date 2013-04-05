@@ -185,6 +185,10 @@ class Parser {
             $this->output->setIsUnknownHostErrorOutput(true);
         }         
         
+        if (!$this->output->hasExceptionError() && $this->isIllegalUrlError($body)) {
+            $this->output->setIsIllegalUrlErrorOutput(true);
+        }         
+        
         if (!$this->output->hasExceptionError() && $this->isExceptionOutput($body)) {
             $this->output->setIsUnknownExceptionError(true);
             return;
@@ -390,6 +394,17 @@ class Parser {
     private function isUnknownHostError($body) {        
         $bodyFirstLine = substr($body, 0, strpos($body, "\n"));
         return preg_match('/^java\.net\.UnknownHostException:/', $bodyFirstLine) > 0;
+    }      
+    
+    
+    /**
+     * 
+     * @param string $body
+     * @return boolean
+     */    
+    private function isIllegalUrlError($body) {        
+        $bodyFirstLine = substr($body, 0, strpos($body, "\n"));
+        return $bodyFirstLine == 'java.lang.IllegalArgumentException: protocol = http host = null';
     }      
     
     
