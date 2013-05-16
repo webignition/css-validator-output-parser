@@ -309,10 +309,9 @@ class Parser {
             return false;
         }        
                
-        $messageRefUrl = new Url($message->getRef());
-        
+        $messageRefUrl = new Url($message->getRef());        
         foreach ($this->getRefDomainsToIgnore() as $refDomainToIgnore) {                       
-            if ($messageRefUrl->getHost()->isEquivalentTo(new \webignition\Url\Host\Host($refDomainToIgnore))) {
+            if ($messageRefUrl->hasHost() && $messageRefUrl->getHost()->isEquivalentTo(new \webignition\Url\Host\Host($refDomainToIgnore))) {
                 return true;
             }
         }

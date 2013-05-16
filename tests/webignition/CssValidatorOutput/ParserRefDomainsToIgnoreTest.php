@@ -151,6 +151,19 @@ class ParserRefDomainsToIgnoreTest extends BaseTest {
         }
     }     
     
+    public function testRefDomainsToIgnoreAndHostlessDomainInRef() {
+        $rawOutput = $this->getFixture('in-result-file-not-found.txt');
+        
+        $parser = new Parser();
+        $parser->setRawOutput($rawOutput);        
+        $parser->setIgnoreWarnings(true);
+        $parser->setRefDomainsToIgnore(array('one.example.com', 'two.example.com'));
+        
+        $cssValidatorOutput = $parser->getOutput();
+        $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);             
+    }
+    
+    
     /**
      * 
      * @param array $refDomains

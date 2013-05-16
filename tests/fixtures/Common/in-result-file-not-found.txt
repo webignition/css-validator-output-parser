@@ -1,0 +1,24 @@
+{vextwarning=true, output=ucn, lang=en, warning=2, medium=all, profile=css3}
+<?xml version='1.0' encoding="utf-8"?>
+<observationresponse xmlns="http://www.w3.org/2009/10/unicorn/observationresponse" ref="http://www.ariston-yetkili-servis.com/" date="2013-05-16T08:43:24Z" xml:lang="en">
+
+
+
+
+<message type="error" ref="file:/C|/Program%20Files%20(x86)/Macromedia/Dreamweaver%208/Configuration/BuiltIn/StarterPages/mm_travel2.css">
+	<context ></context>
+	<title>
+		File not found: /C|/Program Files (x86)/Macromedia/Dreamweaver 8/Configuration/BuiltIn/StarterPages/mm_travel2.css (No such file or directory)
+	</title>
+</message>
+
+<message type="error" >
+	<context line="34">.style18</context>
+	<title>
+		Value Error :  font-size (nullfonts.html#propdef-font-size)
+		only 0 can be a length. You must put a unit after your number :
+		10
+	</title>
+</message>
+
+</observationresponse>
