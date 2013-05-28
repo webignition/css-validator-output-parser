@@ -206,7 +206,7 @@ class Parser {
         }
         
         $bodyDom = new \DOMDocument();
-        $bodyDom->loadXML($body);
+        $bodyDom->loadXML($this->extractXmlContentFromBody($body));
         
         $container = $bodyDom->getElementsByTagName('observationresponse')->item(0);
         
@@ -243,6 +243,30 @@ class Parser {
             
             $this->output->addMessage($messageParser->getMessage());
         }
+    }
+    
+    private function extractXmlContentFromBody($body) {
+        $bodyLines = explode("\n", $body);
+        
+        $xmlContentStartLineNumber = $this->getXmlContentStartLineNumber($bodyLines);
+        if ($xmlContentStartLineNumber === -1) {
+            return '';
+        }
+        
+        return implode("\n", array_slice($bodyLines, $this->getXmlContentStartLineNumber($bodyLines)));
+    }
+    
+    
+    private function getXmlContentStartLineNumber($bodyLines) {
+        $xmlPremableStart = '<?xml';
+        
+        foreach ($bodyLines as $lineIndex => $line) {
+            if (substr($line, 0, strlen($xmlPremableStart)) == $xmlPremableStart) {
+                return $lineIndex;
+            }
+        }
+        
+        return -1;
     }
     
     
