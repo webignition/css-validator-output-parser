@@ -1,0 +1,28 @@
+{vextwarning=false, output=text, lang=en, warning=2, medium=all, profile=css3}
+javax.net.ssl.SSLException: Server key
+	at sun.security.ssl.Handshaker.throwSSLException(Handshaker.java:1274)
+	at sun.security.ssl.ClientHandshaker.processMessage(ClientHandshaker.java:223)
+	at sun.security.ssl.Handshaker.processLoop(Handshaker.java:868)
+	at sun.security.ssl.Handshaker.process_record(Handshaker.java:804)
+	at sun.security.ssl.SSLSocketImpl.readRecord(SSLSocketImpl.java:1032)
+	at sun.security.ssl.SSLSocketImpl.performInitialHandshake(SSLSocketImpl.java:1328)
+	at sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:1355)
+	at sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:1339)
+	at sun.net.www.protocol.https.HttpsClient.afterConnect(HttpsClient.java:515)
+	at sun.net.www.protocol.https.AbstractDelegateHttpsURLConnection.connect(AbstractDelegateHttpsURLConnection.java:185)
+	at sun.net.www.protocol.https.HttpsURLConnectionImpl.connect(HttpsURLConnectionImpl.java:153)
+	at org.w3c.css.util.HTTPURL.getConnection(HTTPURL.java:259)
+	at org.w3c.css.util.HTTPURL.getConnection(HTTPURL.java:314)
+	at org.w3c.css.css.DocumentParser.<init>(DocumentParser.java:124)
+	at org.w3c.css.css.CssValidator.main(CssValidator.java:154)
+Caused by: java.security.spec.InvalidKeySpecException: Could not create EC public key
+	at sun.security.pkcs11.P11ECKeyFactory.engineGeneratePublic(P11ECKeyFactory.java:169)
+	at java.security.KeyFactory.generatePublic(KeyFactory.java:334)
+	at sun.security.ssl.HandshakeMessage$ECDH_ServerKeyExchange.<init>(HandshakeMessage.java:1057)
+	at sun.security.ssl.ClientHandshaker.processMessage(ClientHandshaker.java:218)
+	... 13 more
+Caused by: sun.security.pkcs11.wrapper.PKCS11Exception: CKR_DOMAIN_PARAMS_INVALID
+	at sun.security.pkcs11.wrapper.PKCS11.C_CreateObject(Native Method)
+	at sun.security.pkcs11.P11ECKeyFactory.generatePublic(P11ECKeyFactory.java:233)
+	at sun.security.pkcs11.P11ECKeyFactory.engineGeneratePublic(P11ECKeyFactory.java:164)
+	... 16 more

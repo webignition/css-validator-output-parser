@@ -86,13 +86,20 @@ class CssValidatorOutput {
      * @var boolean
      */
     private $isIllegalUrlError = false;
-    
+         
     
     /**
      *
      * @var boolean
      */
     private $isUknownHostError = false;
+    
+    
+    /**
+     *
+     * @var boolean
+     */
+    private $isSslExceptionError = false;    
     
     
     public function __construct() {
@@ -126,6 +133,10 @@ class CssValidatorOutput {
         }
         
         if ($this->getIsIllegalUrlErrorOutput()) {
+            return true;
+        }
+        
+        if ($this->getIsSSlExceptionErrorOutput()) {
             return true;
         }
         
@@ -270,6 +281,26 @@ class CssValidatorOutput {
      */
     public function getIsUnknownExceptionError() {
         return $this->isUnknownExceptionError;
+    }
+
+    
+    /**
+     * 
+     * @param boolean $isSslExceptionError
+     * @return \webignition\CssValidatorOutput\CssValidatorOutput
+     */
+    public function setIsSSlExceptionErrorOutput($isSslExceptionError) {
+        $this->isSslExceptionError = $isSslExceptionError;        
+        return $this;
+    }    
+    
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function getIsSSlExceptionErrorOutput() {
+        return $this->isSslExceptionError;
     }
     
     /**

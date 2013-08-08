@@ -138,7 +138,7 @@ class Parser {
      * 
      * @param string $rawOutput
      */
-    public function setRawOutput($rawOutput) {
+    public function setRawOutput($rawOutput) {        
         $sanitizer = new Sanitizer();        
         $this->rawOutput = trim($sanitizer->getSanitizedOutput($rawOutput));
         $this->output = null;
@@ -188,6 +188,11 @@ class Parser {
         if (!$this->output->hasExceptionError() && $this->isIllegalUrlError($body)) {
             $this->output->setIsIllegalUrlErrorOutput(true);
         }         
+        
+        if (!$this->output->hasExceptionError() && $this->isSslExceptionOutput($body)) {            
+            $this->output->setIsSSlExceptionErrorOutput(true);
+            return;
+        }        
         
         if (!$this->output->hasExceptionError() && $this->isExceptionOutput($body)) {
             $this->output->setIsUnknownExceptionError(true);
@@ -428,7 +433,20 @@ class Parser {
     private function isIllegalUrlError($body) {        
         $bodyFirstLine = substr($body, 0, strpos($body, "\n"));
         return $bodyFirstLine == 'java.lang.IllegalArgumentException: protocol = http host = null';
-    }      
+    }
+    
+    
+    /**
+     * 
+     * @param string $body
+     * @return boolean
+     */
+    private function isSslExceptionOutput($body) {
+        $signature = 'javax.net.ssl.SSLException';        
+        $bodyFirstLine = substr($body, 0, strpos($body, "\n"));                
+        
+        return substr($bodyFirstLine, 0, strlen($signature)) == $signature;
+    }    
     
     
     /**
