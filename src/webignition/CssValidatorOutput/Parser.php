@@ -242,7 +242,7 @@ class Parser {
                 continue;
             }
             
-            if ($this->getIgnoreFalseImageDataUrlMessages() && $this->isFalseBackgroundImageDataUrlMessage($message)) {
+            if ($this->getIgnoreFalseImageDataUrlMessages() && $this->isFalseImageDataUrlMessage($message)) {
                 continue;
             }
             
@@ -280,8 +280,14 @@ class Parser {
      * @param \webignition\CssValidatorOutput\Message\Message $message
      * @return boolean
      */
-    private function isFalseBackgroundImageDataUrlMessage(Message $message) {
-        if (preg_match('/Value Error\s*:\s*background-image\s\(nullcolors\.html#propdef-background-image\)/', $message->getMessage())) {
+    private function isFalseImageDataUrlMessage(Message $message) {
+        $propertyNames = array(
+            'background-image',
+            'background',
+            'list-style-image'
+        );
+        
+        if (preg_match('/Value Error\s*:\s*('.  implode('|', $propertyNames).')\s\(null.*\.html#propdef-('.  implode('|', $propertyNames).')\)/', $message->getMessage())) {            
             $messageLines = explode("\n", $message->getMessage());
             $firstMessageLine = trim($messageLines[1]);
             
