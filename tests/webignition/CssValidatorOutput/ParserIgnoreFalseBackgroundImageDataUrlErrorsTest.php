@@ -19,7 +19,7 @@ class ParserIgnoreFalseBackgroundImageDataUrlErrorsTest extends BaseTest {
         
         
         $parser->setRawOutput($rawOutput);
-        $parser->setIgnoreFalseBackgroundImageDataUrlMessages(true);
+        $parser->setIgnoreFalseImageDataUrlMessages(true);
         
         $cssValidatorOutput = $parser->getOutput();
         

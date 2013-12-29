@@ -50,23 +50,23 @@ class Parser {
      *
      * @var boolean
      */
-    private $ignoreFalseBackgroundImageDataUrlMessages = false;
+    private $ignoreFalseImageDataUrlMessages = false;
     
     
     /**
      * 
      * @param boolean $ignoreFalseBase64BackgroundImageMessages
      */
-    public function setIgnoreFalseBackgroundImageDataUrlMessages($ignoreFalseBackgroundImageDataUrlMessages) {
-        $this->ignoreFalseBackgroundImageDataUrlMessages = $ignoreFalseBackgroundImageDataUrlMessages;
+    public function setIgnoreFalseImageDataUrlMessages($ignoreFalseImageDataUrlMessages) {
+        $this->ignoreFalseImageDataUrlMessages = $ignoreFalseImageDataUrlMessages;
     }
     
     
     /**
      * @return bool
      */
-    public function getIgnoreFalseBackgroundImageDataUrlMessages() {
-        return $this->ignoreFalseBackgroundImageDataUrlMessages;
+    public function getIgnoreFalseImageDataUrlMessages() {
+        return $this->ignoreFalseImageDataUrlMessages;
     }    
     
     
@@ -242,7 +242,7 @@ class Parser {
                 continue;
             }
             
-            if ($this->getIgnoreFalseBackgroundImageDataUrlMessages() && $this->isFalseBackgroundImageDataUrlMessage($message)) {
+            if ($this->getIgnoreFalseImageDataUrlMessages() && $this->isFalseBackgroundImageDataUrlMessage($message)) {
                 continue;
             }
             
