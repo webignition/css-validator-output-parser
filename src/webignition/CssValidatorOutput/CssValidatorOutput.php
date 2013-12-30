@@ -102,6 +102,13 @@ class CssValidatorOutput {
     private $isSslExceptionError = false;    
     
     
+    /**
+     *
+     * @var boolean
+     */
+    private $isHttpAuthProtocolError = false;
+    
+    
     public function __construct() {
         $this->options = new CssValidatorOutputOptions();
     }
@@ -137,6 +144,10 @@ class CssValidatorOutput {
         }
         
         if ($this->getIsSSlExceptionErrorOutput()) {
+            return true;
+        }
+        
+        if ($this->getIsHttpAuthProtocolErrorOutput()) {
             return true;
         }
         
@@ -201,7 +212,15 @@ class CssValidatorOutput {
      */
     public function getIsUnknownHostErrorOutput() {
         return $this->isUknownHostError;
-    }     
+    } 
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function getIsHttpAuthProtocolErrorOutput() {
+        return $this->isHttpAuthProtocolError;
+    }
     
     
     /**
@@ -292,7 +311,18 @@ class CssValidatorOutput {
     public function setIsSSlExceptionErrorOutput($isSslExceptionError) {
         $this->isSslExceptionError = $isSslExceptionError;        
         return $this;
-    }    
+    } 
+    
+    
+    /**
+     * 
+     * @param boolean $isHttpAuthExceptionErrorOutput
+     * @return \webignition\CssValidatorOutput\CssValidatorOutput
+     */
+    public function setIsHttpAuthExceptionErrorOutput($isHttpAuthExceptionErrorOutput) {
+        $this->isHttpAuthProtocolError = $isHttpAuthExceptionErrorOutput;
+        return $this;
+    }
     
     
     /**

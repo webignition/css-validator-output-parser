@@ -191,8 +191,11 @@ class Parser {
         
         if (!$this->output->hasExceptionError() && $this->isSslExceptionOutput($body)) {            
             $this->output->setIsSSlExceptionErrorOutput(true);
-            return;
-        }        
+        } 
+        
+        if (!$this->output->hasExceptionError() && $this->isHttpAuthProtocolExceptionOutput($body)) {            
+            $this->output->setIsHttpAuthExceptionErrorOutput(true);
+        } 
         
         if (!$this->output->hasExceptionError() && $this->isExceptionOutput($body)) {
             $this->output->setIsUnknownExceptionError(true);
@@ -452,7 +455,18 @@ class Parser {
         $bodyFirstLine = substr($body, 0, strpos($body, "\n"));                
         
         return substr($bodyFirstLine, 0, strlen($signature)) == $signature;
-    }    
+    } 
+    
+    
+    /**
+     * 
+     * @param string $body
+     * @return boolean
+     */
+    private function isHttpAuthProtocolExceptionOutput($body) {
+        $bodyFirstLine = substr($body, 0, strpos($body, "\n"));         
+        return preg_match('/java\.net\.ProtocolException: (Basic|Digest)/', $bodyFirstLine) > 0;
+    }
     
     
     /**
