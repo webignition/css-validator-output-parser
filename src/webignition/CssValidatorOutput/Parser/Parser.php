@@ -2,6 +2,7 @@
 
 namespace webignition\CssValidatorOutput\Parser;
 
+use webignition\CssValidatorOutput\Parser\Configuration;
 use webignition\CssValidatorOutput\CssValidatorOutput;
 use webignition\CssValidatorOutput\Sanitizer;
 use webignition\CssValidatorOutput\Options\Parser as OptionsParser;
@@ -13,6 +14,12 @@ use webignition\Url\Url;
 use webignition\CssValidatorOutput\ExceptionOutput\Parser as ExceptionOutputParser;
 
 class Parser {
+    
+    /**
+     *
+     * @var Configuration
+     */
+    private $configuration = null;
     
     /**
      *
@@ -54,6 +61,15 @@ class Parser {
      * @var boolean
      */
     private $ignoreFalseImageDataUrlMessages = false;
+    
+    
+    /**
+     * 
+     * @param \webignition\CssValidatorOutput\Parser\Configuration $configuration
+     */
+    public function setConfiguration(Configuration $configuration) {
+        $this->configuration = $configuration;
+    }
     
     
     /**
