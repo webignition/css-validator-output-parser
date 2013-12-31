@@ -2,7 +2,7 @@
 
 use webignition\CssValidatorOutput\Parser as Parser;
 
-class ParseHttpAuthProtocolExeceptionOutputTest extends BaseTest {
+class ParseHttpAuthProtocolExceptionOutputTest extends BaseTest {
     
     public function setUp() {
         $this->setTestFixturePath(__CLASS__, $this->getName());
