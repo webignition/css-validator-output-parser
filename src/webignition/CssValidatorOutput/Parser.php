@@ -173,53 +173,11 @@ class Parser {
             $this->output->setException($exceptionOutputParser->getOutput());
             return;
         }
-        
-        //var_dump($this->isExceptionOutput($body));
-        
-//        if ($this->isExceptionOutput($body)) {
-//            
-//        }
-        
 
-        exit();
-        
-//        if ($this->isIncorrectUsageOutput($header)) {
-//            $this->output->setIsIncorrectUsageOutput(true);
-//            return;
-//        }
-//        
-//        if ($this->isUnknownMimeTypeError($body)) {
-//            $this->output->setIsUnknownMimeTypeError(true);
-//        }
-//        
-//        if (!$this->output->hasExceptionError() && $this->isExceptionOutput($body) && $this->isInternalServerError($body)) {
-//            $this->output->setIsInternalServerErrorOutput(true);
-//        }        
-//        
-//        if (!$this->output->hasExceptionError() && $this->isExceptionOutput($body) && $this->isFileNotFoundError($body)) {
-//            $this->output->setIsFileNotFoundErrorOutput(true);
-//        }          
-//        
-//        if (!$this->output->hasExceptionError() && $this->isUnknownHostError($body)) {
-//            $this->output->setIsUnknownHostErrorOutput(true);
-//        }         
-//        
-//        if (!$this->output->hasExceptionError() && $this->isIllegalUrlError($body)) {
-//            $this->output->setIsIllegalUrlErrorOutput(true);
-//        }         
-//        
-//        if (!$this->output->hasExceptionError() && $this->isSslExceptionOutput($body)) {            
-//            $this->output->setIsSSlExceptionErrorOutput(true);
-//        } 
-//        
-//        if (!$this->output->hasExceptionError() && $this->isHttpAuthProtocolExceptionOutput($body)) {            
-//            $this->output->setIsHttpAuthExceptionErrorOutput(true);
-//        } 
-//        
-//        if (!$this->output->hasExceptionError() && $this->isExceptionOutput($body)) {
-//            $this->output->setIsUnknownExceptionError(true);
-//            return;
-//        }
+        if ($this->isIncorrectUsageOutput($header)) {
+            $this->output->setIsIncorrectUsageOutput(true);
+            return;
+        }
         
         $optionsParser = new OptionsParser();
         $optionsParser->setOptionsOutput($header);
@@ -227,10 +185,6 @@ class Parser {
         $messageParser = new MessageParser();
         
         $this->output->setOptions($optionsParser->getOptions());
-        
-        if ($this->output->hasExceptionError()) {
-            return;
-        }
         
         $bodyDom = new \DOMDocument();
         $bodyDom->loadXML($this->extractXmlContentFromBody($body));
@@ -386,123 +340,6 @@ class Parser {
     private function isIncorrectUsageOutput($header) {
         return preg_match('/^Usage/', $header) > 0;
     }
-    
-    
-    /**
-     * 
-     * @param string $body
-     * @return boolean
-     */
-    private function isUnknownMimeTypeError($body) {
-        $bodyFirstLine = substr($body, 0, strpos($body, "\n"));
-        
-        return preg_match('/Unknown mime type :/', $bodyFirstLine) > 0;     
-    }
-    
-    /**
-     * 
-     * @param string $body
-     * @return boolean
-     */    
-    private function isInternalServerError($body) {
-        if (!$this->isFileNotFoundException($body)) {
-            return false;
-        }
-        
-        $bodyFirstLine = substr($body, 0, strpos($body, "\n"));
-        
-        return preg_match('/Internal Server Error/', $bodyFirstLine) > 0;
-    }
-    
-
-    /**
-     * 
-     * @param string $body
-     * @return boolean
-     */    
-    private function isFileNotFoundError($body) {
-        if (!$this->isFileNotFoundException($body)) {
-            return false;
-        }
-        
-        $bodyFirstLine = substr($body, 0, strpos($body, "\n"));
-        
-        return preg_match('/Not Found/', $bodyFirstLine) > 0;
-    }    
-    
-    /**
-     * 
-     * @param string $body
-     * @return boolean
-     */
-    private function isFileNotFoundException($body) {
-        $bodyFirstLine = substr($body, 0, strpos($body, "\n"));
-        
-        return preg_match('/^java\.io\.FileNotFoundException:/', $bodyFirstLine) > 0;      
-    }
-    
-    
-    /**
-     * 
-     * @param string $body
-     * @return boolean
-     */    
-    private function isUnknownHostError($body) {        
-        $bodyFirstLine = substr($body, 0, strpos($body, "\n"));
-        return preg_match('/^java\.net\.UnknownHostException:/', $bodyFirstLine) > 0;
-    }      
-    
-    
-    /**
-     * 
-     * @param string $body
-     * @return boolean
-     */    
-    private function isIllegalUrlError($body) {        
-        $bodyFirstLine = substr($body, 0, strpos($body, "\n"));
-        return $bodyFirstLine == 'java.lang.IllegalArgumentException: protocol = http host = null';
-    }
-    
-    
-    /**
-     * 
-     * @param string $body
-     * @return boolean
-     */
-    private function isSslExceptionOutput($body) {
-        $signature = 'javax.net.ssl.SSLException';        
-        $bodyFirstLine = substr($body, 0, strpos($body, "\n"));                
-        
-        return substr($bodyFirstLine, 0, strlen($signature)) == $signature;
-    } 
-    
-    
-    /**
-     * 
-     * @param string $body
-     * @return boolean
-     */
-    private function isHttpAuthProtocolExceptionOutput($body) {
-        $bodyFirstLine = substr($body, 0, strpos($body, "\n"));         
-        return preg_match('/java\.net\.ProtocolException: (Basic|Digest)/', $bodyFirstLine) > 0;
-    }
-    
-    
-//    /**
-//     * 
-//     * @param string $body
-//     * @return boolean
-//     */
-//    private function isExceptionOutput($body) {
-//        if (substr_count($body, '</observationresponse>')) {
-//            return false;
-//        }
-//        
-//        return preg_match('/java.*Exception:/', $body) > 0;
-//        
-////        $bodyFirstLine = substr($body, 0, strpos($body, "\n"));                
-////        return preg_match('/^[a-z\.Exception:]/', $bodyFirstLine) > 0;
-//    }
     
 
     /**

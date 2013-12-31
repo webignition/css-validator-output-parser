@@ -55,66 +55,11 @@ class CssValidatorOutput {
     private $exceptionOutput = null;
     
     
-//    /**
-//     *
-//     * @var boolean
-//     */
-//    private $isIncorrectUsageOutput = false;
-//    
-//    
-//    /**
-//     *
-//     * @var boolean
-//     */
-//    private $isUnknownMimeTypeError = false;
-//    
-//    
-//    /**
-//     *
-//     * @var boolean
-//     */
-//    private $isUnknownExceptionError = false;
-//    
-//    
-//    /**
-//     *
-//     * @var boolean
-//     */
-//    private $isInternalServerError = false;
-//    
-//    /**
-//     *
-//     * @var boolean
-//     */
-//    private $isFileNotFoundError = false;   
-//    
-//    
-//    /**
-//     *
-//     * @var boolean
-//     */
-//    private $isIllegalUrlError = false;
-//         
-//    
-//    /**
-//     *
-//     * @var boolean
-//     */
-//    private $isUknownHostError = false;
-//    
-//    
-//    /**
-//     *
-//     * @var boolean
-//     */
-//    private $isSslExceptionError = false;    
-//    
-//    
-//    /**
-//     *
-//     * @var boolean
-//     */
-//    private $isHttpAuthProtocolError = false;
+    /**
+     *
+     * @var boolean
+     */
+    private $isIncorrectUsageOutput = false;
     
     
     public function __construct() {
@@ -126,7 +71,7 @@ class CssValidatorOutput {
      * 
      * @param \webignition\CssValidatorOutput\ExceptionOutput\ExceptionOutput $exceptionOutput
      */
-    public function setException(\webignition\CssValidatorOutput\ExceptionOutput\ExceptionOutput $exceptionOutput) {
+    public function setException(ExceptionOutput $exceptionOutput) {
         $this->exceptionOutput = $exceptionOutput;
     }
     
@@ -146,134 +91,7 @@ class CssValidatorOutput {
      */
     public function hasException() {
         return $this->getException() instanceof \webignition\CssValidatorOutput\ExceptionOutput\ExceptionOutput;
-        
-        
-//        if ($this->getIsInternalServerErrorOutput()) {
-//            return true;
-//        }
-//        
-//        if ($this->getIsUnknownMimeTypeError()) {
-//            return true;
-//        }
-//        
-//        if ($this->getIsUnknownExceptionError()) {
-//            return true;
-//        }
-//        
-//        if ($this->getIsFileNotFoundErrorOutput()) {
-//            return true;
-//        }
-//        
-//        if ($this->getIsUnknownHostErrorOutput()) {
-//            return true;
-//        }
-//        
-//        if ($this->getIsIllegalUrlErrorOutput()) {
-//            return true;
-//        }
-//        
-//        if ($this->getIsSSlExceptionErrorOutput()) {
-//            return true;
-//        }
-//        
-//        if ($this->getIsHttpAuthProtocolErrorOutput()) {
-//            return true;
-//        }
-//        
-        return false;
     }
-    
-    
-    
-    
-    
-    /**
-     * 
-     * @param boolean $isInternalServerErrorOutput
-     * @return \webignition\CssValidatorOutput\CssValidatorOutput
-     */
-    public function setIsIllegalUrlErrorOutput($isIllegalUrlErrorOutput) {
-        $this->isIllegalUrlError = $isIllegalUrlErrorOutput;
-        return $this;
-    }
-    
-    
-    /**
-     * 
-     * @return boolean
-     */
-    public function getIsIllegalUrlErrorOutput() {
-        return $this->isIllegalUrlError;
-    } 
-    
-    
-    /**
-     * 
-     * @param boolean $isInternalServerErrorOutput
-     * @return \webignition\CssValidatorOutput\CssValidatorOutput
-     */
-    public function setIsInternalServerErrorOutput($isInternalServerErrorOutput) {
-        $this->isInternalServerError = $isInternalServerErrorOutput;
-        return $this;
-    }
-    
-    
-    /**
-     * 
-     * @return boolean
-     */
-    public function getIsInternalServerErrorOutput() {
-        return $this->isInternalServerError;
-    }     
-    
-    
-    /**
-     * 
-     * @param boolean $isUnknownHostErrorOutput
-     * @return \webignition\CssValidatorOutput\CssValidatorOutput
-     */
-    public function setIsUnknownHostErrorOutput($isUnknownHostErrorOutput) {
-        $this->isUknownHostError = $isUnknownHostErrorOutput;
-        return $this;
-    }
-    
-    
-    /**
-     * 
-     * @return boolean
-     */
-    public function getIsUnknownHostErrorOutput() {
-        return $this->isUknownHostError;
-    } 
-    
-    /**
-     * 
-     * @return boolean
-     */
-    public function getIsHttpAuthProtocolErrorOutput() {
-        return $this->isHttpAuthProtocolError;
-    }
-    
-    
-    /**
-     * 
-     * @param boolean $isFileNotFoundErrorOutput
-     * @return \webignition\CssValidatorOutput\CssValidatorOutput
-     */
-    public function setIsFileNotFoundErrorOutput($isFileNotFoundErrorOutput) {
-        $this->isFileNotFoundError = $isFileNotFoundErrorOutput;
-        return $this;
-    }
-    
-    
-    /**
-     * 
-     * @return boolean
-     */
-    public function getIsFileNotFoundErrorOutput() {
-        return $this->isFileNotFoundError;
-    }     
-    
     
     /**
      * 
@@ -294,76 +112,6 @@ class CssValidatorOutput {
         return $this->isIncorrectUsageOutput;        
     }
     
-    
-    /**
-     * 
-     * @param boolean $isUnknownMimeTypeError
-     * @return \webignition\CssValidatorOutput\CssValidatorOutput
-     */
-    public function setIsUnknownMimeTypeError($isUnknownMimeTypeError) {
-        $this->isUnknownMimeTypeError = $isUnknownMimeTypeError;
-        return $this;
-    }
-    
-    
-    /**
-     * 
-     * @return boolean
-     */
-    public function getIsUnknownMimeTypeError() {
-        return $this->isUnknownMimeTypeError;
-    }
-    
-    
-    /**
-     * 
-     * @param boolean $isUnknownExceptionError
-     * @return \webignition\CssValidatorOutput\CssValidatorOutput
-     */
-    public function setIsUnknownExceptionError($isUnknownExceptionError) {
-        $this->isUnknownExceptionError = $isUnknownExceptionError;
-        return $this;
-    }
-    
-    
-    /**
-     * 
-     * @return boolean
-     */
-    public function getIsUnknownExceptionError() {
-        return $this->isUnknownExceptionError;
-    }
-
-    
-    /**
-     * 
-     * @param boolean $isSslExceptionError
-     * @return \webignition\CssValidatorOutput\CssValidatorOutput
-     */
-    public function setIsSSlExceptionErrorOutput($isSslExceptionError) {
-        $this->isSslExceptionError = $isSslExceptionError;        
-        return $this;
-    } 
-    
-    
-    /**
-     * 
-     * @param boolean $isHttpAuthExceptionErrorOutput
-     * @return \webignition\CssValidatorOutput\CssValidatorOutput
-     */
-    public function setIsHttpAuthExceptionErrorOutput($isHttpAuthExceptionErrorOutput) {
-        $this->isHttpAuthProtocolError = $isHttpAuthExceptionErrorOutput;
-        return $this;
-    }
-    
-    
-    /**
-     * 
-     * @return boolean
-     */
-    public function getIsSSlExceptionErrorOutput() {
-        return $this->isSslExceptionError;
-    }
     
     /**
      * 
@@ -421,7 +169,7 @@ class CssValidatorOutput {
      * @return \DateTime
      */
     public function getDateTime() {
-        if ($this->getIsIncorrectUsageOutput() || $this->getIsUnknownMimeTypeError()) {
+        if ($this->getIsIncorrectUsageOutput() || $this->hasException()) {
             return null;
         }
         
@@ -516,8 +264,6 @@ class CssValidatorOutput {
         }
         
         return $messages;
-    }    
-    
-    
+    }   
     
 }
