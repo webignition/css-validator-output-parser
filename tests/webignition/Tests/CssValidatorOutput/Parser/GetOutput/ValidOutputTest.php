@@ -1,9 +1,11 @@
 <?php
+namespace webignition\Tests\CssValidatorOutput\Parser\GetOutput;
 
+use webignition\Tests\CssValidatorOutput\BaseTest;
 use webignition\CssValidatorOutput\Parser;
 use webignition\CssValidatorOutput\CssValidatorOutput;
 
-class ParseValidOutputTest extends BaseTest {    
+class ValidOutputTest extends BaseTest {    
     
     /**
      *

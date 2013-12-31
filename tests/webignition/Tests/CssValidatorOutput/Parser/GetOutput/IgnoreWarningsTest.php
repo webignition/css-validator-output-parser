@@ -1,8 +1,10 @@
 <?php
+namespace webignition\Tests\CssValidatorOutput\Parser\GetOutput;
 
+use webignition\Tests\CssValidatorOutput\BaseTest;
 use webignition\CssValidatorOutput\Parser;
 
-class ParserIgnoreWarningsTest extends BaseTest {
+class IgnoreWarningsTest extends BaseTest {
     
     private $rawOutput;
     

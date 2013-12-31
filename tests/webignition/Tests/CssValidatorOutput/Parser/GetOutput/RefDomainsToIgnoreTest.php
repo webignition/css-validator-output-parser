@@ -1,9 +1,11 @@
 <?php
+namespace webignition\Tests\CssValidatorOutput\Parser\GetOutput;
 
+use webignition\Tests\CssValidatorOutput\BaseTest;
 use webignition\CssValidatorOutput\Parser;
 use webignition\NormalisedUrl\NormalisedUrl;
 
-class ParserRefDomainsToIgnoreTest extends BaseTest {
+class RefDomainsToIgnoreTest extends BaseTest {
     
     private $rawOutput;
     

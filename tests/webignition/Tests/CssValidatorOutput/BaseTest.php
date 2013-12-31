@@ -1,8 +1,10 @@
 <?php
 
-abstract class BaseTest extends PHPUnit_Framework_TestCase {  
+namespace webignition\Tests\CssValidatorOutput;
+
+abstract class BaseTest extends \PHPUnit_Framework_TestCase {  
     
-    const FIXTURES_BASE_PATH = '/fixtures';
+    const FIXTURES_BASE_PATH = '/../../../fixtures';
     
     /**
      *
@@ -16,7 +18,7 @@ abstract class BaseTest extends PHPUnit_Framework_TestCase {
      * @param string $testMethod
      */
     protected function setTestFixturePath($testClass, $testMethod) {
-        $this->fixturePath = __DIR__ . self::FIXTURES_BASE_PATH . '/' . $testClass . '/' . $testMethod;       
+        $this->fixturePath = __DIR__ . self::FIXTURES_BASE_PATH . '/' . str_replace('\\', '/', $testClass) . '/' . $testMethod;       
     }    
     
     
@@ -34,7 +36,7 @@ abstract class BaseTest extends PHPUnit_Framework_TestCase {
      * @param string $fixtureName
      * @return string
      */
-    protected function getFixture($fixtureName) {
+    protected function getFixture($fixtureName) {        
         if (file_exists($this->getTestFixturePath() . '/' . $fixtureName)) {
             return file_get_contents($this->getTestFixturePath() . '/' . $fixtureName);
         }

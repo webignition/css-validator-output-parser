@@ -1,15 +1,17 @@
 <?php
+namespace webignition\Tests\CssValidatorOutput\Parser\GetOutput;
 
+use webignition\Tests\CssValidatorOutput\BaseTest;
 use webignition\CssValidatorOutput\Parser as Parser;
 
-class ParseUnknownMimeTypeErrorTest extends BaseTest {
+class IncorrectUsageOutputTest extends BaseTest {
     
     public function setUp() {
         $this->setTestFixturePath(__CLASS__, $this->getName());
     }    
     
-    public function testParseUnknownMimeTypeError() {
-        $rawOutput = $this->getFixture('unknown-mime-type-error.txt');
+    public function testParseIncorrectUsage() {
+        $rawOutput = $this->getFixture('incorrect-usage.txt');
         
         $parser = new Parser();
         $parser->setRawOutput($rawOutput);
@@ -18,18 +20,11 @@ class ParseUnknownMimeTypeErrorTest extends BaseTest {
         
         $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);
         
-        $this->assertTrue($cssValidatorOutput->getIsUnknownMimeTypeError());
+        $this->assertTrue($cssValidatorOutput->getIsIncorrectUsageOutput());
         
         $options = $cssValidatorOutput->getOptions();        
-        $this->assertInstanceOf('webignition\CssValidatorOutput\Options\Options', $options);
-
-        $this->assertFalse($options->getVendorExtensionIssuesAsWarnings());
-        $this->assertEquals('ucn', $options->getOutputFormat());        
-        $this->assertEquals('en', $options->getLanguage());
-        $this->assertEquals(2, $options->getWarningLevel());
-        $this->assertEquals('all', $options->getMedium());
-        $this->assertEquals('css3', $options->getProfile());         
-
+        $this->assertNull($options);
+        
         $datetime = $cssValidatorOutput->getDateTime();
         $this->assertNull($datetime);
         

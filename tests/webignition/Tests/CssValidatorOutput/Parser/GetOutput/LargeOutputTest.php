@@ -1,9 +1,11 @@
 <?php
+namespace webignition\Tests\CssValidatorOutput\Parser\GetOutput;
 
+use webignition\Tests\CssValidatorOutput\BaseTest;
 use webignition\CssValidatorOutput\Parser;
 use webignition\CssValidatorOutput\CssValidatorOutput;
 
-class ParseLargeOutputTest extends BaseTest {     
+class LargeOutputTest extends BaseTest {     
     
     public function setUp() {
         $this->setTestFixturePath(__CLASS__, $this->getName());

@@ -1,8 +1,10 @@
 <?php
+namespace webignition\Tests\CssValidatorOutput\Parser\GetOutput;
 
+use webignition\Tests\CssValidatorOutput\BaseTest;
 use webignition\CssValidatorOutput\Parser;
 
-class ParserIgnoreVendorExtensionIssuesTest extends BaseTest {  
+class IgnoreVendorExtensionIssuesTest extends BaseTest {  
     
     public function setUp() {
         $this->setTestFixturePath(__CLASS__, $this->getName());

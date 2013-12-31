@@ -1,15 +1,17 @@
 <?php
+namespace webignition\Tests\CssValidatorOutput\Parser\GetOutput;
 
+use webignition\Tests\CssValidatorOutput\BaseTest;
 use webignition\CssValidatorOutput\Parser as Parser;
 
-class ParseInternalServerErrorOutputTest extends BaseTest {
+class UnknownHostErrorOutputTest extends BaseTest {
     
     public function setUp() {
         $this->setTestFixturePath(__CLASS__, $this->getName());
     }    
     
-    public function testParseInternalServerErrorOutput() {
-        $rawOutput = $this->getFixture('internal-server-error-output.txt');
+    public function testParseUnknownHostErrorOutput() {
+        $rawOutput = $this->getFixture('unknown-host-output.txt');
         
         $parser = new Parser();
         $parser->setRawOutput($rawOutput);
@@ -18,7 +20,7 @@ class ParseInternalServerErrorOutputTest extends BaseTest {
         
         $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);        
         
-        $this->assertTrue($cssValidatorOutput->getIsInternalServerErrorOutput());
+        $this->assertTrue($cssValidatorOutput->getIsUnknownHostErrorOutput());
         
         $options = $cssValidatorOutput->getOptions();        
         $this->assertInstanceOf('webignition\CssValidatorOutput\Options\Options', $options);

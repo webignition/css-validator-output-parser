@@ -1,5 +1,7 @@
 <?php
+namespace webignition\Tests\CssValidatorOutput\Parser\GetOutput;
 
+use webignition\Tests\CssValidatorOutput\BaseTest;
 use webignition\CssValidatorOutput\Parser as Parser;
 
 class ParseNoMessagesOutputTest extends BaseTest {

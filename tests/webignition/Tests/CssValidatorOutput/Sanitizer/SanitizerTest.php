@@ -1,5 +1,7 @@
 <?php
+namespace webignition\Tests\CssValidatorOutput\Sanitizer;
 
+use webignition\Tests\CssValidatorOutput\BaseTest;
 use webignition\CssValidatorOutput\Sanitizer;
 
 class SanitizerTest extends BaseTest {

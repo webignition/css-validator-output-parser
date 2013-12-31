@@ -1,10 +1,13 @@
 <?php
 
+namespace webignition\Tests\CssValidatorOutput\Message\Parser;
+
+use webignition\Tests\CssValidatorOutput\BaseTest;
 use webignition\CssValidatorOutput\Message\Parser as Parser;
 
-class CssValidatorOutputMessageParserTest extends BaseTest {
+class ParserTest extends BaseTest {
     
-    public function setUp() {
+    public function setUp() {        
         $this->setTestFixturePath(__CLASS__, $this->getName());
     }       
     

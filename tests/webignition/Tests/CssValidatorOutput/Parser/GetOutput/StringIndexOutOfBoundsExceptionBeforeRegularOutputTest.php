@@ -1,15 +1,17 @@
 <?php
+namespace webignition\Tests\CssValidatorOutput\Parser\GetOutput;
 
+use webignition\Tests\CssValidatorOutput\BaseTest;
 use webignition\CssValidatorOutput\Parser as Parser;
 
-class ParseSslExceptionOutputTest extends BaseTest {
+class StringIndexOutOfBoundsExceptionBeforeRegularOutputTest extends BaseTest {
     
     public function setUp() {
         $this->setTestFixturePath(__CLASS__, $this->getName());
     }    
     
-    public function testParseSslExceptionErrorOutput() {
-        $rawOutput = $this->getFixture('ssl-exception.txt');
+    public function testParseStringIndexOutOfBoundsExceptionBeforeRegularOutput() {
+        $rawOutput = $this->getFixture('string-index-out-of-bounds-exception.txt');
         
         $parser = new Parser();
         $parser->setRawOutput($rawOutput);
@@ -18,10 +20,8 @@ class ParseSslExceptionOutputTest extends BaseTest {
         
         $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);        
         
-        $this->assertTrue($cssValidatorOutput->getIsSSlExceptionErrorOutput());
-        
-        $this->assertEquals(0, $cssValidatorOutput->getMessageCount());
-        $this->assertEquals(0, $cssValidatorOutput->getErrorCount());
+        $this->assertEquals(3, $cssValidatorOutput->getMessageCount());
+        $this->assertEquals(3, $cssValidatorOutput->getErrorCount());
         $this->assertEquals(0, $cssValidatorOutput->getWArningCount());      
     }
 }

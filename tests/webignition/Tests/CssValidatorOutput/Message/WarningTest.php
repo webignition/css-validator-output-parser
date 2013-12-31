@@ -1,6 +1,10 @@
 <?php
 
-class CssValidatorOutputWarningTest extends BaseTest {
+namespace webignition\Tests\CssValidatorOutput\Message;
+
+use webignition\Tests\CssValidatorOutput\BaseTest;
+
+class WarningTest extends BaseTest {
     
     /**
      *

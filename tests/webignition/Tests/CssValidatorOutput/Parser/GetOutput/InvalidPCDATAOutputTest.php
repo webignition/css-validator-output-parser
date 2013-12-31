@@ -1,8 +1,10 @@
 <?php
+namespace webignition\Tests\CssValidatorOutput\Parser\GetOutput;
 
+use webignition\Tests\CssValidatorOutput\BaseTest;
 use webignition\CssValidatorOutput\Parser;
 
-class ParseInvalidPCDATAOutputTest extends BaseTest {    
+class InvalidPCDATAOutputTest extends BaseTest {    
     
     public function testWithInvalidCharacterx11() {
         $rawOutput = $this->getFixture('invalid-pcdata.xml');
