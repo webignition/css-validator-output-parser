@@ -11,173 +11,82 @@ class ExceptionOutputTest extends BaseTest {
         $this->setTestFixturePath(__CLASS__, $this->getName());
     }    
     
-    public function testParseFileNotFoundException() {
-        $rawOutput = $this->getFixture('Exception/java.io.FileNotFoundException.http-404.txt');
-        
-        $parser = new Parser();
-        $parser->setRawOutput($rawOutput);
-        
-        $cssValidatorOutput = $parser->getOutput();                
-        
-        $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);        
-        
-        $this->assertTrue($cssValidatorOutput->getIsFileNotFoundErrorOutput());
-        
-        $options = $cssValidatorOutput->getOptions();        
-        $this->assertInstanceOf('webignition\CssValidatorOutput\Options\Options', $options);
-
-        $this->assertFalse($options->getVendorExtensionIssuesAsWarnings());
-        $this->assertEquals('ucn', $options->getOutputFormat());        
-        $this->assertEquals('en', $options->getLanguage());
-        $this->assertEquals(2, $options->getWarningLevel());
-        $this->assertEquals('all', $options->getMedium());
-        $this->assertEquals('css3', $options->getProfile());
-        
-        $datetime = $cssValidatorOutput->getDateTime();
-        $this->assertNull($datetime);
-        
-        $this->assertEquals(0, $cssValidatorOutput->getMessageCount());
-        $this->assertEquals(0, $cssValidatorOutput->getErrorCount());
-        $this->assertEquals(0, $cssValidatorOutput->getWArningCount());      
-    }
-    
+    public function testParseFileNotFoundException() {        
+        $this->assertIsExceptionOfType(array(
+            'fixture' => 'java.io.FileNotFoundException.http-404.txt',
+            'exceptionCheck' => 'isHttp404'
+        ));     
+    }    
     
     public function testParse401ProtocolException() {
-        $rawOutput = $this->getFixture('Exception/java.net.ProtocolException.http-401.txt');
-        
-        $parser = new Parser();
-        $parser->setRawOutput($rawOutput);
-        
-        $cssValidatorOutput = $parser->getOutput();                
-        
-        $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);        
-        
-        $this->assertTrue($cssValidatorOutput->getIsHttpAuthProtocolErrorOutput());    
+        $this->assertIsExceptionOfType(array(
+            'fixture' => 'java.net.ProtocolException.http-401.txt',
+            'exceptionCheck' => 'isHttp401'
+        ));    
     }
     
     public function testParseIllegalUrlExceptionOutput() {
-        $rawOutput = $this->getFixture('Exception/java.lang.IllegalArgumentException.illegalurl.txt');
-        
-        $parser = new Parser();
-        $parser->setRawOutput($rawOutput);
-        
-        $cssValidatorOutput = $parser->getOutput();                
-        
-        $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);
-        
-        $this->assertTrue($cssValidatorOutput->getIsIllegalUrlErrorOutput());
-        $this->assertEquals(0, $cssValidatorOutput->getMessageCount());
-        $this->assertEquals(0, $cssValidatorOutput->getErrorCount());
-        $this->assertEquals(0, $cssValidatorOutput->getWarningCount());      
+        $this->assertIsExceptionOfType(array(
+            'fixture' => 'java.lang.IllegalArgumentException.illegalurl.txt',
+            'exceptionCheck' => 'isIllegalUrl'
+        ));      
     }    
     
     public function testParseInternalServerErrorOutput() {
-        $rawOutput = $this->getFixture('Exception/java.io.FileNotFoundException.http-500.txt');
-        
-        $parser = new Parser();
-        $parser->setRawOutput($rawOutput);
-        
-        $cssValidatorOutput = $parser->getOutput();                
-        
-        $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);        
-        
-        $this->assertTrue($cssValidatorOutput->getIsInternalServerErrorOutput());
-        
-        $options = $cssValidatorOutput->getOptions();        
-        $this->assertInstanceOf('webignition\CssValidatorOutput\Options\Options', $options);
-
-        $this->assertFalse($options->getVendorExtensionIssuesAsWarnings());
-        $this->assertEquals('ucn', $options->getOutputFormat());        
-        $this->assertEquals('en', $options->getLanguage());
-        $this->assertEquals(2, $options->getWarningLevel());
-        $this->assertEquals('all', $options->getMedium());
-        $this->assertEquals('css3', $options->getProfile());
-        
-        $datetime = $cssValidatorOutput->getDateTime();
-        $this->assertNull($datetime);
-        
-        $this->assertEquals(0, $cssValidatorOutput->getMessageCount());
-        $this->assertEquals(0, $cssValidatorOutput->getErrorCount());
-        $this->assertEquals(0, $cssValidatorOutput->getWArningCount());      
-    }  
-    
+        $this->assertIsExceptionOfType(array(
+            'fixture' => 'java.io.FileNotFoundException.http-500.txt',
+            'exceptionCheck' => 'isHttp500'
+        ));      
+    }   
     
     public function testParseSslExceptionErrorOutput() {
-        $rawOutput = $this->getFixture('Exception/javax.net.ssl.SSLException.txt');
-        
-        $parser = new Parser();
-        $parser->setRawOutput($rawOutput);
-        
-        $cssValidatorOutput = $parser->getOutput();                
-        
-        $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);        
-        
-        $this->assertTrue($cssValidatorOutput->getIsSSlExceptionErrorOutput());
-        
-        $this->assertEquals(0, $cssValidatorOutput->getMessageCount());
-        $this->assertEquals(0, $cssValidatorOutput->getErrorCount());
-        $this->assertEquals(0, $cssValidatorOutput->getWArningCount());      
-    } 
-    
+        $this->assertIsExceptionOfType(array(
+            'fixture' => 'javax.net.ssl.SSLException.txt',
+            'exceptionCheck' => 'isSslException'
+        ));      
+    }    
     
     public function testParseUnknownMimeTypeError() {
-        $rawOutput = $this->getFixture('Exception/java.io.IOException.unknownmimetype.txt');
-        
-        $parser = new Parser();
-        $parser->setRawOutput($rawOutput);
-        
-        $cssValidatorOutput = $parser->getOutput();                
-        
-        $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);
-        
-        $this->assertTrue($cssValidatorOutput->getIsUnknownMimeTypeError());
-        
-        $options = $cssValidatorOutput->getOptions();        
-        $this->assertInstanceOf('webignition\CssValidatorOutput\Options\Options', $options);
-
-        $this->assertFalse($options->getVendorExtensionIssuesAsWarnings());
-        $this->assertEquals('ucn', $options->getOutputFormat());        
-        $this->assertEquals('en', $options->getLanguage());
-        $this->assertEquals(2, $options->getWarningLevel());
-        $this->assertEquals('all', $options->getMedium());
-        $this->assertEquals('css3', $options->getProfile());         
-
-        $datetime = $cssValidatorOutput->getDateTime();
-        $this->assertNull($datetime);
-        
-        $this->assertEquals(0, $cssValidatorOutput->getMessageCount());
-        $this->assertEquals(0, $cssValidatorOutput->getErrorCount());
-        $this->assertEquals(0, $cssValidatorOutput->getWArningCount());      
+        $this->assertIsExceptionOfType(array(
+            'fixture' => 'java.io.IOException.unknownmimetype.txt',
+            'exceptionCheck' => 'isUnknownMimeType'
+        ));
     }    
     
     
     public function testParseUnknownHostErrorOutput() {
-        $rawOutput = $this->getFixture('Exception/java.net.UnknownHostException.txt');
+        $this->assertIsExceptionOfType(array(
+            'fixture' => 'java.net.UnknownHostException.txt',
+            'exceptionCheck' => 'isUnknownHost'
+        ));     
+    }     
+    
+    
+    public function testParseUnknownFileErrorOutput() {
+        $this->assertIsExceptionOfType(array(
+            'fixture' => 'java.lang.Exception.unknownfile.txt',
+            'exceptionCheck' => 'isUnknownFile'
+        ));     
+    }     
+    
+    public function testParseUnknownExceptionOutput() {
+        $this->assertIsExceptionOfType(array(
+            'fixture' => 'UnknownException.txt',
+            'exceptionCheck' => 'isUnknown'
+        ));     
+    }    
+    
+    private function assertIsExceptionOfType($properties) {
+        $rawOutput = $this->getFixture('Exception/' . $properties['fixture']);
         
         $parser = new Parser();
         $parser->setRawOutput($rawOutput);
         
         $cssValidatorOutput = $parser->getOutput();                
         
-        $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);        
-        
-        $this->assertTrue($cssValidatorOutput->getIsUnknownHostErrorOutput());
-        
-        $options = $cssValidatorOutput->getOptions();        
-        $this->assertInstanceOf('webignition\CssValidatorOutput\Options\Options', $options);
-
-        $this->assertFalse($options->getVendorExtensionIssuesAsWarnings());
-        $this->assertEquals('ucn', $options->getOutputFormat());        
-        $this->assertEquals('en', $options->getLanguage());
-        $this->assertEquals(2, $options->getWarningLevel());
-        $this->assertEquals('all', $options->getMedium());
-        $this->assertEquals('css3', $options->getProfile());
-        
-        $datetime = $cssValidatorOutput->getDateTime();
-        $this->assertNull($datetime);
-        
-        $this->assertEquals(0, $cssValidatorOutput->getMessageCount());
-        $this->assertEquals(0, $cssValidatorOutput->getErrorCount());
-        $this->assertEquals(0, $cssValidatorOutput->getWArningCount());      
-    }    
+        $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);
+        $this->assertTrue($cssValidatorOutput->hasException());
+        $this->assertTrue($cssValidatorOutput->getException()->$properties['exceptionCheck']());        
+    }
+   
 }

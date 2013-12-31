@@ -4,6 +4,7 @@ namespace webignition\CssValidatorOutput;
 
 use webignition\CssValidatorOutput\Options\Options as CssValidatorOutputOptions;
 use webignition\CssValidatorOutput\Message\Message;
+use webignition\CssValidatorOutput\ExceptionOutput\ExceptionOutput;
 
 class CssValidatorOutput {
     
@@ -49,64 +50,71 @@ class CssValidatorOutput {
     
     /**
      *
-     * @var boolean
+     * @var \webignition\CssValidatorOutput\ExceptionOutput\ExceptionOutput
      */
-    private $isIncorrectUsageOutput = false;
+    private $exceptionOutput = null;
     
     
-    /**
-     *
-     * @var boolean
-     */
-    private $isUnknownMimeTypeError = false;
-    
-    
-    /**
-     *
-     * @var boolean
-     */
-    private $isUnknownExceptionError = false;
-    
-    
-    /**
-     *
-     * @var boolean
-     */
-    private $isInternalServerError = false;
-    
-    /**
-     *
-     * @var boolean
-     */
-    private $isFileNotFoundError = false;   
-    
-    
-    /**
-     *
-     * @var boolean
-     */
-    private $isIllegalUrlError = false;
-         
-    
-    /**
-     *
-     * @var boolean
-     */
-    private $isUknownHostError = false;
-    
-    
-    /**
-     *
-     * @var boolean
-     */
-    private $isSslExceptionError = false;    
-    
-    
-    /**
-     *
-     * @var boolean
-     */
-    private $isHttpAuthProtocolError = false;
+//    /**
+//     *
+//     * @var boolean
+//     */
+//    private $isIncorrectUsageOutput = false;
+//    
+//    
+//    /**
+//     *
+//     * @var boolean
+//     */
+//    private $isUnknownMimeTypeError = false;
+//    
+//    
+//    /**
+//     *
+//     * @var boolean
+//     */
+//    private $isUnknownExceptionError = false;
+//    
+//    
+//    /**
+//     *
+//     * @var boolean
+//     */
+//    private $isInternalServerError = false;
+//    
+//    /**
+//     *
+//     * @var boolean
+//     */
+//    private $isFileNotFoundError = false;   
+//    
+//    
+//    /**
+//     *
+//     * @var boolean
+//     */
+//    private $isIllegalUrlError = false;
+//         
+//    
+//    /**
+//     *
+//     * @var boolean
+//     */
+//    private $isUknownHostError = false;
+//    
+//    
+//    /**
+//     *
+//     * @var boolean
+//     */
+//    private $isSslExceptionError = false;    
+//    
+//    
+//    /**
+//     *
+//     * @var boolean
+//     */
+//    private $isHttpAuthProtocolError = false;
     
     
     public function __construct() {
@@ -116,43 +124,67 @@ class CssValidatorOutput {
     
     /**
      * 
+     * @param \webignition\CssValidatorOutput\ExceptionOutput\ExceptionOutput $exceptionOutput
+     */
+    public function setException(\webignition\CssValidatorOutput\ExceptionOutput\ExceptionOutput $exceptionOutput) {
+        $this->exceptionOutput = $exceptionOutput;
+    }
+    
+    
+    /**
+     * 
+     * @return \webignition\CssValidatorOutput\ExceptionOutput\ExceptionOutput
+     */
+    public function getException() {
+        return $this->exceptionOutput;
+    }
+    
+    
+    /**
+     * 
      * @return boolean
      */
-    public function hasExceptionError() {
-        if ($this->getIsInternalServerErrorOutput()) {
-            return true;
-        }
+    public function hasException() {
+        return $this->getException() instanceof \webignition\CssValidatorOutput\ExceptionOutput\ExceptionOutput;
         
-        if ($this->getIsUnknownMimeTypeError()) {
-            return true;
-        }
         
-        if ($this->getIsUnknownExceptionError()) {
-            return true;
-        }
-        
-        if ($this->getIsFileNotFoundErrorOutput()) {
-            return true;
-        }
-        
-        if ($this->getIsUnknownHostErrorOutput()) {
-            return true;
-        }
-        
-        if ($this->getIsIllegalUrlErrorOutput()) {
-            return true;
-        }
-        
-        if ($this->getIsSSlExceptionErrorOutput()) {
-            return true;
-        }
-        
-        if ($this->getIsHttpAuthProtocolErrorOutput()) {
-            return true;
-        }
-        
+//        if ($this->getIsInternalServerErrorOutput()) {
+//            return true;
+//        }
+//        
+//        if ($this->getIsUnknownMimeTypeError()) {
+//            return true;
+//        }
+//        
+//        if ($this->getIsUnknownExceptionError()) {
+//            return true;
+//        }
+//        
+//        if ($this->getIsFileNotFoundErrorOutput()) {
+//            return true;
+//        }
+//        
+//        if ($this->getIsUnknownHostErrorOutput()) {
+//            return true;
+//        }
+//        
+//        if ($this->getIsIllegalUrlErrorOutput()) {
+//            return true;
+//        }
+//        
+//        if ($this->getIsSSlExceptionErrorOutput()) {
+//            return true;
+//        }
+//        
+//        if ($this->getIsHttpAuthProtocolErrorOutput()) {
+//            return true;
+//        }
+//        
         return false;
     }
+    
+    
+    
     
     
     /**

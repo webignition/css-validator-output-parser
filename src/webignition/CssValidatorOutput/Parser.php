@@ -9,6 +9,8 @@ use webignition\CssValidatorOutput\Message\Message;
 use webignition\NormalisedUrl\NormalisedUrl;
 use webignition\Url\Url;
 
+use webignition\CssValidatorOutput\ExceptionOutput\Parser as ExceptionOutputParser;
+
 class Parser {
     
     /**
@@ -164,43 +166,60 @@ class Parser {
         $header = trim($headerBodyParts[0]);
         $body = trim($headerBodyParts[1]);
         
-        if ($this->isIncorrectUsageOutput($header)) {
-            $this->output->setIsIncorrectUsageOutput(true);
+        if (ExceptionOutputParser::is($body)) {
+            $exceptionOutputParser = new ExceptionOutputParser();
+            $exceptionOutputParser->setRawOutput($body);
+            
+            $this->output->setException($exceptionOutputParser->getOutput());
             return;
         }
         
-        if ($this->isUnknownMimeTypeError($body)) {
-            $this->output->setIsUnknownMimeTypeError(true);
-        }
+        //var_dump($this->isExceptionOutput($body));
         
-        if (!$this->output->hasExceptionError() && $this->isExceptionOutput($body) && $this->isInternalServerError($body)) {
-            $this->output->setIsInternalServerErrorOutput(true);
-        }        
+//        if ($this->isExceptionOutput($body)) {
+//            
+//        }
         
-        if (!$this->output->hasExceptionError() && $this->isExceptionOutput($body) && $this->isFileNotFoundError($body)) {
-            $this->output->setIsFileNotFoundErrorOutput(true);
-        }          
+
+        exit();
         
-        if (!$this->output->hasExceptionError() && $this->isUnknownHostError($body)) {
-            $this->output->setIsUnknownHostErrorOutput(true);
-        }         
-        
-        if (!$this->output->hasExceptionError() && $this->isIllegalUrlError($body)) {
-            $this->output->setIsIllegalUrlErrorOutput(true);
-        }         
-        
-        if (!$this->output->hasExceptionError() && $this->isSslExceptionOutput($body)) {            
-            $this->output->setIsSSlExceptionErrorOutput(true);
-        } 
-        
-        if (!$this->output->hasExceptionError() && $this->isHttpAuthProtocolExceptionOutput($body)) {            
-            $this->output->setIsHttpAuthExceptionErrorOutput(true);
-        } 
-        
-        if (!$this->output->hasExceptionError() && $this->isExceptionOutput($body)) {
-            $this->output->setIsUnknownExceptionError(true);
-            return;
-        }
+//        if ($this->isIncorrectUsageOutput($header)) {
+//            $this->output->setIsIncorrectUsageOutput(true);
+//            return;
+//        }
+//        
+//        if ($this->isUnknownMimeTypeError($body)) {
+//            $this->output->setIsUnknownMimeTypeError(true);
+//        }
+//        
+//        if (!$this->output->hasExceptionError() && $this->isExceptionOutput($body) && $this->isInternalServerError($body)) {
+//            $this->output->setIsInternalServerErrorOutput(true);
+//        }        
+//        
+//        if (!$this->output->hasExceptionError() && $this->isExceptionOutput($body) && $this->isFileNotFoundError($body)) {
+//            $this->output->setIsFileNotFoundErrorOutput(true);
+//        }          
+//        
+//        if (!$this->output->hasExceptionError() && $this->isUnknownHostError($body)) {
+//            $this->output->setIsUnknownHostErrorOutput(true);
+//        }         
+//        
+//        if (!$this->output->hasExceptionError() && $this->isIllegalUrlError($body)) {
+//            $this->output->setIsIllegalUrlErrorOutput(true);
+//        }         
+//        
+//        if (!$this->output->hasExceptionError() && $this->isSslExceptionOutput($body)) {            
+//            $this->output->setIsSSlExceptionErrorOutput(true);
+//        } 
+//        
+//        if (!$this->output->hasExceptionError() && $this->isHttpAuthProtocolExceptionOutput($body)) {            
+//            $this->output->setIsHttpAuthExceptionErrorOutput(true);
+//        } 
+//        
+//        if (!$this->output->hasExceptionError() && $this->isExceptionOutput($body)) {
+//            $this->output->setIsUnknownExceptionError(true);
+//            return;
+//        }
         
         $optionsParser = new OptionsParser();
         $optionsParser->setOptionsOutput($header);
@@ -469,15 +488,21 @@ class Parser {
     }
     
     
-    /**
-     * 
-     * @param string $body
-     * @return boolean
-     */
-    private function isExceptionOutput($body) {
-        $bodyFirstLine = substr($body, 0, strpos($body, "\n"));                
-        return preg_match('/^[a-z\.Exception:]/', $bodyFirstLine) > 0;
-    }
+//    /**
+//     * 
+//     * @param string $body
+//     * @return boolean
+//     */
+//    private function isExceptionOutput($body) {
+//        if (substr_count($body, '</observationresponse>')) {
+//            return false;
+//        }
+//        
+//        return preg_match('/java.*Exception:/', $body) > 0;
+//        
+////        $bodyFirstLine = substr($body, 0, strpos($body, "\n"));                
+////        return preg_match('/^[a-z\.Exception:]/', $bodyFirstLine) > 0;
+//    }
     
 
     /**
