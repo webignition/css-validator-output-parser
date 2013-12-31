@@ -2,7 +2,7 @@
 namespace webignition\Tests\CssValidatorOutput\Parser\GetOutput;
 
 use webignition\Tests\CssValidatorOutput\BaseTest;
-use webignition\CssValidatorOutput\Parser as Parser;
+use webignition\CssValidatorOutput\Parser\Parser as CssValidatorOutputParser;
 
 class StringIndexOutOfBoundsExceptionBeforeRegularOutputTest extends BaseTest {
     
@@ -13,7 +13,7 @@ class StringIndexOutOfBoundsExceptionBeforeRegularOutputTest extends BaseTest {
     public function testParseStringIndexOutOfBoundsExceptionBeforeRegularOutput() {
         $rawOutput = $this->getFixture('string-index-out-of-bounds-exception.txt');
         
-        $parser = new Parser();
+        $parser = new CssValidatorOutputParser();
         $parser->setRawOutput($rawOutput);
         
         $cssValidatorOutput = $parser->getOutput();                
@@ -22,6 +22,6 @@ class StringIndexOutOfBoundsExceptionBeforeRegularOutputTest extends BaseTest {
         
         $this->assertEquals(3, $cssValidatorOutput->getMessageCount());
         $this->assertEquals(3, $cssValidatorOutput->getErrorCount());
-        $this->assertEquals(0, $cssValidatorOutput->getWArningCount());      
+        $this->assertEquals(0, $cssValidatorOutput->getWarningCount());      
     }
 }

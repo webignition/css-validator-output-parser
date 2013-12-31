@@ -2,7 +2,7 @@
 namespace webignition\Tests\CssValidatorOutput\Parser\GetOutput;
 
 use webignition\Tests\CssValidatorOutput\BaseTest;
-use webignition\CssValidatorOutput\Parser;
+use webignition\CssValidatorOutput\Parser\Parser as CssValidatorOutputParser;
 
 class RefDomainsToIgnoreIdnTest extends BaseTest { 
     
@@ -35,7 +35,7 @@ class RefDomainsToIgnoreIdnTest extends BaseTest {
     }
     
     public function testRefDomainsToIgnoreDefault() {        
-        $parser = new Parser();
+        $parser = new CssValidatorOutputParser();
         $parser->setRawOutput($this->rawOutput);        
         $parser->setIgnoreWarnings(true);
         
@@ -56,7 +56,7 @@ class RefDomainsToIgnoreIdnTest extends BaseTest {
     }      
     
     public function testRefDomainsToIgnoreAsciiVariant() {        
-        $parser = new Parser();
+        $parser = new CssValidatorOutputParser();
         $parser->setRawOutput($this->rawOutput);        
         $parser->setIgnoreWarnings(true);
         $parser->setRefDomainsToIgnore(array('artesan.xn--a-iga.com'));
@@ -68,7 +68,7 @@ class RefDomainsToIgnoreIdnTest extends BaseTest {
     }
     
     public function testRefDomainsToIgnoreUnicodeVariant() {        
-        $parser = new Parser();
+        $parser = new CssValidatorOutputParser();
         $parser->setRawOutput($this->rawOutput);        
         $parser->setIgnoreWarnings(true);
         $parser->setRefDomainsToIgnore(array('artesan.ía.com'));

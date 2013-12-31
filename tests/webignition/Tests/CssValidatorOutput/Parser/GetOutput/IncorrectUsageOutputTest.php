@@ -2,7 +2,7 @@
 namespace webignition\Tests\CssValidatorOutput\Parser\GetOutput;
 
 use webignition\Tests\CssValidatorOutput\BaseTest;
-use webignition\CssValidatorOutput\Parser as Parser;
+use webignition\CssValidatorOutput\Parser\Parser as CssValidatorOutputParser;
 
 class IncorrectUsageOutputTest extends BaseTest {
     
@@ -13,7 +13,7 @@ class IncorrectUsageOutputTest extends BaseTest {
     public function testParseIncorrectUsage() {
         $rawOutput = $this->getFixture('incorrect-usage.txt');
         
-        $parser = new Parser();
+        $parser = new CssValidatorOutputParser();
         $parser->setRawOutput($rawOutput);
         
         $cssValidatorOutput = $parser->getOutput();                

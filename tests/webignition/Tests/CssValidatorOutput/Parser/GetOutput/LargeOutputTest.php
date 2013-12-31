@@ -2,7 +2,7 @@
 namespace webignition\Tests\CssValidatorOutput\Parser\GetOutput;
 
 use webignition\Tests\CssValidatorOutput\BaseTest;
-use webignition\CssValidatorOutput\Parser;
+use webignition\CssValidatorOutput\Parser\Parser as CssValidatorOutputParser;
 use webignition\CssValidatorOutput\CssValidatorOutput;
 
 class LargeOutputTest extends BaseTest {     
@@ -14,7 +14,7 @@ class LargeOutputTest extends BaseTest {
     public function test895_890_5() {
         $rawOutput = $this->getFixture('output02.txt');
         
-        $parser = new Parser();
+        $parser = new CssValidatorOutputParser();
         $parser->setRawOutput($rawOutput);
         
         $cssValidatorOutput = $parser->getOutput();
@@ -28,7 +28,7 @@ class LargeOutputTest extends BaseTest {
     public function test895_623_272() {
         $rawOutput = $this->getFixture('output03.txt');
         
-        $parser = new Parser();
+        $parser = new CssValidatorOutputParser();
         $parser->setRawOutput($rawOutput);
         
         $cssValidatorOutput = $parser->getOutput();
@@ -42,7 +42,7 @@ class LargeOutputTest extends BaseTest {
     public function test1093_535_272() {
         $rawOutput = $this->getFixture('output04.txt');
         
-        $parser = new Parser();
+        $parser = new CssValidatorOutputParser();
         $parser->setRawOutput($rawOutput);
         
         $cssValidatorOutput = $parser->getOutput();

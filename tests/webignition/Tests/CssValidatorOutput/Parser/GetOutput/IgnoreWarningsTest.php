@@ -2,7 +2,7 @@
 namespace webignition\Tests\CssValidatorOutput\Parser\GetOutput;
 
 use webignition\Tests\CssValidatorOutput\BaseTest;
-use webignition\CssValidatorOutput\Parser;
+use webignition\CssValidatorOutput\Parser\Parser as CssValidatorOutputParser;
 
 class IgnoreWarningsTest extends BaseTest {
     
@@ -14,7 +14,7 @@ class IgnoreWarningsTest extends BaseTest {
     }
     
     public function testIgnoreWarningsTrue() {        
-        $parser = new Parser();
+        $parser = new CssValidatorOutputParser();
         $parser->setRawOutput($this->rawOutput);        
         $parser->setIgnoreWarnings(true);
         
@@ -26,7 +26,7 @@ class IgnoreWarningsTest extends BaseTest {
     }    
 
     public function testIgnoreWarningsFalse() {        
-        $parser = new Parser();
+        $parser = new CssValidatorOutputParser();
         $parser->setRawOutput($this->rawOutput);        
         $parser->setIgnoreWarnings(false);
         
@@ -39,7 +39,7 @@ class IgnoreWarningsTest extends BaseTest {
 
     
     public function testIgnoreWarningsDefault() {        
-        $parser = new Parser();
+        $parser = new CssValidatorOutputParser();
         $parser->setRawOutput($this->rawOutput);
         
         $cssValidatorOutput = $parser->getOutput();

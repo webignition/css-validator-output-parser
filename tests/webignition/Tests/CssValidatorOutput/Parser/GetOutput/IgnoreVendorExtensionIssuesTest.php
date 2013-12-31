@@ -2,7 +2,7 @@
 namespace webignition\Tests\CssValidatorOutput\Parser\GetOutput;
 
 use webignition\Tests\CssValidatorOutput\BaseTest;
-use webignition\CssValidatorOutput\Parser;
+use webignition\CssValidatorOutput\Parser\Parser as CssValidatorOutputParser;
 
 class IgnoreVendorExtensionIssuesTest extends BaseTest {  
     
@@ -13,7 +13,7 @@ class IgnoreVendorExtensionIssuesTest extends BaseTest {
     public function testIgnoreVendorExtensionIssuesDefaultVextWarningTrue() {        
         $rawOutput = $this->getFixture('output06.txt');
         
-        $parser = new Parser();
+        $parser = new CssValidatorOutputParser();
         $parser->setRawOutput($rawOutput);        
         
         $cssValidatorOutput = $parser->getOutput();
@@ -28,7 +28,7 @@ class IgnoreVendorExtensionIssuesTest extends BaseTest {
         /* contains 25 errors, 14 of which are vext issues */
         $rawOutput = $this->getFixture('output06.txt');
         
-        $parser = new Parser();
+        $parser = new CssValidatorOutputParser();
         $parser->setRawOutput($rawOutput);  
         $parser->setIgnoreVendorExtensionIssues(true);
         
@@ -43,7 +43,7 @@ class IgnoreVendorExtensionIssuesTest extends BaseTest {
         /* contains 25 errors, 14 of which are vext issues */
         $rawOutput = $this->getFixture('output06.txt');
         
-        $parser = new Parser();
+        $parser = new CssValidatorOutputParser();
         $parser->setRawOutput($rawOutput);  
         $parser->setIgnoreVendorExtensionIssues(false);
         
@@ -58,7 +58,7 @@ class IgnoreVendorExtensionIssuesTest extends BaseTest {
     public function testIgnoreVendorExtensionIssuesDefaultVextWarningFalse() {        
         $rawOutput = $this->getFixture('output07.txt');
         
-        $parser = new Parser();
+        $parser = new CssValidatorOutputParser();
         $parser->setRawOutput($rawOutput);        
         
         $cssValidatorOutput = $parser->getOutput();
@@ -72,7 +72,7 @@ class IgnoreVendorExtensionIssuesTest extends BaseTest {
     public function testIgnoreVendorExtensionIssuesTrueVextWarningFalse() {        
         $rawOutput = $this->getFixture('output07.txt');
         
-        $parser = new Parser();
+        $parser = new CssValidatorOutputParser();
         $parser->setRawOutput($rawOutput);        
         $parser->setIgnoreVendorExtensionIssues(true);
         
@@ -86,7 +86,7 @@ class IgnoreVendorExtensionIssuesTest extends BaseTest {
     public function testIgnoreVendorExtensionIssuesFalseVextWarningFalse() {        
         $rawOutput = $this->getFixture('output07.txt');
         
-        $parser = new Parser();
+        $parser = new CssValidatorOutputParser();
         $parser->setRawOutput($rawOutput);        
         $parser->setIgnoreVendorExtensionIssues(false);
         

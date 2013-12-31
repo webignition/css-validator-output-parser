@@ -1,7 +1,8 @@
 <?php
 
-namespace webignition\CssValidatorOutput;
+namespace webignition\CssValidatorOutput\Parser;
 
+use webignition\CssValidatorOutput\CssValidatorOutput;
 use webignition\CssValidatorOutput\Sanitizer;
 use webignition\CssValidatorOutput\Options\Parser as OptionsParser;
 use webignition\CssValidatorOutput\Message\Parser as MessageParser;

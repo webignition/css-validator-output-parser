@@ -2,7 +2,7 @@
 namespace webignition\Tests\CssValidatorOutput\Parser\GetOutput;
 
 use webignition\Tests\CssValidatorOutput\BaseTest;
-use webignition\CssValidatorOutput\Parser;
+use webignition\CssValidatorOutput\Parser\Parser as CssValidatorOutputParser;
 use webignition\NormalisedUrl\NormalisedUrl;
 
 class RefDomainsToIgnoreTest extends BaseTest {
@@ -54,7 +54,7 @@ class RefDomainsToIgnoreTest extends BaseTest {
     }
     
     public function testRefDomainsToIgnoreDefault() {        
-        $parser = new Parser();
+        $parser = new CssValidatorOutputParser();
         $parser->setRawOutput($this->rawOutput);        
         $parser->setIgnoreWarnings(true);
         
@@ -75,7 +75,7 @@ class RefDomainsToIgnoreTest extends BaseTest {
     }      
     
     public function testRefDomainsToIgnoreIgnoreOne() {        
-        $parser = new Parser();
+        $parser = new CssValidatorOutputParser();
         $parser->setRawOutput($this->rawOutput);        
         $parser->setIgnoreWarnings(true);
         $parser->setRefDomainsToIgnore(array('one.example.com'));
@@ -102,7 +102,7 @@ class RefDomainsToIgnoreTest extends BaseTest {
     
 
     public function testRefDomainsToIgnoreIgnoreTwo() {        
-        $parser = new Parser();
+        $parser = new CssValidatorOutputParser();
         $parser->setRawOutput($this->rawOutput);        
         $parser->setIgnoreWarnings(true);
         $parser->setRefDomainsToIgnore(array('two.example.com'));
@@ -129,7 +129,7 @@ class RefDomainsToIgnoreTest extends BaseTest {
 
     
     public function testRefDomainsToIgnoreIgnoreOneAndTwo() {        
-        $parser = new Parser();
+        $parser = new CssValidatorOutputParser();
         $parser->setRawOutput($this->rawOutput);        
         $parser->setIgnoreWarnings(true);
         $parser->setRefDomainsToIgnore(array('one.example.com', 'two.example.com'));
@@ -156,7 +156,7 @@ class RefDomainsToIgnoreTest extends BaseTest {
     public function testRefDomainsToIgnoreAndHostlessDomainInRef() {
         $rawOutput = $this->getFixture('in-result-file-not-found.txt');
         
-        $parser = new Parser();
+        $parser = new CssValidatorOutputParser();
         $parser->setRawOutput($rawOutput);        
         $parser->setIgnoreWarnings(true);
         $parser->setRefDomainsToIgnore(array('one.example.com', 'two.example.com'));

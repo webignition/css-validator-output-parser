@@ -2,7 +2,7 @@
 namespace webignition\Tests\CssValidatorOutput\Parser\GetOutput;
 
 use webignition\Tests\CssValidatorOutput\BaseTest;
-use webignition\CssValidatorOutput\Parser as Parser;
+use webignition\CssValidatorOutput\Parser\Parser as CssValidatorOutputParser;
 
 class ParseNoMessagesOutputTest extends BaseTest {
     
@@ -13,7 +13,7 @@ class ParseNoMessagesOutputTest extends BaseTest {
     public function testParseUnknownMimeTypeError() {
         $rawOutput = $this->getFixture('no-messages.txt');
         
-        $parser = new Parser();
+        $parser = new CssValidatorOutputParser();
         $parser->setRawOutput($rawOutput);
         
         $cssValidatorOutput = $parser->getOutput();                

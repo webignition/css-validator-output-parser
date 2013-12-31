@@ -2,7 +2,7 @@
 namespace webignition\Tests\CssValidatorOutput\Parser\GetOutput;
 
 use webignition\Tests\CssValidatorOutput\BaseTest;
-use webignition\CssValidatorOutput\Parser;
+use webignition\CssValidatorOutput\Parser\Parser as CssValidatorOutputParser;
 use webignition\CssValidatorOutput\CssValidatorOutput;
 
 class ValidOutputTest extends BaseTest {    
@@ -57,7 +57,7 @@ class ValidOutputTest extends BaseTest {
         $this->setTestFixturePath(__CLASS__, $this->getName());
         $rawOutput = $this->getFixture('output01.txt');
         
-        $parser = new Parser();
+        $parser = new CssValidatorOutputParser();
         $parser->setRawOutput($rawOutput);        
         
         $this->cssValidatorOutput = $parser->getOutput();

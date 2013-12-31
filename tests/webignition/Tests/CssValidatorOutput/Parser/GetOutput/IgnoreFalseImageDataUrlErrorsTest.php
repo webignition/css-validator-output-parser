@@ -2,14 +2,14 @@
 namespace webignition\Tests\CssValidatorOutput\Parser\GetOutput;
 
 use webignition\Tests\CssValidatorOutput\BaseTest;
-use webignition\CssValidatorOutput\Parser;
+use webignition\CssValidatorOutput\Parser\Parser as CssValidatorOutputParser;
 
 class IgnoreFalseImageDataUrlErrorsTest extends BaseTest {
   
     public function testDisabled() {
         $rawOutput = $this->getFixture('incorrect-data-url-background-image-errors.xml');
         
-        $parser = new Parser();
+        $parser = new CssValidatorOutputParser();
         $parser->setRawOutput($rawOutput);
         
         $cssValidatorOutput = $parser->getOutput();
@@ -22,7 +22,7 @@ class IgnoreFalseImageDataUrlErrorsTest extends BaseTest {
     public function testEnabled() {
         $rawOutput = $this->getFixture('incorrect-data-url-background-image-errors.xml');
         
-        $parser = new Parser();
+        $parser = new CssValidatorOutputParser();
         $parser->setRawOutput($rawOutput);
         $parser->setIgnoreFalseImageDataUrlMessages(true);
         
