@@ -2,7 +2,6 @@
 namespace webignition\Tests\CssValidatorOutput\Parser\GetOutput;
 
 use webignition\Tests\CssValidatorOutput\BaseTest;
-use webignition\CssValidatorOutput\Parser\Parser as CssValidatorOutputParser;
 
 class IgnoreWarningsTest extends BaseTest {
     
@@ -14,38 +13,33 @@ class IgnoreWarningsTest extends BaseTest {
     }
     
     public function testIgnoreWarningsTrue() {        
-        $parser = new CssValidatorOutputParser();
-        $parser->setRawOutput($this->rawOutput);        
-        $parser->setIgnoreWarnings(true);
-        
-        $cssValidatorOutput = $parser->getOutput();
-        $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);     
-        
-        $this->assertEquals(3, $cssValidatorOutput->getErrorCount());
-        $this->assertEquals(0, $cssValidatorOutput->getWarningCount());
+        $this->assertTestYieldsGivenMessageErrorandWarningCount(array(
+            'configuration' => array(
+                'ignoreWarnings' => true
+            ),
+            'rawOutput' => $this->rawOutput,
+            'errorCount' => 3,
+            'warningCount' => 0
+        ));
     }    
 
     public function testIgnoreWarningsFalse() {        
-        $parser = new CssValidatorOutputParser();
-        $parser->setRawOutput($this->rawOutput);        
-        $parser->setIgnoreWarnings(false);
-        
-        $cssValidatorOutput = $parser->getOutput();
-        $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);     
-        
-        $this->assertEquals(3, $cssValidatorOutput->getErrorCount());
-        $this->assertEquals(2, $cssValidatorOutput->getWarningCount());
+        $this->assertTestYieldsGivenMessageErrorandWarningCount(array(
+            'configuration' => array(
+                'ignoreWarnings' => false
+            ),
+            'rawOutput' => $this->rawOutput,
+            'errorCount' => 3,
+            'warningCount' => 2
+        ));        
     }    
 
     
     public function testIgnoreWarningsDefault() {        
-        $parser = new CssValidatorOutputParser();
-        $parser->setRawOutput($this->rawOutput);
-        
-        $cssValidatorOutput = $parser->getOutput();
-        $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);     
-        
-        $this->assertEquals(3, $cssValidatorOutput->getErrorCount());
-        $this->assertEquals(2, $cssValidatorOutput->getWarningCount());
+        $this->assertTestYieldsGivenMessageErrorandWarningCount(array(
+            'rawOutput' => $this->rawOutput,
+            'errorCount' => 3,
+            'warningCount' => 2
+        ));
     }        
 }

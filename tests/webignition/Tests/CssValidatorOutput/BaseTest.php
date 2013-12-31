@@ -1,6 +1,8 @@
 <?php
 
 namespace webignition\Tests\CssValidatorOutput;
+use webignition\CssValidatorOutput\Parser\Parser as CssValidatorOutputParser;
+use webignition\CssValidatorOutput\Parser\Configuration;
 
 abstract class BaseTest extends \PHPUnit_Framework_TestCase {  
     
@@ -45,6 +47,44 @@ abstract class BaseTest extends \PHPUnit_Framework_TestCase {
     }
     
     
+    /**
+     * 
+     * @param array $properties
+     * @return \webignition\CssValidatorOutput\Parser\Parser
+     */
+    protected function getParser($properties) {
+        $configuration = new Configuration();
+        $configuration->setRawOutput($properties['rawOutput']);
+        
+        if (isset($properties['configuration'])) {
+            foreach ($properties['configuration'] as $key => $value) {
+                $methodName = 'set' . $key;
+                $configuration->$methodName($value);
+            }
+        }
+        
+        
+        $parser = new CssValidatorOutputParser();
+        $parser->setConfiguration($configuration);        
+        
+        return $parser;
+    }
+    
+    
+    protected function assertTestYieldsGivenMessageErrorandWarningCount($properties) {
+        $parser = $this->getParser($properties);        
+        $cssValidatorOutput = $parser->getOutput();
+        
+        if (!isset($properties['messageCount'])) {
+            $properties['messageCount'] = $properties['errorCount'] + $properties['warningCount'];
+        }
+        
+        $this->assertEquals($properties['messageCount'], $cssValidatorOutput->getMessageCount());
+        $this->assertEquals($properties['errorCount'], $cssValidatorOutput->getErrorCount());
+        $this->assertEquals($properties['warningCount'], $cssValidatorOutput->getWarningCount());  
+    }
+    
+    
         
     
-}
+} 

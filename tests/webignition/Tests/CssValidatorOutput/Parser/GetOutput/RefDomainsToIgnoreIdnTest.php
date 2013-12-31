@@ -2,7 +2,6 @@
 namespace webignition\Tests\CssValidatorOutput\Parser\GetOutput;
 
 use webignition\Tests\CssValidatorOutput\BaseTest;
-use webignition\CssValidatorOutput\Parser\Parser as CssValidatorOutputParser;
 
 class RefDomainsToIgnoreIdnTest extends BaseTest { 
     
@@ -35,12 +34,14 @@ class RefDomainsToIgnoreIdnTest extends BaseTest {
     }
     
     public function testRefDomainsToIgnoreDefault() {        
-        $parser = new CssValidatorOutputParser();
-        $parser->setRawOutput($this->rawOutput);        
-        $parser->setIgnoreWarnings(true);
+        $parser = $this->getParser(array(
+            'rawOutput' => $this->rawOutput,
+            'configuration' => array(
+                'ignoreWarnings' => true
+            )
+        ));
         
         $cssValidatorOutput = $parser->getOutput();
-        $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);     
         
         $this->assertEquals(3, $cssValidatorOutput->getErrorCount());
         
@@ -56,25 +57,32 @@ class RefDomainsToIgnoreIdnTest extends BaseTest {
     }      
     
     public function testRefDomainsToIgnoreAsciiVariant() {        
-        $parser = new CssValidatorOutputParser();
-        $parser->setRawOutput($this->rawOutput);        
-        $parser->setIgnoreWarnings(true);
-        $parser->setRefDomainsToIgnore(array('artesan.xn--a-iga.com'));
+        $parser = $this->getParser(array(
+            'rawOutput' => $this->rawOutput,
+            'configuration' => array(
+                'refDomainsToIgnore' => array(
+                    'artesan.xn--a-iga.com'
+                )
+            )
+        ));
         
-        $cssValidatorOutput = $parser->getOutput();
-        $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);     
+        $cssValidatorOutput = $parser->getOutput();    
         
         $this->assertEquals(1, $cssValidatorOutput->getErrorCount());
     }
     
     public function testRefDomainsToIgnoreUnicodeVariant() {        
-        $parser = new CssValidatorOutputParser();
-        $parser->setRawOutput($this->rawOutput);        
-        $parser->setIgnoreWarnings(true);
-        $parser->setRefDomainsToIgnore(array('artesan.ía.com'));
+        $parser = $this->getParser(array(
+            'rawOutput' => $this->rawOutput,
+            'configuration' => array(
+                'ignoreWarnings' => true,
+                'refDomainsToIgnore' => array(
+                    'artesan.ía.com'
+                )
+            )
+        ));
         
         $cssValidatorOutput = $parser->getOutput();
-        $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);     
         
         $this->assertEquals(1, $cssValidatorOutput->getErrorCount());
     }

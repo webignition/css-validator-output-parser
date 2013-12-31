@@ -2,7 +2,6 @@
 namespace webignition\Tests\CssValidatorOutput\Parser\GetOutput;
 
 use webignition\Tests\CssValidatorOutput\BaseTest;
-use webignition\CssValidatorOutput\Parser\Parser as CssValidatorOutputParser;
 
 class IgnoreVendorExtensionIssuesTest extends BaseTest {  
     
@@ -11,89 +10,64 @@ class IgnoreVendorExtensionIssuesTest extends BaseTest {
     }
     
     public function testIgnoreVendorExtensionIssuesDefaultVextWarningTrue() {        
-        $rawOutput = $this->getFixture('output06.txt');
-        
-        $parser = new CssValidatorOutputParser();
-        $parser->setRawOutput($rawOutput);        
-        
-        $cssValidatorOutput = $parser->getOutput();
-        $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);     
-        
-        $this->assertEquals(25, $cssValidatorOutput->getErrorCount());
-        $this->assertEquals(95, $cssValidatorOutput->getWarningCount());
+        $this->assertTestYieldsGivenMessageErrorandWarningCount(array(
+            'rawOutput' => $this->getFixture('output06.txt'),
+            'errorCount' => 25,
+            'warningCount' => 95
+        ));
     }      
     
-    
     public function testIgnoreVendorExtensionIssuesTrueVextWarningTrue() {        
-        /* contains 25 errors, 14 of which are vext issues */
-        $rawOutput = $this->getFixture('output06.txt');
-        
-        $parser = new CssValidatorOutputParser();
-        $parser->setRawOutput($rawOutput);  
-        $parser->setIgnoreVendorExtensionIssues(true);
-        
-        $cssValidatorOutput = $parser->getOutput();
-        $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);     
-        
-        $this->assertEquals(11, $cssValidatorOutput->getErrorCount());
-        $this->assertEquals(5, $cssValidatorOutput->getWarningCount());
+        $this->assertTestYieldsGivenMessageErrorandWarningCount(array(
+            'configuration' => array(
+                'ignoreVendorExtensionIssues' => true
+            ),
+            'rawOutput' => $this->getFixture('output06.txt'),
+            'errorCount' => 11,
+            'warningCount' => 5
+        ));        
     } 
     
     public function testIgnoreVendorExtensionIssuesFalseVextWarningTrue() {        
-        /* contains 25 errors, 14 of which are vext issues */
-        $rawOutput = $this->getFixture('output06.txt');
-        
-        $parser = new CssValidatorOutputParser();
-        $parser->setRawOutput($rawOutput);  
-        $parser->setIgnoreVendorExtensionIssues(false);
-        
-        $cssValidatorOutput = $parser->getOutput();
-        $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);     
-        
-        $this->assertEquals(25, $cssValidatorOutput->getErrorCount());
-        $this->assertEquals(95, $cssValidatorOutput->getWarningCount());
+        $this->assertTestYieldsGivenMessageErrorandWarningCount(array(
+            'configuration' => array(
+                'ignoreVendorExtensionIssues' => false
+            ),
+            'rawOutput' => $this->getFixture('output06.txt'),
+            'errorCount' => 25,
+            'warningCount' => 95
+        ));             
     }  
     
     
     public function testIgnoreVendorExtensionIssuesDefaultVextWarningFalse() {        
-        $rawOutput = $this->getFixture('output07.txt');
-        
-        $parser = new CssValidatorOutputParser();
-        $parser->setRawOutput($rawOutput);        
-        
-        $cssValidatorOutput = $parser->getOutput();
-        $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);     
-        
-        $this->assertEquals(52, $cssValidatorOutput->getErrorCount());
-        $this->assertEquals(5, $cssValidatorOutput->getWarningCount());
+        $this->assertTestYieldsGivenMessageErrorandWarningCount(array(
+            'rawOutput' => $this->getFixture('output07.txt'),
+            'errorCount' => 52,
+            'warningCount' => 5
+        ));
     }     
     
     
     public function testIgnoreVendorExtensionIssuesTrueVextWarningFalse() {        
-        $rawOutput = $this->getFixture('output07.txt');
-        
-        $parser = new CssValidatorOutputParser();
-        $parser->setRawOutput($rawOutput);        
-        $parser->setIgnoreVendorExtensionIssues(true);
-        
-        $cssValidatorOutput = $parser->getOutput();
-        $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);     
-        
-        $this->assertEquals(7, $cssValidatorOutput->getErrorCount());
-        $this->assertEquals(5, $cssValidatorOutput->getWarningCount());
+        $this->assertTestYieldsGivenMessageErrorandWarningCount(array(
+            'configuration' => array(
+                'ignoreVendorExtensionIssues' => true
+            ),
+            'rawOutput' => $this->getFixture('output07.txt'),
+            'errorCount' => 7,
+            'warningCount' => 5
+        ));
     }     
     
     public function testIgnoreVendorExtensionIssuesFalseVextWarningFalse() {        
-        $rawOutput = $this->getFixture('output07.txt');
-        
-        $parser = new CssValidatorOutputParser();
-        $parser->setRawOutput($rawOutput);        
-        $parser->setIgnoreVendorExtensionIssues(false);
-        
-        $cssValidatorOutput = $parser->getOutput();
-        $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);     
-        
-        $this->assertEquals(52, $cssValidatorOutput->getErrorCount());
-        $this->assertEquals(5, $cssValidatorOutput->getWarningCount());
+        $this->assertTestYieldsGivenMessageErrorandWarningCount(array(
+            'configuration' => array(
+                'ignoreVendorExtensionIssues' => false
+            ),
+            'rawOutput' => $this->getFixture('output07.txt'),
+            'errorCount' => 52,
+            'warningCount' => 5
+        ));
     }    
 }

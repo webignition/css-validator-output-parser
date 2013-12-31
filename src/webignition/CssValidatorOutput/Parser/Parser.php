@@ -4,11 +4,9 @@ namespace webignition\CssValidatorOutput\Parser;
 
 use webignition\CssValidatorOutput\Parser\Configuration;
 use webignition\CssValidatorOutput\CssValidatorOutput;
-use webignition\CssValidatorOutput\Sanitizer;
 use webignition\CssValidatorOutput\Options\Parser as OptionsParser;
 use webignition\CssValidatorOutput\Message\Parser as MessageParser;
 use webignition\CssValidatorOutput\Message\Message;
-use webignition\NormalisedUrl\NormalisedUrl;
 use webignition\Url\Url;
 
 use webignition\CssValidatorOutput\ExceptionOutput\Parser as ExceptionOutputParser;
@@ -20,47 +18,13 @@ class Parser {
      * @var Configuration
      */
     private $configuration = null;
-    
-    /**
-     *
-     * @var string
-     */
-    private $rawOutput = '';
-    
+
     
     /**
      *
      * @var CssValidatorOutput
      */
     private $output;
-    
-    
-    /**
-     *
-     * @var boolean
-     */
-    private $ignoreWarnings = false;
-    
-    
-    /**
-     *
-     * @var array
-     */
-    private $refDomainsToIgnore = array();
-    
-    
-    /**
-     *
-     * @var boolean
-     */
-    private $ignoreVendorExtensionIssues = false;
-    
-    
-    /**
-     *
-     * @var boolean
-     */
-    private $ignoreFalseImageDataUrlMessages = false;
     
     
     /**
@@ -74,93 +38,10 @@ class Parser {
     
     /**
      * 
-     * @param boolean $ignoreFalseBase64BackgroundImageMessages
+     * @return \webignition\CssValidatorOutput\Parser\Configuration
      */
-    public function setIgnoreFalseImageDataUrlMessages($ignoreFalseImageDataUrlMessages) {
-        $this->ignoreFalseImageDataUrlMessages = $ignoreFalseImageDataUrlMessages;
-    }
-    
-    
-    /**
-     * @return bool
-     */
-    public function getIgnoreFalseImageDataUrlMessages() {
-        return $this->ignoreFalseImageDataUrlMessages;
-    }    
-    
-    
-    /**
-     * 
-     * @param boolean $ignoreWarnings
-     * @return \webignition\CssValidatorOutput\CssValidatorOutput
-     */
-    public function setIgnoreWarnings($ignoreWarnings) {
-        $this->ignoreWarnings = filter_var($ignoreWarnings, FILTER_VALIDATE_BOOLEAN);
-        return $this;
-    }
-    
-    
-    /**
-     * 
-     * @return boolean
-     */
-    public function getIgnoreWarnings() {
-        return $this->ignoreWarnings;
-    }    
-    
-    
-    /**
-     * 
-     * @param array $refDomainsToIgnore
-     * @return \webignition\CssValidatorOutput\Parser
-     */
-    public function setRefDomainsToIgnore($refDomainsToIgnore) {
-        if (!is_array($refDomainsToIgnore)) {
-            $refDomainsToIgnore = array();
-        }
-        
-        $this->refDomainsToIgnore = $refDomainsToIgnore;
-        return $this;
-    }
-    
-    
-    /**
-     * 
-     * @return array
-     */
-    public function getRefDomainsToIgnore() {
-        return $this->refDomainsToIgnore;
-    }
-    
-    
-    /**
-     * 
-     * @param boolean $ignoreVendorExtensionIssues
-     * @return \webignition\CssValidatorOutput\Parser
-     */
-    public function setIgnoreVendorExtensionIssues($ignoreVendorExtensionIssues) {
-        $this->ignoreVendorExtensionIssues = filter_Var($ignoreVendorExtensionIssues, FILTER_VALIDATE_BOOLEAN);
-        return $this;
-    }
-    
-    
-    /**
-     * 
-     * @return boolean
-     */
-    public function getIgnoreVendorExtensionIssues() {
-        return $this->ignoreVendorExtensionIssues;
-    }
-    
-    
-    /**
-     * 
-     * @param string $rawOutput
-     */
-    public function setRawOutput($rawOutput) {        
-        $sanitizer = new Sanitizer();        
-        $this->rawOutput = trim($sanitizer->getSanitizedOutput($rawOutput));
-        $this->output = null;
+    public function getConfiguration() {
+        return $this->configuration;
     }
     
     
@@ -179,7 +60,7 @@ class Parser {
     
     
     private function parse() { 
-        $headerBodyParts = explode("\n", $this->rawOutput, 2);
+        $headerBodyParts = explode("\n", $this->getConfiguration()->getRawOutput(), 2);
         $header = trim($headerBodyParts[0]);
         $body = trim($headerBodyParts[1]);
         
@@ -223,7 +104,7 @@ class Parser {
             
             /* @var $message \webignition\CssValidatorOutput\Message\Message */
             $message = $messageParser->getMessage();
-            if ($message->isWarning() && $this->getIgnoreWarnings() === true) {
+            if ($message->isWarning() && $this->getConfiguration()->getIgnoreWarnings() === true) {
                 continue;
             }
             
@@ -231,11 +112,11 @@ class Parser {
                 continue;
             }
             
-            if ($this->getIgnoreVendorExtensionIssues() === true && $this->isVendorExtensionMessage($message)) {
+            if ($this->getConfiguration()->getIgnoreVendorExtensionIssues() === true && $this->isVendorExtensionMessage($message)) {
                 continue;
             }
             
-            if ($this->getIgnoreFalseImageDataUrlMessages() && $this->isFalseImageDataUrlMessage($message)) {
+            if ($this->getConfiguration()->getIgnoreFalseImageDataUrlMessages() && $this->isFalseImageDataUrlMessage($message)) {
                 continue;
             }
             
@@ -338,7 +219,7 @@ class Parser {
         }        
                
         $messageRefUrl = new Url($message->getRef());        
-        foreach ($this->getRefDomainsToIgnore() as $refDomainToIgnore) {                       
+        foreach ($this->getConfiguration()->getRefDomainsToIgnore() as $refDomainToIgnore) {                       
             if ($messageRefUrl->hasHost() && $messageRefUrl->getHost()->isEquivalentTo(new \webignition\Url\Host\Host($refDomainToIgnore))) {
                 return true;
             }

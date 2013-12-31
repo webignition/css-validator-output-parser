@@ -3,7 +3,6 @@
 namespace webignition\Tests\CssValidatorOutput\Parser\GetOutput\Exception;
 
 use webignition\Tests\CssValidatorOutput\BaseTest;
-use webignition\CssValidatorOutput\Parser\Parser as CssValidatorOutputParser;
 
 class ExceptionOutputTest extends BaseTest {
     
@@ -76,12 +75,10 @@ class ExceptionOutputTest extends BaseTest {
         ));     
     }    
     
-    private function assertIsExceptionOfType($properties) {
-        $rawOutput = $this->getFixture('Exception/' . $properties['fixture']);
-        
-        $parser = new CssValidatorOutputParser();
-        $parser->setRawOutput($rawOutput);
-        
+    private function assertIsExceptionOfType($properties) {        
+        $parser = $this->getParser(array(
+            'rawOutput' => $this->getFixture('Exception/' . $properties['fixture'])
+        ));        
         $cssValidatorOutput = $parser->getOutput();                
         
         $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);
