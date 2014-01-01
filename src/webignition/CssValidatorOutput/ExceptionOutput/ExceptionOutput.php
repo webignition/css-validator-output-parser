@@ -57,7 +57,20 @@ class ExceptionOutput {
      */
     public function isHttpServerError() {
         return substr($this->type->get(), 0, strlen('http5')) === 'http5';
-    }  
+    }
+    
+    
+    /**
+     * 
+     * @return int
+     */
+    public function getHttpStatusCode() {
+        if (!$this->isHttpError()) {
+            return null;
+        }
+        
+        return (int)str_replace('http', '', $this->type->get());
+    }
     
     
     /**
@@ -66,6 +79,19 @@ class ExceptionOutput {
      */
     public function isCurlError() {
         return substr($this->type->get(), 0, strlen('curl')) === 'curl';
-    }    
+    }
+    
+    
+    /**
+     * 
+     * @return int
+     */
+    public function getCurlCode() {
+        if (!$this->isCurlError()) {
+            return null;
+        }
+        
+        return (int)str_replace('curl', '', $this->type->get());        
+    }
     
 }

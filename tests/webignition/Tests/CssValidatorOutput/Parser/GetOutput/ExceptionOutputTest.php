@@ -14,9 +14,10 @@ class ExceptionOutputTest extends BaseTest {
         $this->assertIsExceptionOfType(array(
             'fixture' => 'java.io.FileNotFoundException.http-404.txt',
             'exceptionCheck' => array(
-                'isHttp404',
-                'isHttpError',
-                'isHttpClientError'
+                'isHttp404' => true,
+                'isHttpError' => true,
+                'isHttpClientError' => true,
+                'getHttpStatusCode' => 404
             )
         ));     
     }    
@@ -25,9 +26,10 @@ class ExceptionOutputTest extends BaseTest {
         $this->assertIsExceptionOfType(array(
             'fixture' => 'java.net.ProtocolException.http-401.txt',
             'exceptionCheck' => array(
-                'isHttp401',
-                'isHttpError',
-                'isHttpClientError'
+                'isHttp401' => true,
+                'isHttpError' => true,
+                'isHttpClientError' => true,
+                'getHttpStatusCode' => 401
             )
         ));    
     }
@@ -35,7 +37,11 @@ class ExceptionOutputTest extends BaseTest {
     public function testParseIllegalUrlExceptionOutput() {
         $this->assertIsExceptionOfType(array(
             'fixture' => 'java.lang.IllegalArgumentException.illegalurl.txt',
-            'exceptionCheck' => 'isIllegalUrl'
+            'exceptionCheck' => array(
+                'isCurl3' => true,
+                'isCurlError' => true,
+                'getCurlCode' => 3
+            )            
         ));      
     }    
     
@@ -43,9 +49,10 @@ class ExceptionOutputTest extends BaseTest {
         $this->assertIsExceptionOfType(array(
             'fixture' => 'java.io.FileNotFoundException.http-500.txt',
             'exceptionCheck' => array(
-                'isHttp500',
-                'isHttpError',
-                'isHttpServerError'
+                'isHttp500' => true,
+                'isHttpError' => true,
+                'isHttpServerError' => true,
+                'getHttpStatusCode' => 500
             )
         ));      
     }   
@@ -68,7 +75,11 @@ class ExceptionOutputTest extends BaseTest {
     public function testParseUnknownHostErrorOutput() {
         $this->assertIsExceptionOfType(array(
             'fixture' => 'java.net.UnknownHostException.txt',
-            'exceptionCheck' => 'isUnknownHost'
+            'exceptionCheck' => array(
+                'isCurl6' => true,
+                'isCurlError' => true,
+                'getCurlCode' => 6
+            )
         ));     
     }     
     
@@ -101,8 +112,14 @@ class ExceptionOutputTest extends BaseTest {
         }
         
         if (is_array($properties['exceptionCheck'])) {
-            foreach ($properties['exceptionCheck'] as $methodName) {
-                $this->assertTrue($cssValidatorOutput->getException()->$methodName());        
+            foreach ($properties['exceptionCheck'] as $key => $value) {
+                if (is_int($key)) {
+                    $this->assertTrue($cssValidatorOutput->getException()->$value());
+                } else {
+                    $this->assertEquals($value, $cssValidatorOutput->getException()->$key());
+                }
+                
+                
             }
         }        
     }

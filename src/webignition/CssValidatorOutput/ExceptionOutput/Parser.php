@@ -74,11 +74,11 @@ class Parser {
         }
         
         if ($this->isIllegalUrlError()) {
-            return $this->setType(Value::ILLEGAL_URL);
+            return $this->setType('curl3');
         }           
         
         if ($this->isInternalServerError()) {
-            return $this->setType(Value::HTTP_500);
+            return $this->setType('http500');
         }  
         
         if ($this->isSslExceptionOutput()) {       
@@ -90,7 +90,7 @@ class Parser {
         }  
         
         if ($this->isUnknownHostError()) {
-            return $this->setType(Value::UNKNOWN_HOST);
+            return $this->setType('curl6');
         }
         
         if ($this->isUnknownFileExceptionOutput()) {

@@ -8,13 +8,7 @@ class Value {
     /**
      * For exceptions that aren't any of the below
      */
-    const UNKNOWN = 'unknown';    
-    
-    /**
-     * When HTTP resource being retrieved by validator returns an internal
-     * server error
-     */    
-    const HTTP_500 = 'http500';
+    const UNKNOWN = 'unknown';
     
     /**
      * When validator attempts to retrieve a HTTP resource referenced by an 
