@@ -32,4 +32,40 @@ class ExceptionOutput {
         return $this->type->get() == str_replace('is', '', strtolower($name));
     }
     
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function isHttpError() {
+        return substr($this->type->get(), 0, strlen('http')) === 'http';
+    }
+    
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function isHttpClientError() {
+        return substr($this->type->get(), 0, strlen('http4')) === 'http4';
+    }
+    
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function isHttpServerError() {
+        return substr($this->type->get(), 0, strlen('http5')) === 'http5';
+    }  
+    
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function isCurlError() {
+        return substr($this->type->get(), 0, strlen('curl')) === 'curl';
+    }    
+    
 }

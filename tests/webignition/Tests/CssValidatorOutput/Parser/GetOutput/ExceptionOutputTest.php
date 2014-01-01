@@ -13,14 +13,22 @@ class ExceptionOutputTest extends BaseTest {
     public function testParseFileNotFoundException() {        
         $this->assertIsExceptionOfType(array(
             'fixture' => 'java.io.FileNotFoundException.http-404.txt',
-            'exceptionCheck' => 'isHttp404'
+            'exceptionCheck' => array(
+                'isHttp404',
+                'isHttpError',
+                'isHttpClientError'
+            )
         ));     
     }    
     
     public function testParse401ProtocolException() {
         $this->assertIsExceptionOfType(array(
             'fixture' => 'java.net.ProtocolException.http-401.txt',
-            'exceptionCheck' => 'isHttp401'
+            'exceptionCheck' => array(
+                'isHttp401',
+                'isHttpError',
+                'isHttpClientError'
+            )
         ));    
     }
     
@@ -34,7 +42,11 @@ class ExceptionOutputTest extends BaseTest {
     public function testParseInternalServerErrorOutput() {
         $this->assertIsExceptionOfType(array(
             'fixture' => 'java.io.FileNotFoundException.http-500.txt',
-            'exceptionCheck' => 'isHttp500'
+            'exceptionCheck' => array(
+                'isHttp500',
+                'isHttpError',
+                'isHttpServerError'
+            )
         ));      
     }   
     
@@ -83,7 +95,16 @@ class ExceptionOutputTest extends BaseTest {
         
         $this->assertInstanceOf('webignition\CssValidatorOutput\CssValidatorOutput', $cssValidatorOutput);
         $this->assertTrue($cssValidatorOutput->hasException());
-        $this->assertTrue($cssValidatorOutput->getException()->$properties['exceptionCheck']());        
+        
+        if (is_string($properties['exceptionCheck'])) {
+            $this->assertTrue($cssValidatorOutput->getException()->$properties['exceptionCheck']());        
+        }
+        
+        if (is_array($properties['exceptionCheck'])) {
+            foreach ($properties['exceptionCheck'] as $methodName) {
+                $this->assertTrue($cssValidatorOutput->getException()->$methodName());        
+            }
+        }        
     }
    
 }

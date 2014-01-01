@@ -66,11 +66,11 @@ class Parser {
      */
     private function parse() {
         if ($this->isFileNotFoundError()) {
-            return $this->setType(Value::HTTP_404);
+            return $this->setType('http404');
         }
         
         if ($this->isHttpAuthProtocolExceptionOutput()) {
-            return $this->setType(Value::HTTP_401);
+            return $this->setType('http401');
         }
         
         if ($this->isIllegalUrlError()) {

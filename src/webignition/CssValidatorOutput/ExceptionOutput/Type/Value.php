@@ -8,19 +8,7 @@ class Value {
     /**
      * For exceptions that aren't any of the below
      */
-    const UNKNOWN = 'unknown';
-    
-    /**
-     * When validator attempts to retrieve a HTTP resource that does not exist
-     */
-    const HTTP_404 = 'http404';
-    
-    /**
-     * When validator attempts to retrieve a HTTP resource that requires
-     * HTTP authentication
-     */    
-    const HTTP_401 = 'http401';
-    
+    const UNKNOWN = 'unknown';    
     
     /**
      * When HTTP resource being retrieved by validator returns an internal
