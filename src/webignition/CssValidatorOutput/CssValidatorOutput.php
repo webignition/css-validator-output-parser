@@ -10,7 +10,7 @@ class CssValidatorOutput {
     
     /**
      *
-     * @var array
+     * @var \webignition\CssValidatorOutput\Message\Message[]
      */
     private $messages = array();
     
@@ -238,7 +238,25 @@ class CssValidatorOutput {
      */
     public function getErrors() {
         return $this->getMessagesOfType(Message::TYPE_ERROR);
-    }    
+    }
+    
+    
+    /**
+     * 
+     * @param type $url
+     * @return \webignition\CssValidatorOutput\Message\Error[]
+     */
+    public function getErrorsByUrl($url) {
+        $errors = array();
+        
+        foreach ($this->getMessages() as $message) {
+            if ($message->isError() && $message->getRef() === $url) {
+                $errors[] = $message;
+            }
+        }
+        
+        return $errors;
+    }
     
     
     /**
