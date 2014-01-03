@@ -164,4 +164,13 @@ class Options {
     }
     
     
+    /**
+     * 
+     * @return string
+     */
+    public function __toString() {
+        return '{vextwarning='.($this->getVendorExtensionIssuesAsWarnings() ? 'true' : 'false').', output='.$this->getOutputFormat().', lang='.$this->getLanguage().', warning='.$this->getWarningLevel().', medium='.$this->getMedium().', profile='.$this->getProfile().'}';
+    }
+    
+    
 } 
