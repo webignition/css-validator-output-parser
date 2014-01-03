@@ -28,6 +28,19 @@ class Parser {
     
     
     /**
+     *
+     * @var string
+     */
+    private $rawHeader = null;
+    
+    /**
+     *
+     * @var string
+     */    
+    private $rawBody = null;
+    
+    
+    /**
      * 
      * @param \webignition\CssValidatorOutput\Parser\Configuration $configuration
      */
@@ -59,6 +72,25 @@ class Parser {
     }
     
     
+    /**
+     * 
+     * @return string
+     */
+    public function getRawHeader() {
+        return $this->rawHeader;
+    }
+    
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getRawBody() {
+        return $this->rawBody;
+    }
+    
+        
+    
     private function parse() { 
         $headerBodyParts = explode("\n", $this->getConfiguration()->getRawOutput(), 2);
         $header = trim($headerBodyParts[0]);
@@ -76,6 +108,9 @@ class Parser {
             $this->output->setIsIncorrectUsageOutput(true);
             return;
         }
+        
+        $this->rawHeader = $header;
+        $this->rawBody = $body;
         
         $optionsParser = new OptionsParser();
         $optionsParser->setOptionsOutput($header);
