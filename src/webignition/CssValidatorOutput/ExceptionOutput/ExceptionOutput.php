@@ -35,6 +35,15 @@ class ExceptionOutput {
     
     /**
      * 
+     * @return \webignition\CssValidatorOutput\ExceptionOutput\Type\Type
+     */
+    public function getType() {
+        return $this->type;
+    }
+    
+    
+    /**
+     * 
      * @return boolean
      */
     public function isHttpError() {
