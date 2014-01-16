@@ -12,6 +12,21 @@ class Warning extends Message {
     private $level = 0;
     
     
+    /**
+     * 
+     * @param \webignition\CssValidatorOutput\Message\Error $error
+     * @return \webignition\CssValidatorOutput\Message\Warning
+     */
+    public static function fromError(Error $error) {
+        $warning = new Warning();
+        $warning->setContext($error->getContext());
+        $warning->setLineNumber($error->getLineNumber());
+        $warning->setMessage($error->getMessage());
+        
+        return $warning;
+    }
+    
+    
     public function __construct() {
         $this->setType(self::TYPE_WARNING);
     }

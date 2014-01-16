@@ -3,17 +3,6 @@
 <observationresponse xmlns="http://www.w3.org/2009/10/unicorn/observationresponse" ref="http://example.com/" date="2014-01-15T11:51:02Z" xml:lang="en">
 
     <message type="error" ref="http://example.com/style.css">
-        <context line="39"></context>
-        <title>
-            Parse Error
-            }}
-        </title>
-        <typeid>
-            generator.unrecognize
-        </typeid>
-    </message>  
-
-    <message type="error" ref="http://example.com/style.css">
         <context line="655"></context>
         <title>
             Sorry, the at-rule @-webkit-keyframes is not implemented.
@@ -132,5 +121,16 @@
         <title>Property -ms-text-size-adjust is an unknown vendor extension</title>
         <typeid>vendor-extension</typeid>
     </message>
+
+    <message type="error" ref="http://example.com/style.css">
+        <context line="39"></context>
+        <title>
+            Parse Error
+            }}
+        </title>
+        <typeid>
+            generator.unrecognize
+        </typeid>
+    </message>  
 
 </observationresponse>

@@ -41,5 +41,17 @@ class IgnoreWarningsTest extends BaseTest {
             'errorCount' => 3,
             'warningCount' => 2
         ));
-    }        
+    } 
+    
+    public function testReportVendorExtensionIssuesAsWarningsAndIgnoreWarnings() {        
+        $this->assertTestYieldsGivenMessageErrorandWarningCount(array(
+            'configuration' => array(
+                'ignoreWarnings' => true,                
+                'reportVendorExtensionIssuesAsWarnings' => true
+            ),
+            'rawOutput' => $this->getFixture('vendor-specific-at-rules.txt'),
+            'errorCount' => 1,
+            'warningCount' => 0
+        ));
+    }     
 }

@@ -139,6 +139,11 @@ class Parser {
             
             /* @var $message \webignition\CssValidatorOutput\Message\Message */
             $message = $messageParser->getMessage();
+            
+            if ($this->getConfiguration()->getReportVendorExtensionIssuesAsWarnings() && $message->isError() && $this->isVendorExtensionMessage($message)) {
+                $message = \webignition\CssValidatorOutput\Message\Warning::fromError($message);
+            }
+            
             if ($message->isWarning() && $this->getConfiguration()->getIgnoreWarnings() === true) {
                 continue;
             }
@@ -155,7 +160,7 @@ class Parser {
                 continue;
             }
             
-            $this->output->addMessage($messageParser->getMessage());
+            $this->output->addMessage($message);
         }
     }
     

@@ -42,6 +42,31 @@ class Configuration {
     
     
     /**
+     *
+     * @var boolean
+     */
+    private $reportVendorExtensionIssuesAsWarnings = false;
+    
+    
+    /**
+     * 
+     * @param boolean $reportVendorExtensionIssuesAsWarnings
+     */
+    public function setReportVendorExtensionIssuesAsWarnings($reportVendorExtensionIssuesAsWarnings) {
+        $this->reportVendorExtensionIssuesAsWarnings = $reportVendorExtensionIssuesAsWarnings;
+    }
+    
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function getReportVendorExtensionIssuesAsWarnings() {
+        return $this->reportVendorExtensionIssuesAsWarnings;
+    }
+    
+    
+    /**
      * 
      * @param boolean $ignoreFalseBase64BackgroundImageMessages
      */
