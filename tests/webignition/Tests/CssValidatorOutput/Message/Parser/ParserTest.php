@@ -49,6 +49,8 @@ class ParserTest extends BaseTest {
         $this->assertEquals(5, $message->getLineNumber());        
         $this->assertTrue($message->isWarning());        
         $this->assertEquals(0, $message->getLevel());
+
+        $this->assertEquals('http://example.com/', $message->getRef());
     }    
    
 }

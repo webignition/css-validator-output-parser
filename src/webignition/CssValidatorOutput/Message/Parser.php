@@ -44,7 +44,6 @@ class Parser {
         switch ($this->messageElement->getAttribute('type')) {
             case 'error':
                 $this->message = new Error();
-                $this->message->setRef($this->messageElement->getAttribute('ref'));
                 break;
             
             case 'warning':
@@ -55,9 +54,11 @@ class Parser {
             default:
                 return false;
         }
+
+        $this->message->setRef($this->messageElement->getAttribute('ref'));
         
         $contextNode = $this->messageElement->getElementsByTagName('context')->item(0);
-        
+
         $this->message->setContext($contextNode->nodeValue);
         $this->message->setLineNumber($contextNode->getAttribute('line'));        
         $this->message->setMessage(trim($this->messageElement->getElementsByTagName('title')->item(0)->nodeValue));

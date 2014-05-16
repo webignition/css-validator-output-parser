@@ -22,6 +22,7 @@ class Warning extends Message {
         $warning->setContext($error->getContext());
         $warning->setLineNumber($error->getLineNumber());
         $warning->setMessage($error->getMessage());
+        $warning->setRef($error->getRef());
         
         return $warning;
     }

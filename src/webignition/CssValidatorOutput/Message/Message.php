@@ -24,7 +24,14 @@ abstract class Message {
      * @var string
      */
     private $context = '';
-    
+
+
+    /**
+     *
+     * @var string
+     */
+    private $ref = '';
+
     /**
      *
      * @var int
@@ -165,5 +172,24 @@ abstract class Message {
         return md5($this->getBody().$this->getContext().$this->getLineNumber().$this->getType());
     }
 
+
+    /**
+     *
+     * @param string $ref
+     * @return \webignition\CssValidatorOutput\Message\Error
+     */
+    public function setRef($ref) {
+        $this->ref = $ref;
+        return $this;
     }
 
+
+    /**
+     *
+     * @return string
+     */
+    public function getRef() {
+        return $this->ref;
+    }
+
+}
