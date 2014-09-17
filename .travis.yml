@@ -5,6 +5,12 @@ php:
   - 5.5
   - 5.6
   - hhvm
+
+before_install:
+  - composer self-update
+
+install:
+  - composer install
   
 before_script:
   # Set the GitHub OAuth token to make use of the 6000 per hour rate limit
@@ -17,4 +23,4 @@ before_script:
 
 matrix:
   allow_failures:
-    - php: hhvm    
+    - php: hhvm
