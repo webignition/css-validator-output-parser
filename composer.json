@@ -25,6 +25,5 @@
     "require-dev": {
         "symfony/class-loader": "*",
         "phpunit/phpunit": "~4.0"
-    },  
-    "minimum-stability":"dev"
+    }
 }
