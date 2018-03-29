@@ -1,7 +1,4 @@
-# IDE meta
-/nbproject
 /.idea
-
-# Composer
-/composer.phar
 /vendor
+/build
+
