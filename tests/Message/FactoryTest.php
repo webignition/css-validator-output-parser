@@ -3,19 +3,15 @@
 namespace webignition\Tests\CssValidatorOutput\Message;
 
 use webignition\CssValidatorOutput\Message\Error;
-use webignition\CssValidatorOutput\Message\Parser;
+use webignition\CssValidatorOutput\Message\Factory;
 use webignition\CssValidatorOutput\Message\Warning;
 use webignition\Tests\CssValidatorOutput\Factory\FixtureLoader;
 
-class ParserTest extends \PHPUnit_Framework_TestCase
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
-    public function testParseErrorMessage()
+    public function testCreateErrorMessage()
     {
-        $parser = new Parser();
-        $parser->setMessageElement($this->createMessageDomElement('Partial/error-message.xml'));
-
-        /* @var $message Error */
-        $message = $parser->getMessage();
+        $message = Factory::createFromDOMElement($this->createMessageDomElement('Partial/error-message.xml'));
 
         $this->assertInstanceOf(Error::class, $message);
         $this->assertEquals('Parse Error
@@ -28,11 +24,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 
     public function testParseWarningMessage()
     {
-        $parser = new Parser();
-        $parser->setMessageElement($this->createMessageDomElement('Partial/warning-message.xml'));
-
-        /* @var $message Warning */
-        $message = $parser->getMessage();
+        $message = Factory::createFromDOMElement($this->createMessageDomElement('Partial/warning-message.xml'));
 
         $this->assertInstanceOf(Warning::class, $message);
         $this->assertEquals(

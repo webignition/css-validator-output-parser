@@ -43,10 +43,21 @@ abstract class AbstractMessage
 
     /**
      * @param string $message
+     * @param string $context
+     * @param string $ref
+     * @param int $lineNumber
+     * @param int $type
      */
-    public function setMessage($message)
+    public function __construct($message, $context, $ref, $lineNumber, $type)
     {
         $this->message = $message;
+        $this->context = $context;
+        $this->ref = $ref;
+        $this->lineNumber = filter_var($lineNumber, FILTER_VALIDATE_INT, ['options' => [
+            'min_range' => 0,
+            'default' => 0
+        ]]);
+        $this->type = $type;
     }
 
     /**
@@ -58,14 +69,6 @@ abstract class AbstractMessage
     }
 
     /**
-     * @param string $context
-     */
-    public function setContext($context)
-    {
-        $this->context = $context;
-    }
-
-    /**
      * @return string
      */
     public function getContext()
@@ -74,30 +77,11 @@ abstract class AbstractMessage
     }
 
     /**
-     * @param int $lineNumber
-     */
-    public function setLineNumber($lineNumber)
-    {
-        $this->lineNumber = filter_var($lineNumber, FILTER_VALIDATE_INT, array('options' => array(
-            'min_range' => 0,
-            'default' => 0
-        )));
-    }
-
-    /**
      * @return int
      */
     public function getLineNumber()
     {
         return $this->lineNumber;
-    }
-
-    /**
-     * @param int $type
-     */
-    protected function setType($type)
-    {
-        $this->type = $type;
     }
 
     /**
@@ -130,14 +114,6 @@ abstract class AbstractMessage
     public function isWarning()
     {
         return self::TYPE_WARNING === $this->type;
-    }
-
-    /**
-     * @param string $ref
-     */
-    public function setRef($ref)
-    {
-        $this->ref = $ref;
     }
 
     /**

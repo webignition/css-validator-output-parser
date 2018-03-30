@@ -4,14 +4,28 @@ namespace webignition\CssValidatorOutput\Message;
 
 class Warning extends AbstractMessage
 {
+    const DEFAULT_LEVEL = 0;
+
     /**
      * @var int
      */
-    private $level = 0;
+    private $level = self::DEFAULT_LEVEL;
 
-    public function __construct()
+    /**
+     * @param string $message
+     * @param string $context
+     * @param string $ref
+     * @param int $lineNumber
+     * @param int $level
+     */
+    public function __construct($message, $context, $ref, $lineNumber, $level = self::DEFAULT_LEVEL)
     {
-        $this->setType(self::TYPE_WARNING);
+        parent::__construct($message, $context, $ref, $lineNumber, self::TYPE_WARNING);
+
+        $this->level = filter_var($level, FILTER_VALIDATE_INT, ['options' => [
+            'min_range' => 0,
+            'default' => 0
+        ]]);
     }
 
     /**
@@ -21,24 +35,12 @@ class Warning extends AbstractMessage
      */
     public static function fromError(Error $error)
     {
-        $warning = new Warning();
-        $warning->setContext($error->getContext());
-        $warning->setLineNumber($error->getLineNumber());
-        $warning->setMessage($error->getMessage());
-        $warning->setRef($error->getRef());
-
-        return $warning;
-    }
-
-    /**
-     * @param int $level
-     */
-    public function setLevel($level)
-    {
-        $this->level = filter_var($level, FILTER_VALIDATE_INT, array('options' => array(
-            'min_range' => 0,
-            'default' => 0
-        )));
+        return new Warning(
+            $error->getMessage(),
+            $error->getContext(),
+            $error->getRef(),
+            $error->getLineNumber()
+        );
     }
 
     /**
