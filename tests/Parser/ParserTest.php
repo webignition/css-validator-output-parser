@@ -179,18 +179,18 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 'expectedOutputErrorCount' => 1,
                 'expectedOutputWarningCount' => 0,
             ],
-//            'large output: 890 errors, 5 warnings' => [
-//                'configurationValues' => [],
-//                'rawOutput' => FixtureLoader::load('ValidatorOutput/output02.txt'),
-//                'expectedOutputErrorCount' => 890,
-//                'expectedOutputWarningCount' => 5,
-//            ],
-//            'large output: 623 errors, 272 warnings' => [
-//                'configurationValues' => [],
-//                'rawOutput' => FixtureLoader::load('ValidatorOutput/output03.txt'),
-//                'expectedOutputErrorCount' => 623,
-//                'expectedOutputWarningCount' => 272,
-//            ],
+            'large output: 890 errors, 5 warnings' => [
+                'configurationValues' => [],
+                'rawOutput' => FixtureLoader::load('ValidatorOutput/output02.txt'),
+                'expectedOutputErrorCount' => 890,
+                'expectedOutputWarningCount' => 5,
+            ],
+            'large output: 623 errors, 272 warnings' => [
+                'configurationValues' => [],
+                'rawOutput' => FixtureLoader::load('ValidatorOutput/output03.txt'),
+                'expectedOutputErrorCount' => 623,
+                'expectedOutputWarningCount' => 272,
+            ],
             'idn domains; none-ignored' => [
                 'configurationValues' => [],
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/output08.txt'),
