@@ -13,7 +13,11 @@ class Parser
     private $rawOutput = '';
 
     /**
-     *
+     * @var string
+     */
+    private $rawOutputFirstLine = '';
+
+    /**
      * @var ExceptionOutput
      */
     private $output;
@@ -38,6 +42,7 @@ class Parser
     public function setRawOutput($rawOutput)
     {
         $this->rawOutput = trim($rawOutput);
+        $this->rawOutputFirstLine = substr($this->rawOutput, 0, strpos($this->rawOutput, "\n"));
         $this->output = null;
     }
 
@@ -109,19 +114,11 @@ class Parser
     }
 
     /**
-     * @return string
-     */
-    private function getFirstLine()
-    {
-        return substr($this->rawOutput, 0, strpos($this->rawOutput, "\n"));
-    }
-
-    /**
      * @return bool
      */
     private function isUnknownMimeTypeError()
     {
-        return preg_match('/Unknown mime type :/', $this->getFirstLine()) > 0;
+        return preg_match('/Unknown mime type :/', $this->rawOutputFirstLine) > 0;
     }
 
     /**
@@ -133,7 +130,7 @@ class Parser
             return false;
         }
 
-        return preg_match('/Internal Server Error/', $this->getFirstLine()) > 0;
+        return preg_match('/Internal Server Error/', $this->rawOutputFirstLine) > 0;
     }
 
     /**
@@ -145,7 +142,7 @@ class Parser
             return false;
         }
 
-        return preg_match('/Not Found/', $this->getFirstLine()) > 0;
+        return preg_match('/Not Found/', $this->rawOutputFirstLine) > 0;
     }
 
     /**
@@ -153,7 +150,7 @@ class Parser
      */
     private function isFileNotFoundException()
     {
-        return preg_match('/^java\.io\.FileNotFoundException:/', $this->getFirstLine()) > 0;
+        return preg_match('/^java\.io\.FileNotFoundException:/', $this->rawOutputFirstLine) > 0;
     }
 
     /**
@@ -161,7 +158,7 @@ class Parser
      */
     private function isUnknownHostError()
     {
-        return preg_match('/^java\.net\.UnknownHostException:/', $this->getFirstLine()) > 0;
+        return preg_match('/^java\.net\.UnknownHostException:/', $this->rawOutputFirstLine) > 0;
     }
 
     /**
@@ -169,7 +166,7 @@ class Parser
      */
     private function isIllegalUrlError()
     {
-        return $this->getFirstLine() == 'java.lang.IllegalArgumentException: protocol = http host = null';
+        return $this->rawOutputFirstLine == 'java.lang.IllegalArgumentException: protocol = http host = null';
     }
 
     /**
@@ -179,7 +176,7 @@ class Parser
     {
         $signature = 'javax.net.ssl.SSLException';
 
-        return substr($this->getFirstLine(), 0, strlen($signature)) == $signature;
+        return substr($this->rawOutputFirstLine, 0, strlen($signature)) == $signature;
     }
 
     /**
@@ -187,7 +184,7 @@ class Parser
      */
     private function isHttpAuthProtocolExceptionOutput()
     {
-        return preg_match('/java\.net\.ProtocolException: (Basic|Digest)/', $this->getFirstLine()) > 0;
+        return preg_match('/java\.net\.ProtocolException: (Basic|Digest)/', $this->rawOutputFirstLine) > 0;
     }
 
     /**
@@ -195,6 +192,6 @@ class Parser
      */
     private function isUnknownFileExceptionOutput()
     {
-        return preg_match('/java.lang.Exception: Unknown file/', $this->getFirstLine()) > 0;
+        return preg_match('/java.lang.Exception: Unknown file/', $this->rawOutputFirstLine) > 0;
     }
 }
