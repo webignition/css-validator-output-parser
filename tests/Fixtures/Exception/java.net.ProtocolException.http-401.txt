@@ -1,0 +1,6 @@
+{vextwarning=true, output=ucn, lang=en, warning=2, medium=all, profile=css3}
+java.net.ProtocolException: Basic realm="Restricted"
+	at org.w3c.css.util.HTTPURL.getConnection(HTTPURL.java:284)
+	at org.w3c.css.util.HTTPURL.getConnection(HTTPURL.java:312)
+	at org.w3c.css.css.DocumentParser.<init>(DocumentParser.java:124)
+	at org.w3c.css.css.CssValidator.main(CssValidator.java:154)
