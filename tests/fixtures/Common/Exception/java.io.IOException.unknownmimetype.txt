@@ -1,4 +1,0 @@
-{vextwarning=false, output=ucn, lang=en, warning=2, medium=all, profile=css3}
-java.io.IOException: Unknown mime type : application/pdf
-	at org.w3c.css.css.DocumentParser.<init>(DocumentParser.java:175)
-	at org.w3c.css.css.CssValidator.main(CssValidator.java:154)

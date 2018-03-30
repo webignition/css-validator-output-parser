@@ -1,4 +1,0 @@
-{vextwarning=true, output=ucn, lang=en, warning=2, medium=all, profile=css3}
-java.lang.Exception: Unknown file
-	at org.w3c.css.css.DocumentParser.<init>(DocumentParser.java:112)
-	at org.w3c.css.css.CssValidator.main(CssValidator.java:154)
