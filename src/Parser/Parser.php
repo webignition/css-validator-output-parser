@@ -52,6 +52,8 @@ class Parser
 
     /**
      * @return CssValidatorOutput
+     *
+     * @throws InvalidValidatorOutputException
      */
     public function getOutput()
     {
@@ -63,6 +65,9 @@ class Parser
         return $this->output;
     }
 
+    /**
+     * @throws InvalidValidatorOutputException
+     */
     private function parse()
     {
         $configuration = $this->configuration;
@@ -89,13 +94,18 @@ class Parser
         $this->rawHeader = $header;
         $this->rawBody = $body;
 
+        $bodyXmlContent = $this->extractXmlContentFromBody($body);
+        if (null === $bodyXmlContent) {
+            throw new InvalidValidatorOutputException($configuration->getRawOutput());
+        }
+
         $optionsParser = new OptionsParser();
         $optionsParser->setOptionsOutput($header);
 
         $this->output->setOptions($optionsParser->getOptions());
 
         $bodyDom = new \DOMDocument();
-        $bodyDom->loadXML($this->extractXmlContentFromBody($body));
+        $bodyDom->loadXML($bodyXmlContent);
 
         $container = $bodyDom->getElementsByTagName('observationresponse')->item(0);
 
@@ -147,8 +157,8 @@ class Parser
         $bodyLines = explode("\n", $body);
 
         $xmlContentStartLineNumber = $this->getXmlContentStartLineNumber($bodyLines);
-        if ($xmlContentStartLineNumber === -1) {
-            return '';
+        if (null === $xmlContentStartLineNumber) {
+            return null;
         }
 
         return implode("\n", array_slice($bodyLines, $this->getXmlContentStartLineNumber($bodyLines)));
@@ -169,7 +179,7 @@ class Parser
             }
         }
 
-        return -1;
+        return null;
     }
 
     /**
@@ -179,32 +189,36 @@ class Parser
      */
     private function isFalseImageDataUrlMessage(AbstractMessage $message)
     {
-        $propertyNames = array(
+        $propertyNames = [
             'background-image',
             'background',
             'list-style-image'
+        ];
+
+        $propertyNamesPatternPart = implode('|', $propertyNames);
+
+        $valueErrorLinePattern = sprintf(
+            '/Value Error\s*:\s*(%s)\s\(null.*\.html#propdef-(%s)\)/',
+            $propertyNamesPatternPart,
+            $propertyNamesPatternPart
         );
 
-        if (preg_match('/Value Error\s*:\s*('.  implode('|', $propertyNames).')\s\(null.*\.html#propdef-('.  implode('|', $propertyNames).')\)/', $message->getMessage())) {
-            $messageLines = explode("\n", $message->getMessage());
+        $dataUrlLinePattern = '/^url\(data:image\/.*is an incorrect URL$/';
+
+        $messageContent = $message->getMessage();
+
+        if (preg_match($valueErrorLinePattern, $messageContent)) {
+            $messageLines = explode("\n", $messageContent);
             $firstMessageLine = trim($messageLines[1]);
 
-            if (preg_match('/\(data:image\/[a-z0-9]{3};base64,/', $firstMessageLine) && $this->stringEndsWith($firstMessageLine, 'is an incorrect URL')) {
+            if (preg_match($dataUrlLinePattern, $firstMessageLine)) {
                 return true;
             }
         }
+
+        return false;
     }
 
-    /**
-     * @param string $string
-     * @param string $ending
-     *
-     * @return bool
-     */
-    private function stringEndsWith($string, $ending)
-    {
-        return substr($string, strlen($string) - strlen($ending)) == $ending;
-    }
 
     /**
      * @param \DomElement $outputContainer
@@ -214,16 +228,13 @@ class Parser
     private function isPassedNoMessagesOutput(\DomElement $outputContainer)
     {
         $statusElements = $outputContainer->getElementsByTagName('status');
-        if ($statusElements->length === 0) {
+        if (0 === $statusElements->length) {
             return false;
         }
 
         $statusElement = $statusElements->item(0);
-        if (!$statusElement->hasAttribute('value')) {
-            return false;
-        }
 
-        return ($statusElements->item(0)->getAttribute('value')) == 'passed';
+        return 'passed' === $statusElement->getAttribute('value');
     }
 
     /**

@@ -5,10 +5,39 @@
 <message type="error" ref="file://localhost/TextArea">
 	<context line="5">.ui-menu .ui-menu-item</context>
 	<title>
+		Value Error :  background-image (nullgenerate.html#propdef-background-image)
+		url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7) is an incorrect URL
+		url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7)
+
+	</title>
+</message>
+
+<message type="error" ref="file://localhost/TextArea">
+	<context line="5">.ui-menu .ui-menu-item</context>
+	<title>
+		Value Error :  background (nullgenerate.html#propdef-background)
+		url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7) is an incorrect URL
+		url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7)
+
+	</title>
+</message>
+
+<message type="error" ref="file://localhost/TextArea">
+	<context line="5">.ui-menu .ui-menu-item</context>
+	<title>
 		Value Error :  list-style-image (nullgenerate.html#propdef-list-style-image)
 		url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7) is an incorrect URL
 		url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7)
 
+	</title>
+</message>
+
+<message type="error" >
+	<context line="2">li</context>
+	<title>
+		Value Error :  background (nullcolors.html#propdef-background)
+		foo is not a background-color value :
+		foo
 	</title>
 </message>
 
