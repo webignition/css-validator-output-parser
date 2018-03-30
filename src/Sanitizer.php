@@ -45,7 +45,6 @@ class Sanitizer
                 $sanitizedOutput .= $rawOutputCharacter;
             } else {
                 $sanitizedOutput .= '\x' . dechex(Mbstring::mb_ord($rawOutputCharacter));
-
             }
         }
 
