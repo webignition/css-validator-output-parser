@@ -26,16 +26,6 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $this->parser = new Parser();
     }
 
-    public function testSetConfigurationGetConfiguration()
-    {
-        $this->assertNull($this->parser->getConfiguration());
-
-        $configuration = new Configuration();
-
-        $this->parser->setConfiguration($configuration);
-        $this->assertEquals($configuration, $this->parser->getConfiguration());
-    }
-
     /**
      * @dataProvider getOutputSuccessfulOutputDataProvider
      *
@@ -47,7 +37,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      *
      * @throws InvalidValidatorOutputException
      */
-    public function testGetOutputSuccessfulOutput(
+    public function testParseSuccessfulOutput(
         array $configurationValues,
         $rawOutput,
         $expectedOutputErrorCount,
@@ -55,11 +45,8 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $expectedErrorValuesCollection = null
     ) {
         $configuration = new Configuration($configurationValues);
-        $configuration->setRawOutput($rawOutput);
 
-        $this->parser->setConfiguration($configuration);
-
-        $output = $this->parser->getOutput();
+        $output = $this->parser->parse($rawOutput, $configuration);
 
         $this->assertInstanceOf(CssValidatorOutput::class, $output);
 
@@ -391,14 +378,9 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      *
      * @throws InvalidValidatorOutputException
      */
-    public function testGetOutputExceptionOutput($rawOutput)
+    public function testParseExceptionOutput($rawOutput)
     {
-        $configuration = new Configuration();
-        $configuration->setRawOutput($rawOutput);
-
-        $this->parser->setConfiguration($configuration);
-
-        $output = $this->parser->getOutput();
+        $output = $this->parser->parse($rawOutput, new Configuration());
 
         $this->assertInstanceOf(CssValidatorOutput::class, $output);
         $this->assertTrue($output->hasException());
@@ -449,11 +431,10 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParseIncorrectUsageOutput()
     {
-        $configuration = new Configuration();
-        $configuration->setRawOutput(FixtureLoader::load('incorrect-usage.txt'));
-        $this->parser->setConfiguration($configuration);
-
-        $output = $this->parser->getOutput();
+        $output = $this->parser->parse(
+            FixtureLoader::load('incorrect-usage.txt'),
+            new Configuration()
+        );
 
         $this->assertTrue($output->getIsIncorrectUsageOutput());
 
@@ -473,11 +454,10 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParsesMetaData()
     {
-        $configuration = new Configuration();
-        $configuration->setRawOutput(FixtureLoader::load('ValidatorOutput/output01.txt'));
-        $this->parser->setConfiguration($configuration);
-
-        $output = $this->parser->getOutput();
+        $output = $this->parser->parse(
+            FixtureLoader::load('ValidatorOutput/output01.txt'),
+            new Configuration()
+        );
 
         $options = $output->getOptions();
         $this->assertInstanceOf(Options::class, $options);
@@ -499,12 +479,8 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         $fixture = FixtureLoader::load('ValidatorOutput/non-xml-body.txt');
 
-        $configuration = new Configuration();
-        $configuration->setRawOutput($fixture);
-        $this->parser->setConfiguration($configuration);
-
         try {
-            $this->parser->getOutput();
+            $this->parser->parse($fixture, new Configuration());
             $this->fail(InvalidValidatorOutputException::class . ' not thrown');
         } catch (InvalidValidatorOutputException $invalidValidatorOutputException) {
             $this->assertEquals(trim($fixture), $invalidValidatorOutputException->getRawOutput());

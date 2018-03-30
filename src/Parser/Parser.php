@@ -7,6 +7,7 @@ use webignition\CssValidatorOutput\Message\AbstractMessage;
 use webignition\CssValidatorOutput\Message\Error;
 use webignition\CssValidatorOutput\Options\Parser as OptionsParser;
 use webignition\CssValidatorOutput\Message\Factory as MessageFactory;
+use webignition\CssValidatorOutput\Sanitizer;
 use webignition\Url\Host\Host;
 use webignition\Url\Url;
 
@@ -15,94 +16,48 @@ use webignition\CssValidatorOutput\ExceptionOutput\Parser as ExceptionOutputPars
 class Parser
 {
     /**
-     * @var Configuration
-     */
-    private $configuration = null;
-
-    /**
-     * @var CssValidatorOutput
-     */
-    private $output;
-
-    /**
-     * @var string
-     */
-    private $rawHeader = null;
-
-    /**
-     * @var string
-     */
-    private $rawBody = null;
-
-    /**
+     * @param $validatorOutput
      * @param Configuration $configuration
-     */
-    public function setConfiguration(Configuration $configuration)
-    {
-        $this->configuration = $configuration;
-    }
-
-    /**
-     * @return Configuration
-     */
-    public function getConfiguration()
-    {
-        return $this->configuration;
-    }
-
-    /**
+     *
      * @return CssValidatorOutput
      *
      * @throws InvalidValidatorOutputException
      */
-    public function getOutput()
+    public function parse($validatorOutput, Configuration $configuration)
     {
-        if (is_null($this->output)) {
-            $this->output = new CssValidatorOutput();
-            $this->parse();
-        }
+        $sanitizer = new Sanitizer();
+        $validatorOutput = trim($sanitizer->getSanitizedOutput($validatorOutput));
 
-        return $this->output;
-    }
-
-    /**
-     * @throws InvalidValidatorOutputException
-     */
-    private function parse()
-    {
-        $configuration = $this->configuration;
-
-        $headerBodyParts = explode("\n", $configuration->getRawOutput(), 2);
+        $headerBodyParts = explode("\n", $validatorOutput, 2);
         $header = trim($headerBodyParts[0]);
         $body = trim($headerBodyParts[1]);
+
+        $output = new CssValidatorOutput();
 
         if (ExceptionOutputParser::is($body)) {
             $exceptionOutputParser = new ExceptionOutputParser();
             $exceptionOutputParser->setRawOutput($body);
 
-            $this->output->setException($exceptionOutputParser->getOutput());
+            $output->setException($exceptionOutputParser->getOutput());
 
-            return;
+            return $output;
         }
 
         if ($this->isIncorrectUsageOutput($header)) {
-            $this->output->setIsIncorrectUsageOutput(true);
+            $output->setIsIncorrectUsageOutput(true);
 
-            return;
+            return $output;
         }
-
-        $this->rawHeader = $header;
-        $this->rawBody = $body;
 
         $bodyXmlContent = $this->extractXmlContentFromBody($body);
         if (null === $bodyXmlContent) {
-            throw new InvalidValidatorOutputException($configuration->getRawOutput());
+            throw new InvalidValidatorOutputException($validatorOutput);
         }
 
         $optionsParser = new OptionsParser();
         $optionsParser->setOptionsOutput($header);
 
-        $this->output->setOptions($optionsParser->getOptions());
+        $output->setOptions($optionsParser->getOptions());
 
         $bodyDom = new \DOMDocument();
         $bodyDom->loadXML($bodyXmlContent);
@@ -110,11 +65,11 @@ class Parser
         $container = $bodyDom->getElementsByTagName('observationresponse')->item(0);
 
         if ($this->isPassedNoMessagesOutput($container)) {
-            return;
+            return $output;
         }
 
-        $this->output->setSourceUrl($container->getAttribute('ref'));
-        $this->output->setDateTime(new \DateTime($container->getAttribute('date')));
+        $output->setSourceUrl($container->getAttribute('ref'));
+        $output->setDateTime(new \DateTime($container->getAttribute('date')));
 
         $messageElements = $container->getElementsByTagName('message');
 
@@ -131,7 +86,7 @@ class Parser
                 continue;
             }
 
-            if ($this->hasRefDomainToIgnore($message)) {
+            if ($this->hasRefDomainToIgnore($message, $configuration->getRefDomainsToIgnore())) {
                 continue;
             }
 
@@ -143,8 +98,10 @@ class Parser
                 continue;
             }
 
-            $this->output->addMessage($message);
+            $output->addMessage($message);
         }
+
+        return $output;
     }
 
     /**
@@ -239,10 +196,11 @@ class Parser
 
     /**
      * @param AbstractMessage $message
+     * @param array $refDomainsToignore
      *
      * @return bool
      */
-    private function hasRefDomainToIgnore(AbstractMessage $message)
+    private function hasRefDomainToIgnore(AbstractMessage $message, array $refDomainsToignore)
     {
         if (!$message->isError()) {
             return false;
@@ -254,7 +212,7 @@ class Parser
         }
 
         $messageRefUrl = new Url($message->getRef());
-        foreach ($this->configuration->getRefDomainsToIgnore() as $refDomainToIgnore) {
+        foreach ($refDomainsToignore as $refDomainToIgnore) {
             if ($messageRefUrl->hasHost() && $messageRefUrl->getHost()->isEquivalentTo(new Host($refDomainToIgnore))) {
                 return true;
             }

@@ -2,8 +2,6 @@
 
 namespace webignition\CssValidatorOutput\Parser;
 
-use webignition\CssValidatorOutput\Sanitizer;
-
 class Configuration
 {
     const KEY_IGNORE_WARNINGS = 'ignore-warnings';
@@ -17,11 +15,6 @@ class Configuration
     const DEFAULT_IGNORE_VENDOR_EXTENSION_ISSUES = false;
     const DEFAULT_IGNORE_FALSE_DATA_URL_MESSAGES = false;
     const DEFAULT_REPORT_VENDOR_EXTENSION_ISSUES_AS_WARNINGS = false;
-
-    /**
-     * @var string
-     */
-    private $rawOutput = '';
 
     /**
      * @var bool
@@ -127,22 +120,5 @@ class Configuration
     public function getIgnoreVendorExtensionIssues()
     {
         return $this->ignoreVendorExtensionIssues;
-    }
-
-    /**
-     * @param string $rawOutput
-     */
-    public function setRawOutput($rawOutput)
-    {
-        $sanitizer = new Sanitizer();
-        $this->rawOutput = trim($sanitizer->getSanitizedOutput($rawOutput));
-    }
-
-    /**
-     * @return string
-     */
-    public function getRawOutput()
-    {
-        return $this->rawOutput;
     }
 }
