@@ -4,166 +4,145 @@ namespace webignition\CssValidatorOutput\Parser;
 
 use webignition\CssValidatorOutput\Sanitizer;
 
-class Configuration {
-    
+class Configuration
+{
+    const KEY_IGNORE_WARNINGS = 'ignore-warnings';
+    const KEY_REF_DOMAINS_TO_IGNORE = 'ref-domains-to-ignore';
+    const KEY_IGNORE_VENDOR_EXTENSION_ISSUES = 'ignore-vendor-extension-issues';
+    const KEY_IGNORE_FALSE_DATA_URL_MESSAGES = 'ignore-false-data-url-messages';
+    const KEY_REPORT_VENDOR_EXTENSION_ISSUES_AS_WARNINGS = 'report-vendor-extension-issues-as-warnings';
+
+    const DEFAULT_IGNORE_WARNINGS = false;
+    const DEFAULT_REF_DOMAINS_TO_IGNORE = [];
+    const DEFAULT_IGNORE_VENDOR_EXTENSION_ISSUES = false;
+    const DEFAULT_IGNORE_FALSE_DATA_URL_MESSAGES = false;
+    const DEFAULT_REPORT_VENDOR_EXTENSION_ISSUES_AS_WARNINGS = false;
+
     /**
-     *
      * @var string
      */
     private $rawOutput = '';
 
-    
     /**
-     *
-     * @var boolean
+     * @var bool
      */
-    private $ignoreWarnings = false;
-    
-    
+    private $ignoreWarnings = self::DEFAULT_IGNORE_WARNINGS;
+
     /**
-     *
      * @var array
      */
-    private $refDomainsToIgnore = array();
-    
-    
+    private $refDomainsToIgnore = self::DEFAULT_REF_DOMAINS_TO_IGNORE;
+
     /**
-     *
-     * @var boolean
+     * @var bool
      */
-    private $ignoreVendorExtensionIssues = false;
-    
-    
+    private $ignoreVendorExtensionIssues = self::DEFAULT_IGNORE_VENDOR_EXTENSION_ISSUES;
+
     /**
-     *
-     * @var boolean
+     * @var bool
      */
-    private $ignoreFalseImageDataUrlMessages = false;
-    
-    
+    private $ignoreFalseImageDataUrlMessages = self::DEFAULT_IGNORE_FALSE_DATA_URL_MESSAGES;
+
     /**
-     *
-     * @var boolean
+     * @var bool
      */
-    private $reportVendorExtensionIssuesAsWarnings = false;
-    
-    
+    private $reportVendorExtensionIssuesAsWarnings = self::DEFAULT_REPORT_VENDOR_EXTENSION_ISSUES_AS_WARNINGS;
+
     /**
-     * 
-     * @param boolean $reportVendorExtensionIssuesAsWarnings
+     * @param array $configurationValues
      */
-    public function setReportVendorExtensionIssuesAsWarnings($reportVendorExtensionIssuesAsWarnings) {
-        $this->reportVendorExtensionIssuesAsWarnings = $reportVendorExtensionIssuesAsWarnings;
+    public function __construct(array $configurationValues = [])
+    {
+        if (array_key_exists(self::KEY_IGNORE_WARNINGS, $configurationValues)) {
+            $this->ignoreWarnings = filter_var(
+                $configurationValues[self::KEY_IGNORE_WARNINGS],
+                FILTER_VALIDATE_BOOLEAN
+            );
+        }
+
+        if (array_key_exists(self::KEY_REF_DOMAINS_TO_IGNORE, $configurationValues)) {
+            $refDomainsToIgnore = $configurationValues[self::KEY_REF_DOMAINS_TO_IGNORE];
+            if (is_array($refDomainsToIgnore)) {
+                $this->refDomainsToIgnore = $refDomainsToIgnore;
+            }
+        }
+
+        if (array_key_exists(self::KEY_IGNORE_VENDOR_EXTENSION_ISSUES, $configurationValues)) {
+            $this->ignoreVendorExtensionIssues = filter_var(
+                $configurationValues[self::KEY_IGNORE_VENDOR_EXTENSION_ISSUES],
+                FILTER_VALIDATE_BOOLEAN
+            );
+        }
+
+        if (array_key_exists(self::KEY_IGNORE_FALSE_DATA_URL_MESSAGES, $configurationValues)) {
+            $this->ignoreFalseImageDataUrlMessages = filter_var(
+                $configurationValues[self::KEY_IGNORE_FALSE_DATA_URL_MESSAGES],
+                FILTER_VALIDATE_BOOLEAN
+            );
+        }
+
+        if (array_key_exists(self::KEY_REPORT_VENDOR_EXTENSION_ISSUES_AS_WARNINGS, $configurationValues)) {
+            $this->reportVendorExtensionIssuesAsWarnings = filter_var(
+                $configurationValues[self::KEY_REPORT_VENDOR_EXTENSION_ISSUES_AS_WARNINGS],
+                FILTER_VALIDATE_BOOLEAN
+            );
+        }
     }
-    
-    
-    /**
-     * 
-     * @return boolean
-     */
-    public function getReportVendorExtensionIssuesAsWarnings() {
-        return $this->reportVendorExtensionIssuesAsWarnings;
-    }
-    
-    
-    /**
-     * 
-     * @param boolean $ignoreFalseBase64BackgroundImageMessages
-     */
-    public function setIgnoreFalseImageDataUrlMessages($ignoreFalseImageDataUrlMessages) {
-        $this->ignoreFalseImageDataUrlMessages = $ignoreFalseImageDataUrlMessages;
-    }
-    
-    
+
     /**
      * @return bool
      */
-    public function getIgnoreFalseImageDataUrlMessages() {
+    public function getReportVendorExtensionIssuesAsWarnings()
+    {
+        return $this->reportVendorExtensionIssuesAsWarnings;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIgnoreFalseImageDataUrlMessages()
+    {
         return $this->ignoreFalseImageDataUrlMessages;
-    }    
-    
-    
-    /**
-     * 
-     * @param boolean $ignoreWarnings
-     * @return \webignition\CssValidatorOutput\CssValidatorOutput
-     */
-    public function setIgnoreWarnings($ignoreWarnings) {
-        $this->ignoreWarnings = filter_var($ignoreWarnings, FILTER_VALIDATE_BOOLEAN);
-        return $this;
     }
-    
-    
+
     /**
-     * 
-     * @return boolean
+     * @return bool
      */
-    public function getIgnoreWarnings() {
+    public function getIgnoreWarnings()
+    {
         return $this->ignoreWarnings;
-    }    
-    
-    
-    /**
-     * 
-     * @param array $refDomainsToIgnore
-     * @return \webignition\CssValidatorOutput\Parser
-     */
-    public function setRefDomainsToIgnore($refDomainsToIgnore) {
-        if (!is_array($refDomainsToIgnore)) {
-            $refDomainsToIgnore = array();
-        }
-        
-        $this->refDomainsToIgnore = $refDomainsToIgnore;
-        return $this;
     }
-    
-    
+
     /**
-     * 
      * @return array
      */
-    public function getRefDomainsToIgnore() {
+    public function getRefDomainsToIgnore()
+    {
         return $this->refDomainsToIgnore;
     }
-    
-    
+
     /**
-     * 
-     * @param boolean $ignoreVendorExtensionIssues
-     * @return \webignition\CssValidatorOutput\Parser
+     * @return bool
      */
-    public function setIgnoreVendorExtensionIssues($ignoreVendorExtensionIssues) {
-        $this->ignoreVendorExtensionIssues = filter_Var($ignoreVendorExtensionIssues, FILTER_VALIDATE_BOOLEAN);
-        return $this;
-    }
-    
-    
-    /**
-     * 
-     * @return boolean
-     */
-    public function getIgnoreVendorExtensionIssues() {
+    public function getIgnoreVendorExtensionIssues()
+    {
         return $this->ignoreVendorExtensionIssues;
     }
-    
-    
+
     /**
-     * 
      * @param string $rawOutput
      */
-    public function setRawOutput($rawOutput) {        
-        $sanitizer = new Sanitizer();        
+    public function setRawOutput($rawOutput)
+    {
+        $sanitizer = new Sanitizer();
         $this->rawOutput = trim($sanitizer->getSanitizedOutput($rawOutput));
-        $this->output = null;
     }
-    
-    
+
     /**
-     * 
      * @return string
      */
-    public function getRawOutput() {
+    public function getRawOutput()
+    {
         return $this->rawOutput;
     }
-    
 }

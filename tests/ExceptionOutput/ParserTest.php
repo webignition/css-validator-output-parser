@@ -97,45 +97,45 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'regular validator output' => [
-                'validatorBodyContent' => FixtureLoader::load('ValidatorOutput/example.txt'),
+                'rawOutput' => FixtureLoader::load('ValidatorOutput/example.txt'),
                 'expectedOutputType' => Value::UNKNOWN,
             ],
             'HTTP 401' => [
-                'validatorBodyContent' => FixtureLoader::load('Exception/java.net.ProtocolException.http-401.txt'),
+                'rawOutput' => FixtureLoader::load('Exception/java.net.ProtocolException.http-401.txt'),
                 'expectedOutputType' => 'http401',
             ],
             'HTTP 404' => [
-                'validatorBodyContent' => FixtureLoader::load('Exception/java.io.FileNotFoundException.http-404.txt'),
+                'rawOutput' => FixtureLoader::load('Exception/java.io.FileNotFoundException.http-404.txt'),
                 'expectedOutputType' => 'http404',
             ],
             'HTTP 500' => [
-                'validatorBodyContent' => FixtureLoader::load('Exception/java.io.FileNotFoundException.http-500.txt'),
+                'rawOutput' => FixtureLoader::load('Exception/java.io.FileNotFoundException.http-500.txt'),
                 'expectedOutputType' => 'http500',
             ],
             'unknown mime type' => [
-                'validatorBodyContent' => FixtureLoader::load('Exception/java.io.IOException.unknownmimetype.txt'),
+                'rawOutput' => FixtureLoader::load('Exception/java.io.IOException.unknownmimetype.txt'),
                 'expectedOutputType' => Value::UNKNOWN_MIME_TYPE,
             ],
             'unknown file' => [
-                'validatorBodyContent' => FixtureLoader::load('Exception/java.lang.Exception.unknownfile.txt'),
+                'rawOutput' => FixtureLoader::load('Exception/java.lang.Exception.unknownfile.txt'),
                 'expectedOutputType' => Value::UNKNOWN_FILE,
             ],
             'illegal url' => [
-                'validatorBodyContent' => FixtureLoader::load(
+                'rawOutput' => FixtureLoader::load(
                     'Exception/java.lang.IllegalArgumentException.illegalurl.txt'
                 ),
                 'expectedOutputType' => 'curl3',
             ],
             'unknown host' => [
-                'validatorBodyContent' => FixtureLoader::load('Exception/java.net.UnknownHostException.txt'),
+                'rawOutput' => FixtureLoader::load('Exception/java.net.UnknownHostException.txt'),
                 'expectedOutputType' => 'curl6',
             ],
             'ssl exception' => [
-                'validatorBodyContent' => FixtureLoader::load('Exception/javax.net.ssl.SSLException.txt'),
+                'rawOutput' => FixtureLoader::load('Exception/javax.net.ssl.SSLException.txt'),
                 'expectedOutputType' => Value::SSL_EXCEPTION,
             ],
             'unknown exception' => [
-                'validatorBodyContent' => FixtureLoader::load('Exception/UnknownException.txt'),
+                'rawOutput' => FixtureLoader::load('Exception/UnknownException.txt'),
                 'expectedOutputType' => Value::UNKNOWN,
             ],
         ];
