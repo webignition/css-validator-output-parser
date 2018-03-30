@@ -50,11 +50,6 @@ class CssValidatorOutput
      */
     private $isIncorrectUsageOutput = false;
 
-    public function __construct()
-    {
-        $this->options = new CssValidatorOutputOptions();
-    }
-
     /**
      * @param ExceptionOutput $exceptionOutput
      */

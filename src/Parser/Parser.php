@@ -55,9 +55,7 @@ class Parser
         }
 
         $optionsParser = new OptionsParser();
-        $optionsParser->setOptionsOutput($header);
-
-        $output->setOptions($optionsParser->getOptions());
+        $output->setOptions($optionsParser->parse($header));
 
         $bodyDom = new \DOMDocument();
         $bodyDom->loadXML($bodyXmlContent);
