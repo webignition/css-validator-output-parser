@@ -29,21 +29,6 @@ class Warning extends AbstractMessage
     }
 
     /**
-     * @param Error $error
-     *
-     * @return Warning
-     */
-    public static function fromError(Error $error)
-    {
-        return new Warning(
-            $error->getMessage(),
-            $error->getContext(),
-            $error->getRef(),
-            $error->getLineNumber()
-        );
-    }
-
-    /**
      * @return int
      */
     public function getLevel()

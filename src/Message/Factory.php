@@ -31,4 +31,19 @@ class Factory
             ? new Error($message, $context, $ref, $lineNumber)
             : new Warning($message, $context, $ref, $lineNumber);
     }
+
+    /**
+     * @param Error $error
+     *
+     * @return Warning
+     */
+    public static function createWarningFromError(Error $error)
+    {
+        return new Warning(
+            $error->getMessage(),
+            $error->getContext(),
+            $error->getRef(),
+            $error->getLineNumber()
+        );
+    }
 }
