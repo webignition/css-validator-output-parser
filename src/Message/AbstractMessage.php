@@ -2,11 +2,17 @@
 
 namespace webignition\CssValidatorOutput\Message;
 
-abstract class AbstractMessage
+abstract class AbstractMessage implements \JsonSerializable
 {
-    const TYPE_ERROR = 0;
-    const TYPE_WARNING = 1;
-    const TYPE_INFO = 2;
+    const KEY_TYPE = 'type';
+    const KEY_MESSAGE = 'message';
+    const KEY_CONTEXT = 'context';
+    const KEY_REF = 'ref';
+    const KEY_LINE_NUMBER = 'line_number';
+
+    const TYPE_ERROR = 'error';
+    const TYPE_WARNING = 'warning';
+    const TYPE_INFO = 'info';
 
     /**
      * @var string
@@ -32,14 +38,6 @@ abstract class AbstractMessage
      * @var int
      */
     private $type = self::TYPE_ERROR;
-
-    /**
-     * @var array
-     */
-    private $serializedTypes = [
-        'error',
-        'warning'
-    ];
 
     /**
      * @param string $message
@@ -93,14 +91,6 @@ abstract class AbstractMessage
     }
 
     /**
-     * @return string
-     */
-    public function getSerializedType()
-    {
-        return $this->serializedTypes[$this->type];
-    }
-
-    /**
      * @return bool
      */
     public function isError()
@@ -122,5 +112,19 @@ abstract class AbstractMessage
     public function getRef()
     {
         return $this->ref;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return [
+            self::KEY_TYPE => $this->type,
+            self::KEY_MESSAGE => $this->message,
+            self::KEY_CONTEXT => $this->context,
+            self::KEY_REF => $this->ref,
+            self::KEY_LINE_NUMBER => $this->lineNumber,
+        ];
     }
 }

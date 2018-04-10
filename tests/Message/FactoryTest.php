@@ -10,7 +10,7 @@ use webignition\Tests\CssValidatorOutput\Factory\FixtureLoader;
 
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCreateErrorMessage()
+    public function testCreateErrorMessageFromDOMElement()
     {
         $error = Factory::createFromDOMElement($this->createMessageDomElement('Partial/error-message.xml'));
 
@@ -23,10 +23,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('http://example.com/css/bootstrap.css', $error->getRef());
 
         $this->assertEquals(AbstractMessage::TYPE_ERROR, $error->getType());
-        $this->assertEquals('error', $error->getSerializedType());
     }
 
-    public function testParseWarningMessage()
+    public function testCreateWarningMessageFromDOMElement()
     {
         $warning = Factory::createFromDOMElement($this->createMessageDomElement('Partial/warning-message.xml'));
 
@@ -42,7 +41,6 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('http://example.com/', $warning->getRef());
 
         $this->assertEquals(AbstractMessage::TYPE_WARNING, $warning->getType());
-        $this->assertEquals('warning', $warning->getSerializedType());
     }
 
     public function testCreateFailure()
