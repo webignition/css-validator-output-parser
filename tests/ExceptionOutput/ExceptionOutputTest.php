@@ -6,7 +6,7 @@ use webignition\CssValidatorOutput\ExceptionOutput\ExceptionOutput;
 use webignition\CssValidatorOutput\ExceptionOutput\Type\Type;
 use webignition\CssValidatorOutput\ExceptionOutput\Type\Value;
 
-class ExceptionOutputTest extends \PHPUnit_Framework_TestCase
+class ExceptionOutputTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider createDataProvider

@@ -6,7 +6,7 @@ use webignition\CssValidatorOutput\Options\Options;
 use webignition\CssValidatorOutput\Options\Parser as CssValidatorOutputOptionsParser;
 use webignition\Tests\CssValidatorOutput\Factory\FixtureLoader;
 
-class ParserTest extends \PHPUnit_Framework_TestCase
+class ParserTest extends \PHPUnit\Framework\TestCase
 {
     public function testParseValidOptions()
     {

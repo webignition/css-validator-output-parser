@@ -8,7 +8,7 @@ use webignition\CssValidatorOutput\Message\Factory;
 use webignition\CssValidatorOutput\Message\Warning;
 use webignition\Tests\CssValidatorOutput\Factory\FixtureLoader;
 
-class FactoryTest extends \PHPUnit_Framework_TestCase
+class FactoryTest extends \PHPUnit\Framework\TestCase
 {
     public function testCreateErrorMessageFromDOMElement()
     {

@@ -4,7 +4,7 @@ namespace webignition\Tests\CssValidatorOutput;
 
 use webignition\CssValidatorOutput\Sanitizer;
 
-class SanitizerTest extends \PHPUnit_Framework_TestCase
+class SanitizerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider getSanitizedOutputDataProvider

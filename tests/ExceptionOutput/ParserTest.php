@@ -6,7 +6,7 @@ use webignition\CssValidatorOutput\ExceptionOutput\Parser;
 use webignition\CssValidatorOutput\ExceptionOutput\Type\Value;
 use webignition\Tests\CssValidatorOutput\Factory\FixtureLoader;
 
-class ParserTest extends \PHPUnit_Framework_TestCase
+class ParserTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider isDataProvider

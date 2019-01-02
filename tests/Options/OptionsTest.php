@@ -4,7 +4,7 @@ namespace webignition\Tests\CssValidatorOutput\Options;
 
 use webignition\CssValidatorOutput\Options\Options;
 
-class OptionsTest extends \PHPUnit_Framework_TestCase
+class OptionsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider createDataProvider
