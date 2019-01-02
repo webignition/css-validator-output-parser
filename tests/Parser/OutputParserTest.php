@@ -5,7 +5,7 @@
 namespace webignition\Tests\CssValidatorOutput\Parser;
 
 use webignition\CssValidatorOutput\CssValidatorOutput;
-use webignition\CssValidatorOutput\Options\Options;
+use webignition\CssValidatorOutput\Model\Options;
 use webignition\CssValidatorOutput\Parser\Configuration;
 use webignition\CssValidatorOutput\Parser\InvalidValidatorOutputException;
 use webignition\CssValidatorOutput\Parser\OutputParser;

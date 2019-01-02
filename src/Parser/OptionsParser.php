@@ -2,7 +2,7 @@
 
 namespace webignition\CssValidatorOutput\Parser;
 
-use webignition\CssValidatorOutput\Options\Options;
+use webignition\CssValidatorOutput\Model\Options;
 
 class OptionsParser
 {

@@ -6,7 +6,7 @@ use webignition\CssValidatorOutput\Message\AbstractMessage;
 use webignition\CssValidatorOutput\Message\Error;
 use webignition\CssValidatorOutput\Message\Warning;
 use webignition\CssValidatorOutput\Model\ExceptionOutput;
-use webignition\CssValidatorOutput\Options\Options as CssValidatorOutputOptions;
+use webignition\CssValidatorOutput\Model\Options;
 
 class CssValidatorOutput
 {
@@ -26,7 +26,7 @@ class CssValidatorOutput
     private $warningCount = 0;
 
     /**
-     * @var CssValidatorOutputOptions
+     * @var Options
      */
     private $options;
 
@@ -88,12 +88,12 @@ class CssValidatorOutput
         }
     }
 
-    public function setOptions(CssValidatorOutputOptions $options)
+    public function setOptions(Options $options)
     {
         $this->options = $options;
     }
 
-    public function getOptions(): ?CssValidatorOutputOptions
+    public function getOptions(): ?Options
     {
         if ($this->getIsIncorrectUsageOutput()) {
             return null;

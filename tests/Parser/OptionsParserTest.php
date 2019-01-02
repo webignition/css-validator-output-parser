@@ -2,7 +2,7 @@
 
 namespace webignition\Tests\CssValidatorOutput\Parser;
 
-use webignition\CssValidatorOutput\Options\Options;
+use webignition\CssValidatorOutput\Model\Options;
 use webignition\CssValidatorOutput\Parser\OptionsParser;
 use webignition\Tests\CssValidatorOutput\Factory\FixtureLoader;
 
