@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpDocSignatureInspection */
 
 namespace webignition\Tests\CssValidatorOutput\ExceptionOutput;
 
@@ -10,27 +11,17 @@ class ExceptionOutputTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider createDataProvider
-     *
-     * @param Type $type
-     * @param bool $expectedIsHttpError
-     * @param bool $expectedIsHttpClientError
-     * @param bool $expectedIsHttpServerError
-     * @param int|null $expectedGetHttpStatusCode
-     * @param bool $expectedIsCurlError
-     * @param int|null $expectedGetCurlCode
-     * @param bool $expectedIsHttp404
-     * @param bool $expectedIsCurl6
      */
     public function testCreate(
         Type $type,
-        $expectedIsHttpError,
-        $expectedIsHttpClientError,
-        $expectedIsHttpServerError,
-        $expectedGetHttpStatusCode,
-        $expectedIsCurlError,
-        $expectedGetCurlCode,
-        $expectedIsHttp404,
-        $expectedIsCurl6
+        bool $expectedIsHttpError,
+        bool $expectedIsHttpClientError,
+        bool $expectedIsHttpServerError,
+        ?int $expectedGetHttpStatusCode,
+        bool $expectedIsCurlError,
+        ?int $expectedGetCurlCode,
+        bool $expectedIsHttp404,
+        bool $expectedIsCurl6
     ) {
         $exceptionOutput = new ExceptionOutput();
         $exceptionOutput->setType($type);
@@ -42,14 +33,14 @@ class ExceptionOutputTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedGetHttpStatusCode, $exceptionOutput->getHttpStatusCode());
         $this->assertEquals($expectedIsCurlError, $exceptionOutput->isCurlError());
         $this->assertEquals($expectedGetCurlCode, $exceptionOutput->getCurlCode());
+
+        /** @noinspection PhpUndefinedMethodInspection */
         $this->assertEquals($expectedIsHttp404, $exceptionOutput->isHttp404());
+        /** @noinspection PhpUndefinedMethodInspection */
         $this->assertEquals($expectedIsCurl6, $exceptionOutput->isCurl6());
     }
 
-    /**
-     * @return array
-     */
-    public function createDataProvider()
+    public function createDataProvider(): array
     {
         return [
             'HTTP 404' => [

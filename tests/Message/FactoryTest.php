@@ -27,6 +27,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 
     public function testCreateWarningMessageFromDOMElement()
     {
+        /* @var Warning $warning */
         $warning = Factory::createFromDOMElement($this->createMessageDomElement('Partial/warning-message.xml'));
 
         $this->assertInstanceOf(Warning::class, $warning);
@@ -71,12 +72,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(Warning::DEFAULT_LEVEL, $warning->getLevel());
     }
 
-    /**
-     * @param string $fixtureName
-     *
-     * @return \DOMElement
-     */
-    private function createMessageDomElement($fixtureName)
+    private function createMessageDomElement(string $fixtureName): \DOMElement
     {
         $outputDom = new \DOMDocument();
         $outputDom->loadXML(FixtureLoader::load($fixtureName));

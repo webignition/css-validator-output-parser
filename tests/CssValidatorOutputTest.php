@@ -13,9 +13,6 @@ class CssValidatorOutputTest extends \PHPUnit\Framework\TestCase
      */
     private $output;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
         parent::setUp();

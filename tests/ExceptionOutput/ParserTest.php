@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpDocSignatureInspection */
 
 namespace webignition\Tests\CssValidatorOutput\ExceptionOutput;
 
@@ -10,19 +11,13 @@ class ParserTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider isDataProvider
-     *
-     * @param string $validatorBodyContent
-     * @param bool $expectedIs
      */
-    public function testIs($validatorBodyContent, $expectedIs)
+    public function testIs(string $validatorBodyContent, bool $expectedIs)
     {
         $this->assertEquals($expectedIs, Parser::is($validatorBodyContent));
     }
 
-    /**
-     * @return array
-     */
-    public function isDataProvider()
+    public function isDataProvider(): array
     {
         return [
             'empty body content' => [
@@ -76,11 +71,8 @@ class ParserTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider getOutputDataProvider
-     *
-     * @param string $rawOutput
-     * @param string $expectedOutputType
      */
-    public function testGetOutput($rawOutput, $expectedOutputType)
+    public function testGetOutput(string $rawOutput, string $expectedOutputType)
     {
         $headerBodyParts = explode("\n", $rawOutput, 2);
         $body = trim($headerBodyParts[1]);
@@ -93,7 +85,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedOutputType, $output->getType()->get());
     }
 
-    public function getOutputDataProvider()
+    public function getOutputDataProvider(): array
     {
         return [
             'regular validator output' => [

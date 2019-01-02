@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpDocSignatureInspection */
 
 namespace webignition\Tests\CssValidatorOutput\Options;
 
@@ -8,23 +9,15 @@ class OptionsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider createDataProvider
-     *
-     * @param bool $vendorExtensionIssuesAsWarnings
-     * @param string $outputFormat
-     * @param string $language
-     * @param int $warningLevel
-     * @param string $medium
-     * @param string $profile
-     * @param string $expectedString
      */
     public function testCreate(
-        $vendorExtensionIssuesAsWarnings,
-        $outputFormat,
-        $language,
-        $warningLevel,
-        $medium,
-        $profile,
-        $expectedString
+        bool $vendorExtensionIssuesAsWarnings,
+        string $outputFormat,
+        string $language,
+        int $warningLevel,
+        string $medium,
+        string $profile,
+        string $expectedString
     ) {
         $options = new Options(
             $vendorExtensionIssuesAsWarnings,
@@ -38,10 +31,7 @@ class OptionsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedString, (string)$options);
     }
 
-    /**
-     * @return array
-     */
-    public function createDataProvider()
+    public function createDataProvider(): array
     {
         return [
             'default' => [
