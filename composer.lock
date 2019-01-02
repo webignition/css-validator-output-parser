@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f389e25c4222f98fb9af47d5eb54f082",
+    "content-hash": "59db08d3f8ba88b426adf0905467b5b9",
     "packages": [
         {
             "name": "etechnika/idna-convert",
@@ -62,16 +62,16 @@
         },
         {
             "name": "webignition/css-validator-output-models",
-            "version": "0.1",
+            "version": "0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webignition/css-validator-output-models.git",
-                "reference": "b3961ae68ce83de7767a28d4527528c25ff68196"
+                "reference": "8b7aa7482e5760d431ce7972b7d9a40163e3bcfe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webignition/css-validator-output-models/zipball/b3961ae68ce83de7767a28d4527528c25ff68196",
-                "reference": "b3961ae68ce83de7767a28d4527528c25ff68196",
+                "url": "https://api.github.com/repos/webignition/css-validator-output-models/zipball/8b7aa7482e5760d431ce7972b7d9a40163e3bcfe",
+                "reference": "8b7aa7482e5760d431ce7972b7d9a40163e3bcfe",
                 "shasum": ""
             },
             "require": {
@@ -105,7 +105,7 @@
                 "model",
                 "validator"
             ],
-            "time": "2019-01-02T17:22:45+00:00"
+            "time": "2019-01-02T18:19:21+00:00"
         },
         {
             "name": "webignition/url",

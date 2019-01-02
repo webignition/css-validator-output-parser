@@ -5,8 +5,8 @@ namespace webignition\CssValidatorOutput;
 use webignition\CssValidatorOutput\Message\AbstractMessage;
 use webignition\CssValidatorOutput\Message\Error;
 use webignition\CssValidatorOutput\Message\Warning;
+use webignition\CssValidatorOutput\Model\ExceptionOutput;
 use webignition\CssValidatorOutput\Options\Options as CssValidatorOutputOptions;
-use webignition\CssValidatorOutput\ExceptionOutput\ExceptionOutput;
 
 class CssValidatorOutput
 {

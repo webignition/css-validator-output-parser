@@ -10,8 +10,6 @@ use webignition\CssValidatorOutput\Message\Factory as MessageFactory;
 use webignition\Url\Host\Host;
 use webignition\Url\Url;
 
-use webignition\CssValidatorOutput\ExceptionOutput\Parser as ExceptionOutputParser;
-
 class OutputParser
 {
     /**
@@ -34,10 +32,7 @@ class OutputParser
         $output = new CssValidatorOutput();
 
         if (ExceptionOutputParser::is($body)) {
-            $exceptionOutputParser = new ExceptionOutputParser();
-            $exceptionOutputParser->setRawOutput($body);
-
-            $output->setException($exceptionOutputParser->getOutput());
+            $output->setException(ExceptionOutputParser::parse($body));
 
             return $output;
         }
