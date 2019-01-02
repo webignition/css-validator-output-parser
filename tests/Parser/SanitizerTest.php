@@ -1,9 +1,9 @@
 <?php
 /** @noinspection PhpDocSignatureInspection */
 
-namespace webignition\Tests\CssValidatorOutput;
+namespace webignition\Tests\CssValidatorOutput\Parser;
 
-use webignition\CssValidatorOutput\Sanitizer;
+use webignition\CssValidatorOutput\Parser\Sanitizer;
 
 class SanitizerTest extends \PHPUnit\Framework\TestCase
 {

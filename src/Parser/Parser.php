@@ -7,7 +7,7 @@ use webignition\CssValidatorOutput\Message\AbstractMessage;
 use webignition\CssValidatorOutput\Message\Error;
 use webignition\CssValidatorOutput\Options\Parser as OptionsParser;
 use webignition\CssValidatorOutput\Message\Factory as MessageFactory;
-use webignition\CssValidatorOutput\Sanitizer;
+use webignition\CssValidatorOutput\Parser\Sanitizer;
 use webignition\Url\Host\Host;
 use webignition\Url\Url;
 
