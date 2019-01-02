@@ -7,13 +7,12 @@ use webignition\CssValidatorOutput\Message\AbstractMessage;
 use webignition\CssValidatorOutput\Message\Error;
 use webignition\CssValidatorOutput\Options\Parser as OptionsParser;
 use webignition\CssValidatorOutput\Message\Factory as MessageFactory;
-use webignition\CssValidatorOutput\Parser\Sanitizer;
 use webignition\Url\Host\Host;
 use webignition\Url\Url;
 
 use webignition\CssValidatorOutput\ExceptionOutput\Parser as ExceptionOutputParser;
 
-class Parser
+class OutputParser
 {
     /**
      * @param string $validatorOutput

@@ -11,7 +11,7 @@ use webignition\CssValidatorOutput\Parser\InvalidValidatorOutputException;
 use webignition\CssValidatorOutput\Parser\OutputParser;
 use webignition\Tests\CssValidatorOutput\Factory\FixtureLoader;
 
-class ParserTest extends \PHPUnit\Framework\TestCase
+class OutputParserTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var OutputParser
