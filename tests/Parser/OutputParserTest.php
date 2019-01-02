@@ -8,13 +8,13 @@ use webignition\CssValidatorOutput\CssValidatorOutput;
 use webignition\CssValidatorOutput\Options\Options;
 use webignition\CssValidatorOutput\Parser\Configuration;
 use webignition\CssValidatorOutput\Parser\InvalidValidatorOutputException;
-use webignition\CssValidatorOutput\Parser\Parser;
+use webignition\CssValidatorOutput\Parser\OutputParser;
 use webignition\Tests\CssValidatorOutput\Factory\FixtureLoader;
 
 class ParserTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var Parser
+     * @var OutputParser
      */
     private $parser;
 
@@ -25,7 +25,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     {
         parent::setUp();
 
-        $this->parser = new Parser();
+        $this->parser = new OutputParser();
     }
 
     /**
