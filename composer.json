@@ -31,7 +31,8 @@
     },
     "require": {
         "php": ">=7.2.0",
-        "webignition/url":">=2,<3"
+        "webignition/url":">=2,<3",
+        "webignition/css-validator-output-models": ">=0.1,<1"
     },
     "require-dev": {
         "phpunit/phpunit": "^7",
