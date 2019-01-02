@@ -11,9 +11,6 @@ class ExceptionOutput
      */
     private $type = null;
 
-    /**
-     * @param Type $type
-     */
     public function setType(Type $type)
     {
         $this->type = $type;
@@ -30,42 +27,27 @@ class ExceptionOutput
         return $this->type->get() == str_replace('is', '', strtolower($name));
     }
 
-    /**
-     * @return Type
-     */
-    public function getType()
+    public function getType(): Type
     {
         return $this->type;
     }
 
-    /**
-     * @return bool
-     */
-    public function isHttpError()
+    public function isHttpError(): bool
     {
         return substr($this->type->get(), 0, strlen('http')) === 'http';
     }
 
-    /**
-     * @return bool
-     */
-    public function isHttpClientError()
+    public function isHttpClientError(): bool
     {
         return substr($this->type->get(), 0, strlen('http4')) === 'http4';
     }
 
-    /**
-     * @return bool
-     */
-    public function isHttpServerError()
+    public function isHttpServerError(): bool
     {
         return substr($this->type->get(), 0, strlen('http5')) === 'http5';
     }
 
-    /**
-     * @return int
-     */
-    public function getHttpStatusCode()
+    public function getHttpStatusCode(): ?int
     {
         if (!$this->isHttpError()) {
             return null;
@@ -74,18 +56,12 @@ class ExceptionOutput
         return (int)str_replace('http', '', $this->type->get());
     }
 
-    /**
-     * @return bool
-     */
-    public function isCurlError()
+    public function isCurlError(): bool
     {
         return substr($this->type->get(), 0, strlen('curl')) === 'curl';
     }
 
-    /**
-     * @return int
-     */
-    public function getCurlCode()
+    public function getCurlCode(): ?int
     {
         if (!$this->isCurlError()) {
             return null;

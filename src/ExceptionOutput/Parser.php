@@ -22,12 +22,7 @@ class Parser
      */
     private $output;
 
-    /**
-     * @param string $validatorBodyContent
-     *
-     * @return bool
-     */
-    public static function is($validatorBodyContent)
+    public static function is(string $validatorBodyContent): bool
     {
         if (substr_count($validatorBodyContent, '</observationresponse>')) {
             return false;
@@ -36,21 +31,14 @@ class Parser
         return preg_match('/java.*Exception:/', $validatorBodyContent) > 0;
     }
 
-    /**
-     * @param string $rawOutput
-     */
-    public function setRawOutput($rawOutput)
+    public function setRawOutput(string $rawOutput)
     {
         $this->rawOutput = trim($rawOutput);
         $this->rawOutputFirstLine = substr($this->rawOutput, 0, strpos($this->rawOutput, "\n"));
         $this->output = null;
     }
 
-    /**
-     *
-     * @return ExceptionOutput
-     */
-    public function getOutput()
+    public function getOutput(): ExceptionOutput
     {
         if (is_null($this->output)) {
             $this->output = new ExceptionOutput();
@@ -60,71 +48,72 @@ class Parser
         return $this->output;
     }
 
-    /**
-     *
-     * @return ExceptionOutput
-     */
     private function parse()
     {
         if ($this->isFileNotFoundError()) {
-            return $this->setType('http404');
+            $this->setType('http404');
+
+            return;
         }
 
         if ($this->isHttpAuthProtocolExceptionOutput()) {
-            return $this->setType('http401');
+            $this->setType('http401');
+
+            return;
         }
 
         if ($this->isIllegalUrlError()) {
-            return $this->setType('curl3');
+            $this->setType('curl3');
+
+            return;
         }
 
         if ($this->isInternalServerError()) {
-            return $this->setType('http500');
+            $this->setType('http500');
+
+            return;
         }
 
         if ($this->isSslExceptionOutput()) {
-            return $this->setType(Value::SSL_EXCEPTION);
+            $this->setType(Value::SSL_EXCEPTION);
+
+            return;
         }
 
         if ($this->isUnknownMimeTypeError()) {
-            return $this->setType(Value::UNKNOWN_MIME_TYPE);
+            $this->setType(Value::UNKNOWN_MIME_TYPE);
+
+            return;
         }
 
         if ($this->isUnknownHostError()) {
-            return $this->setType('curl6');
+            $this->setType('curl6');
+
+            return;
         }
 
         if ($this->isUnknownFileExceptionOutput()) {
-            return $this->setType(Value::UNKNOWN_FILE);
+            $this->setType(Value::UNKNOWN_FILE);
+
+            return;
         }
 
-        return $this->setType(Value::UNKNOWN);
+        $this->setType(Value::UNKNOWN);
+
+        return;
     }
 
-    /**
-     * @param string $type
-     *
-     * @return ExceptionOutput
-     */
-    private function setType($type)
+    private function setType(string $type)
     {
         $this->output->setType(new Type($type));
-
-        return $this->output;
     }
 
-    /**
-     * @return bool
-     */
-    private function isUnknownMimeTypeError()
+    private function isUnknownMimeTypeError(): bool
     {
         return preg_match('/Unknown mime type :/', $this->rawOutputFirstLine) > 0;
     }
 
-    /**
-     * @return bool
-     */
-    private function isInternalServerError()
+    private function isInternalServerError(): bool
     {
         if (!$this->isFileNotFoundException()) {
             return false;
@@ -133,10 +122,7 @@ class Parser
         return preg_match('/Internal Server Error/', $this->rawOutputFirstLine) > 0;
     }
 
-    /**
-     * @return bool
-     */
-    private function isFileNotFoundError()
+    private function isFileNotFoundError(): bool
     {
         if (!$this->isFileNotFoundException()) {
             return false;
@@ -145,52 +131,34 @@ class Parser
         return preg_match('/Not Found/', $this->rawOutputFirstLine) > 0;
     }
 
-    /**
-     * @return bool
-     */
-    private function isFileNotFoundException()
+    private function isFileNotFoundException(): bool
     {
         return preg_match('/^java\.io\.FileNotFoundException:/', $this->rawOutputFirstLine) > 0;
     }
 
-    /**
-     * @return bool
-     */
-    private function isUnknownHostError()
+    private function isUnknownHostError(): bool
     {
         return preg_match('/^java\.net\.UnknownHostException:/', $this->rawOutputFirstLine) > 0;
     }
 
-    /**
-     * @return bool
-     */
-    private function isIllegalUrlError()
+    private function isIllegalUrlError(): bool
     {
         return $this->rawOutputFirstLine == 'java.lang.IllegalArgumentException: protocol = http host = null';
     }
 
-    /**
-     * @return bool
-     */
-    private function isSslExceptionOutput()
+    private function isSslExceptionOutput(): bool
     {
         $signature = 'javax.net.ssl.SSLException';
 
         return substr($this->rawOutputFirstLine, 0, strlen($signature)) == $signature;
     }
 
-    /**
-     * @return bool
-     */
-    private function isHttpAuthProtocolExceptionOutput()
+    private function isHttpAuthProtocolExceptionOutput(): bool
     {
         return preg_match('/java\.net\.ProtocolException: (Basic|Digest)/', $this->rawOutputFirstLine) > 0;
     }
 
-    /**
-     * @return bool
-     */
-    private function isUnknownFileExceptionOutput()
+    private function isUnknownFileExceptionOutput(): bool
     {
         return preg_match('/java.lang.Exception: Unknown file/', $this->rawOutputFirstLine) > 0;
     }

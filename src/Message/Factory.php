@@ -4,12 +4,7 @@ namespace webignition\CssValidatorOutput\Message;
 
 class Factory
 {
-    /**
-     * @param \DOMElement $messageElement
-     *
-     * @return null|Error|Warning
-     */
-    public static function createFromDOMElement(\DOMElement $messageElement)
+    public static function createFromDOMElement(\DOMElement $messageElement): ?AbstractMessage
     {
         $type = $messageElement->getAttribute('type');
 
@@ -28,18 +23,20 @@ class Factory
         ]);
     }
 
-    /**
-     * @param Error $error
-     *
-     * @return Warning
-     */
-    public static function createWarningFromError(Error $error)
+    public static function createWarningFromError(Error $error): Warning
     {
-        return self::createFromArray(array_merge($error->jsonSerialize(), [
+        $warning = self::createFromArray(array_merge($error->jsonSerialize(), [
             AbstractMessage::KEY_TYPE => AbstractMessage::TYPE_WARNING,
         ]));
+
+        return $warning;
     }
 
+    /**
+     * @param array $messageData
+     *
+     * @return Error|Warning
+     */
     public static function createFromArray(array $messageData)
     {
         $type = $messageData[AbstractMessage::KEY_TYPE];

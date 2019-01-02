@@ -28,12 +28,7 @@ class Sanitizer
         [65536, 1114111] // #x10000-#x10FFFF
     ];
 
-    /**
-     * @param string $rawOutput
-     *
-     * @return string
-     */
-    public function getSanitizedOutput($rawOutput)
+    public function getSanitizedOutput(string $rawOutput): string
     {
         $rawOutput = mb_convert_encoding($rawOutput, 'UTF-8');
         $sanitizedOutput = '';
@@ -51,12 +46,7 @@ class Sanitizer
         return $sanitizedOutput;
     }
 
-    /**
-     * @param string $character
-     *
-     * @return bool
-     */
-    private function isCharacterInValidRange($character)
+    private function isCharacterInValidRange(string $character): bool
     {
         $characterIndex = Mbstring::mb_ord($character);
 

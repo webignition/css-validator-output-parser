@@ -6,20 +6,15 @@ class Warning extends AbstractMessage
 {
     const DEFAULT_LEVEL = 0;
 
-    /**
-     * @var int
-     */
     private $level = self::DEFAULT_LEVEL;
 
-    /**
-     * @param string $message
-     * @param string $context
-     * @param string $ref
-     * @param int $lineNumber
-     * @param int $level
-     */
-    public function __construct($message, $context, $ref, $lineNumber, $level = self::DEFAULT_LEVEL)
-    {
+    public function __construct(
+        string $message,
+        string $context,
+        string $ref,
+        int $lineNumber,
+        int $level = self::DEFAULT_LEVEL
+    ) {
         parent::__construct($message, $context, $ref, $lineNumber, self::TYPE_WARNING);
 
         $this->level = filter_var($level, FILTER_VALIDATE_INT, ['options' => [
@@ -28,10 +23,7 @@ class Warning extends AbstractMessage
         ]]);
     }
 
-    /**
-     * @return int
-     */
-    public function getLevel()
+    public function getLevel(): int
     {
         return $this->level;
     }

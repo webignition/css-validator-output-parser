@@ -4,23 +4,14 @@ namespace webignition\CssValidatorOutput\ExceptionOutput\Type;
 
 class Type
 {
-    /**
-     * @var string
-     */
     private $value = null;
 
-    /**
-     * @param string $value
-     */
-    public function __construct($value)
+    public function __construct(string $value)
     {
         $this->value = $value;
     }
 
-    /**
-     * @return string
-     */
-    public function get()
+    public function get(): string
     {
         return $this->value;
     }

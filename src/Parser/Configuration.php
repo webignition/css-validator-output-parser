@@ -82,42 +82,27 @@ class Configuration
         }
     }
 
-    /**
-     * @return bool
-     */
-    public function getReportVendorExtensionIssuesAsWarnings()
+    public function getReportVendorExtensionIssuesAsWarnings(): bool
     {
         return $this->reportVendorExtensionIssuesAsWarnings;
     }
 
-    /**
-     * @return bool
-     */
-    public function getIgnoreFalseImageDataUrlMessages()
+    public function getIgnoreFalseImageDataUrlMessages(): bool
     {
         return $this->ignoreFalseImageDataUrlMessages;
     }
 
-    /**
-     * @return bool
-     */
-    public function getIgnoreWarnings()
+    public function getIgnoreWarnings(): bool
     {
         return $this->ignoreWarnings;
     }
 
-    /**
-     * @return array
-     */
-    public function getRefDomainsToIgnore()
+    public function getRefDomainsToIgnore(): array
     {
         return $this->refDomainsToIgnore;
     }
 
-    /**
-     * @return bool
-     */
-    public function getIgnoreVendorExtensionIssues()
+    public function getIgnoreVendorExtensionIssues(): bool
     {
         return $this->ignoreVendorExtensionIssues;
     }

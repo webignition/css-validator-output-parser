@@ -4,43 +4,20 @@ namespace webignition\CssValidatorOutput\Options;
 
 class Options
 {
-    /**
-     * @var bool
-     */
     private $vendorExtensionIssuesAsWarnings = false;
-
-    /**
-     * @var string
-     */
     private $outputFormat = 'text';
-
-    /**
-     * @var string
-     */
     private $language = 'en';
-
-    /**
-     * @var int
-     */
     private $warningLevel = 2;
-
-    /**
-     * @var string
-     */
     private $medium = 'all';
-
-    /**
-     * @var string
-     */
     private $profile = 'css3';
 
     public function __construct(
-        $vendorExtensionIssuesAsWarnings,
-        $outputFormat,
-        $language,
-        $warningLevel,
-        $medium,
-        $profile
+        bool $vendorExtensionIssuesAsWarnings,
+        string $outputFormat,
+        string $language,
+        int $warningLevel,
+        string $medium,
+        string $profile
     ) {
         $this->vendorExtensionIssuesAsWarnings = $vendorExtensionIssuesAsWarnings;
         $this->outputFormat = $outputFormat;
@@ -50,58 +27,37 @@ class Options
         $this->profile = $profile;
     }
 
-    /**
-     * @return bool
-     */
-    public function getVendorExtensionIssuesAsWarnings()
+    public function getVendorExtensionIssuesAsWarnings(): bool
     {
         return $this->vendorExtensionIssuesAsWarnings;
     }
 
-    /**
-     * @return string
-     */
-    public function getOutputFormat()
+    public function getOutputFormat(): string
     {
         return $this->outputFormat;
     }
 
-    /**
-     * @return string
-     */
-    public function getLanguage()
+    public function getLanguage(): string
     {
         return $this->language;
     }
 
-    /**
-     * @return int
-     */
-    public function getWarningLevel()
+    public function getWarningLevel(): int
     {
         return $this->warningLevel;
     }
 
-    /**
-     * @return string
-     */
-    public function getMedium()
+    public function getMedium(): string
     {
         return $this->medium;
     }
 
-    /**
-     * @return string
-     */
-    public function getProfile()
+    public function getProfile(): string
     {
         return $this->profile;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return sprintf(
             '{vextwarning=%s, output=%s, lang=%s, warning=%s, medium=%s, profile=%s}',
