@@ -1,8 +1,10 @@
 <?php
 
-namespace webignition\CssValidatorOutput\Options;
+namespace webignition\CssValidatorOutput\Parser;
 
-class Parser
+use webignition\CssValidatorOutput\Options\Options;
+
+class OptionsParser
 {
     const VALID_PATTERN = '/{(([^=]+=[a-z0-9]+,\s?)+[^=]+=[a-z0-9]+)|([^=]+=[a-z0-9]+)}/';
 

@@ -1,18 +1,18 @@
 <?php
 
-namespace webignition\Tests\CssValidatorOutput\Options;
+namespace webignition\Tests\CssValidatorOutput\Parser;
 
 use webignition\CssValidatorOutput\Options\Options;
-use webignition\CssValidatorOutput\Options\Parser as CssValidatorOutputOptionsParser;
+use webignition\CssValidatorOutput\Parser\OptionsParser;
 use webignition\Tests\CssValidatorOutput\Factory\FixtureLoader;
 
-class ParserTest extends \PHPUnit\Framework\TestCase
+class OptionsParserTest extends \PHPUnit\Framework\TestCase
 {
     public function testParseValidOptions()
     {
         $optionsContent = FixtureLoader::load('Options/valid-options.txt');
 
-        $optionsParser = new CssValidatorOutputOptionsParser();
+        $optionsParser = new OptionsParser();
         $options = $optionsParser->parse($optionsContent);
 
         $this->assertInstanceOf(Options::class, $options);
@@ -29,7 +29,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     {
         $optionsContent = FixtureLoader::load('Options/invalid-options.txt');
 
-        $optionsParser = new CssValidatorOutputOptionsParser();
+        $optionsParser = new OptionsParser();
         $options = $optionsParser->parse($optionsContent);
 
         $this->assertNull($options);

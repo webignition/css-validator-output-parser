@@ -5,7 +5,6 @@ namespace webignition\CssValidatorOutput\Parser;
 use webignition\CssValidatorOutput\CssValidatorOutput;
 use webignition\CssValidatorOutput\Message\AbstractMessage;
 use webignition\CssValidatorOutput\Message\Error;
-use webignition\CssValidatorOutput\Options\Parser as OptionsParser;
 use webignition\CssValidatorOutput\Message\Factory as MessageFactory;
 use webignition\Url\Host\Host;
 use webignition\Url\Url;
