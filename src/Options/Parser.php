@@ -6,12 +6,7 @@ class Parser
 {
     const VALID_PATTERN = '/{(([^=]+=[a-z0-9]+,\s?)+[^=]+=[a-z0-9]+)|([^=]+=[a-z0-9]+)}/';
 
-    /**
-     * @param string $optionsContent
-     *
-     * @return null|Options
-     */
-    public function parse($optionsContent)
+    public function parse(string $optionsContent): ?Options
     {
         $isOptionsContentValid = preg_match(self::VALID_PATTERN, $optionsContent) > 0;
         if (!$isOptionsContentValid) {
@@ -33,12 +28,7 @@ class Parser
         );
     }
 
-    /**
-     * @param array $optionKeyValuePairs
-     *
-     * @return array
-     */
-    private function getPropertyValuesFromKeyValuePairs($optionKeyValuePairs)
+    private function getPropertyValuesFromKeyValuePairs(array $optionKeyValuePairs): array
     {
         $values = [];
 

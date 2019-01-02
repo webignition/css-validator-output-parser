@@ -16,14 +16,14 @@ use webignition\CssValidatorOutput\ExceptionOutput\Parser as ExceptionOutputPars
 class Parser
 {
     /**
-     * @param $validatorOutput
+     * @param string $validatorOutput
      * @param Configuration $configuration
      *
      * @return CssValidatorOutput
      *
      * @throws InvalidValidatorOutputException
      */
-    public function parse($validatorOutput, Configuration $configuration)
+    public function parse(string $validatorOutput, Configuration $configuration): CssValidatorOutput
     {
         $sanitizer = new Sanitizer();
         $validatorOutput = trim($sanitizer->getSanitizedOutput($validatorOutput));
@@ -102,12 +102,7 @@ class Parser
         return $output;
     }
 
-    /**
-     * @param string $body
-     *
-     * @return string
-     */
-    private function extractXmlContentFromBody($body)
+    private function extractXmlContentFromBody(string $body): ?string
     {
         $bodyLines = explode("\n", $body);
 
@@ -119,12 +114,7 @@ class Parser
         return implode("\n", array_slice($bodyLines, $this->getXmlContentStartLineNumber($bodyLines)));
     }
 
-    /**
-     * @param string[] $bodyLines
-     *
-     * @return int
-     */
-    private function getXmlContentStartLineNumber($bodyLines)
+    private function getXmlContentStartLineNumber(array $bodyLines): ?int
     {
         $xmlPremableStart = '<?xml';
 
@@ -137,12 +127,7 @@ class Parser
         return null;
     }
 
-    /**
-     * @param AbstractMessage $message
-     *
-     * @return bool
-     */
-    private function isFalseImageDataUrlMessage(AbstractMessage $message)
+    private function isFalseImageDataUrlMessage(AbstractMessage $message): bool
     {
         $propertyNames = [
             'background-image',
@@ -174,13 +159,7 @@ class Parser
         return false;
     }
 
-
-    /**
-     * @param \DomElement $outputContainer
-     *
-     * @return bool
-     */
-    private function isPassedNoMessagesOutput(\DomElement $outputContainer)
+    private function isPassedNoMessagesOutput(\DomElement $outputContainer): bool
     {
         $statusElements = $outputContainer->getElementsByTagName('status');
         if (0 === $statusElements->length) {
@@ -192,13 +171,7 @@ class Parser
         return 'passed' === $statusElement->getAttribute('value');
     }
 
-    /**
-     * @param AbstractMessage $message
-     * @param array $refDomainsToignore
-     *
-     * @return bool
-     */
-    private function hasRefDomainToIgnore(AbstractMessage $message, array $refDomainsToignore)
+    private function hasRefDomainToIgnore(AbstractMessage $message, array $refDomainsToIgnore): bool
     {
         if (!$message->isError()) {
             return false;
@@ -210,7 +183,7 @@ class Parser
         }
 
         $messageRefUrl = new Url($message->getRef());
-        foreach ($refDomainsToignore as $refDomainToIgnore) {
+        foreach ($refDomainsToIgnore as $refDomainToIgnore) {
             if ($messageRefUrl->hasHost() && $messageRefUrl->getHost()->isEquivalentTo(new Host($refDomainToIgnore))) {
                 return true;
             }
@@ -219,22 +192,12 @@ class Parser
         return false;
     }
 
-    /**
-     * @param string $header
-     *
-     * @return bool
-     */
-    private function isIncorrectUsageOutput($header)
+    private function isIncorrectUsageOutput(string $header): bool
     {
         return preg_match('/^Usage/', $header) > 0;
     }
 
-    /**
-     * @param AbstractMessage $message
-     *
-     * @return bool
-     */
-    private function isVendorExtensionMessage(AbstractMessage $message)
+    private function isVendorExtensionMessage(AbstractMessage $message): bool
     {
         $patterns = [
             '/is an unknown vendor extension/', #

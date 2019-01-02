@@ -1,18 +1,16 @@
 <?php
+/** @noinspection PhpDocSignatureInspection */
 
 namespace webignition\Tests\CssValidatorOutput;
 
 use webignition\CssValidatorOutput\Sanitizer;
 
-class SanitizerTest extends \PHPUnit_Framework_TestCase
+class SanitizerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider getSanitizedOutputDataProvider
-     *
-     * @param string $output
-     * @param string $expectedSanitizedOutput
      */
-    public function testGetSanitizedOutput($output, $expectedSanitizedOutput)
+    public function testGetSanitizedOutput(string $output, string $expectedSanitizedOutput)
     {
         $sanitizer = new Sanitizer();
         $sanitizedOutput = $sanitizer->getSanitizedOutput($output);
@@ -20,10 +18,7 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedSanitizedOutput, $sanitizedOutput);
     }
 
-    /**
-     * @return array
-     */
-    public function getSanitizedOutputDataProvider()
+    public function getSanitizedOutputDataProvider(): array
     {
         return [
             'all valid, ascii' => [

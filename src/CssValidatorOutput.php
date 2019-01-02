@@ -50,53 +50,31 @@ class CssValidatorOutput
      */
     private $isIncorrectUsageOutput = false;
 
-    /**
-     * @param ExceptionOutput $exceptionOutput
-     */
     public function setException(ExceptionOutput $exceptionOutput)
     {
         $this->exceptionOutput = $exceptionOutput;
     }
 
-    /**
-     * @return ExceptionOutput
-     */
-    public function getException()
+    public function getException(): ?ExceptionOutput
     {
         return $this->exceptionOutput;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasException()
+    public function hasException(): bool
     {
         return $this->getException() instanceof ExceptionOutput;
     }
 
-    /**
-     * @param bool $isIncorrectUsageOutput
-     *
-     * @return CssValidatorOutput
-     */
-    public function setIsIncorrectUsageOutput($isIncorrectUsageOutput)
+    public function setIsIncorrectUsageOutput(bool $isIncorrectUsageOutput)
     {
         $this->isIncorrectUsageOutput = $isIncorrectUsageOutput;
-
-        return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getIsIncorrectUsageOutput()
+    public function getIsIncorrectUsageOutput(): bool
     {
         return $this->isIncorrectUsageOutput;
     }
 
-    /**
-     * @param AbstractMessage $message
-     */
     public function addMessage(AbstractMessage $message)
     {
         $this->messages[] = $message;
@@ -110,22 +88,12 @@ class CssValidatorOutput
         }
     }
 
-    /**
-     * @param CssValidatorOutputOptions $options
-     *
-     * @return CssValidatorOutput
-     */
     public function setOptions(CssValidatorOutputOptions $options)
     {
         $this->options = $options;
-
-        return $this;
     }
 
-    /**
-     * @return CssValidatorOutputOptions
-     */
-    public function getOptions()
+    public function getOptions(): ?CssValidatorOutputOptions
     {
         if ($this->getIsIncorrectUsageOutput()) {
             return null;
@@ -134,21 +102,12 @@ class CssValidatorOutput
         return $this->options;
     }
 
-    /**
-     * @param \DateTime $datetime
-     *
-     * @return CssValidatorOutput
-     */
     public function setDateTime(\DateTime $datetime)
     {
         $this->datetime = $datetime;
-        return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getDateTime()
+    public function getDateTime(): ?\DateTime
     {
         if ($this->getIsIncorrectUsageOutput() || $this->hasException()) {
             return null;
@@ -157,45 +116,27 @@ class CssValidatorOutput
         return $this->datetime;
     }
 
-    /**
-     * @param string $sourceUrl
-     *
-     * @return CssValidatorOutput
-     */
-    public function setSourceUrl($sourceUrl)
+    public function setSourceUrl(string $sourceUrl)
     {
         $this->sourceUrl = $sourceUrl;
-        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getSourceUrl()
+    public function getSourceUrl(): string
     {
         return $this->sourceUrl;
     }
 
-    /**
-     * @return int
-     */
-    public function getErrorCount()
+    public function getErrorCount(): int
     {
         return $this->errorCount;
     }
 
-    /**
-     * @return int
-     */
-    public function getWarningCount()
+    public function getWarningCount(): int
     {
         return $this->warningCount;
     }
 
-    /**
-     * @return int
-     */
-    public function getMessageCount()
+    public function getMessageCount(): int
     {
         return $this->getErrorCount() + $this->getWarningCount();
     }
@@ -203,7 +144,7 @@ class CssValidatorOutput
     /**
      * @return AbstractMessage[]
      */
-    public function getMessages()
+    public function getMessages(): array
     {
         return $this->messages;
     }
@@ -211,7 +152,7 @@ class CssValidatorOutput
     /**
      * @return Error[]
      */
-    public function getErrors()
+    public function getErrors(): array
     {
         return $this->getMessagesOfType(AbstractMessage::TYPE_ERROR);
     }
@@ -222,7 +163,7 @@ class CssValidatorOutput
      *
      * @return Error[]
      */
-    public function getErrorsByUrl($url)
+    public function getErrorsByUrl(string $url): array
     {
         $errors = array();
 
@@ -238,17 +179,17 @@ class CssValidatorOutput
     /**
      * @return Warning[]
      */
-    public function getWarnings()
+    public function getWarnings(): array
     {
         return $this->getMessagesOfType(AbstractMessage::TYPE_WARNING);
     }
 
     /**
-     * @param int $selectedMessageType
+     * @param string $selectedMessageType
      *
      * @return Error[]|Warning[]
      */
-    private function getMessagesOfType($selectedMessageType)
+    private function getMessagesOfType(string $selectedMessageType): array
     {
         $messages = array();
 

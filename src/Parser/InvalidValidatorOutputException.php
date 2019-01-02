@@ -7,22 +7,16 @@ class InvalidValidatorOutputException extends \Exception
     const MESSAGE = 'Invalid validator output';
     const CODE = 1;
 
-    /**
-     * @var string
-     */
     private $rawOutput;
 
-    public function __construct($rawOutput)
+    public function __construct(string $rawOutput)
     {
         parent::__construct(self::MESSAGE, self::CODE);
 
         $this->rawOutput = $rawOutput;
     }
 
-    /**
-     * @return string
-     */
-    public function getRawOutput()
+    public function getRawOutput(): string
     {
         return $this->rawOutput;
     }

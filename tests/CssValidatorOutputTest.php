@@ -6,16 +6,13 @@ use webignition\CssValidatorOutput\CssValidatorOutput;
 use webignition\CssValidatorOutput\Message\Error;
 use webignition\CssValidatorOutput\Message\Warning;
 
-class CssValidatorOutputTest extends \PHPUnit_Framework_TestCase
+class CssValidatorOutputTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var CssValidatorOutput
      */
     private $output;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
         parent::setUp();

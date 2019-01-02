@@ -14,39 +14,13 @@ abstract class AbstractMessage implements \JsonSerializable
     const TYPE_WARNING = 'warning';
     const TYPE_INFO = 'info';
 
-    /**
-     * @var string
-     */
     private $message = '';
-
-    /**
-     * @var string
-     */
     private $context = '';
-
-    /**
-     * @var string
-     */
     private $ref = '';
-
-    /**
-     * @var int
-     */
     private $lineNumber = 0;
-
-    /**
-     * @var int
-     */
     private $type = self::TYPE_ERROR;
 
-    /**
-     * @param string $message
-     * @param string $context
-     * @param string $ref
-     * @param int $lineNumber
-     * @param int $type
-     */
-    public function __construct($message, $context, $ref, $lineNumber, $type)
+    public function __construct(string $message, string $context, string $ref, int $lineNumber, string $type)
     {
         $this->message = $message;
         $this->context = $context;
@@ -58,66 +32,42 @@ abstract class AbstractMessage implements \JsonSerializable
         $this->type = $type;
     }
 
-    /**
-     * @return string
-     */
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->message;
     }
 
-    /**
-     * @return string
-     */
-    public function getContext()
+    public function getContext(): string
     {
         return $this->context;
     }
 
-    /**
-     * @return int
-     */
-    public function getLineNumber()
+    public function getLineNumber(): int
     {
         return $this->lineNumber;
     }
 
-    /**
-     * @return int
-     */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @return bool
-     */
-    public function isError()
+    public function isError(): bool
     {
         return self::TYPE_ERROR === $this->type;
     }
 
-    /**
-     * @return bool
-     */
-    public function isWarning()
+    public function isWarning(): bool
     {
         return self::TYPE_WARNING === $this->type;
     }
 
-    /**
-     * @return string
-     */
-    public function getRef()
+    public function getRef(): string
     {
         return $this->ref;
     }
 
-    /**
-     * @return array
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             self::KEY_TYPE => $this->type,

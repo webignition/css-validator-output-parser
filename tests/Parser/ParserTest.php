@@ -1,4 +1,6 @@
 <?php
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocSignatureInspection */
 
 namespace webignition\Tests\CssValidatorOutput\Parser;
 
@@ -9,7 +11,7 @@ use webignition\CssValidatorOutput\Parser\InvalidValidatorOutputException;
 use webignition\CssValidatorOutput\Parser\Parser;
 use webignition\Tests\CssValidatorOutput\Factory\FixtureLoader;
 
-class ParserTest extends \PHPUnit_Framework_TestCase
+class ParserTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Parser
@@ -28,21 +30,13 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider getOutputSuccessfulOutputDataProvider
-     *
-     * @param array $configurationValues
-     * @param string $rawOutput
-     * @param int $expectedOutputErrorCount
-     * @param int $expectedOutputWarningCount
-     * @param array|null $expectedErrorValuesCollection
-     *
-     * @throws InvalidValidatorOutputException
      */
     public function testParseSuccessfulOutput(
         array $configurationValues,
-        $rawOutput,
-        $expectedOutputErrorCount,
-        $expectedOutputWarningCount,
-        $expectedErrorValuesCollection = null
+        string $rawOutput,
+        int $expectedOutputErrorCount,
+        int $expectedOutputWarningCount,
+        ?array $expectedErrorValuesCollection = null
     ) {
         $configuration = new Configuration($configurationValues);
 
@@ -67,10 +61,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * @return array
-     */
-    public function getOutputSuccessfulOutputDataProvider()
+    public function getOutputSuccessfulOutputDataProvider(): array
     {
         return [
             'no messages' => [
@@ -373,12 +364,8 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider getOutputExceptionOutputDataProvider
-     *
-     * @param string $rawOutput
-     *
-     * @throws InvalidValidatorOutputException
      */
-    public function testParseExceptionOutput($rawOutput)
+    public function testParseExceptionOutput(string $rawOutput)
     {
         $output = $this->parser->parse($rawOutput, new Configuration());
 
@@ -388,10 +375,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, $output->getErrorCount());
     }
 
-    /**
-     * @return array
-     */
-    public function getOutputExceptionOutputDataProvider()
+    public function getOutputExceptionOutputDataProvider(): array
     {
         return [
             'HTTP 401' => [
@@ -426,9 +410,6 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    /**
-     * @throws InvalidValidatorOutputException
-     */
     public function testParseIncorrectUsageOutput()
     {
         $output = $this->parser->parse(
@@ -449,9 +430,6 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, $output->getWArningCount());
     }
 
-    /**
-     * @throws InvalidValidatorOutputException
-     */
     public function testParsesMetaData()
     {
         $output = $this->parser->parse(
