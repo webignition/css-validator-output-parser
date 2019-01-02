@@ -2,8 +2,6 @@
 
 namespace webignition\CssValidatorOutput;
 
-use Symfony\Polyfill\Mbstring\Mbstring;
-
 /**
  * W3C CSS validator ucn output can contain invalid PCDATA as taken from source
  * CSS. This commonly includes unprintable characters.
@@ -39,7 +37,7 @@ class Sanitizer
             if ($this->isCharacterInValidRange($rawOutputCharacter)) {
                 $sanitizedOutput .= $rawOutputCharacter;
             } else {
-                $sanitizedOutput .= '\x' . dechex(Mbstring::mb_ord($rawOutputCharacter));
+                $sanitizedOutput .= '\x' . dechex(mb_ord($rawOutputCharacter));
             }
         }
 
@@ -48,7 +46,7 @@ class Sanitizer
 
     private function isCharacterInValidRange(string $character): bool
     {
-        $characterIndex = Mbstring::mb_ord($character);
+        $characterIndex = mb_ord($character);
 
         foreach ($this->allowedIndividualCharacters as $allowedInvidualCharacterIndex) {
             if ($characterIndex == $allowedInvidualCharacterIndex) {
