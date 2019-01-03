@@ -5,7 +5,6 @@ namespace webignition\CssValidatorOutput\Parser\Tests;
 use webignition\CssValidatorOutput\Model\Options;
 use webignition\CssValidatorOutput\Parser\OptionsParser;
 
-
 class OptionsParserTest extends \PHPUnit\Framework\TestCase
 {
     public function testParseValidOptions()
