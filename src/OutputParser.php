@@ -61,7 +61,7 @@ class OutputParser
             return null;
         }
 
-        return implode("\n", array_slice($bodyLines, $this->getXmlContentStartLineNumber($bodyLines)));
+        return implode("\n", array_slice($bodyLines, $xmlContentStartLineNumber));
     }
 
     private function getXmlContentStartLineNumber(array $bodyLines): ?int
