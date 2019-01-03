@@ -1,10 +1,10 @@
 <?php
 
-namespace webignition\Tests\CssValidatorOutput\Parser;
+namespace webignition\CssValidatorOutput\Parser\Tests;
 
 use webignition\CssValidatorOutput\Model\Options;
 use webignition\CssValidatorOutput\Parser\OptionsParser;
-use webignition\Tests\CssValidatorOutput\Factory\FixtureLoader;
+
 
 class OptionsParserTest extends \PHPUnit\Framework\TestCase
 {

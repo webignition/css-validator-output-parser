@@ -1,11 +1,10 @@
 <?php
 /** @noinspection PhpDocSignatureInspection */
 
-namespace webignition\Tests\CssValidatorOutput\Parser;
+namespace webignition\CssValidatorOutput\Parser\Tests;
 
 use webignition\CssValidatorOutput\Parser\ExceptionOutputParser;
 use webignition\CssValidatorOutput\Model\ExceptionOutput;
-use webignition\Tests\CssValidatorOutput\Factory\FixtureLoader;
 
 class ExceptionOutputParserTest extends \PHPUnit\Framework\TestCase
 {

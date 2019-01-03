@@ -2,9 +2,8 @@
 /** @noinspection PhpUnhandledExceptionInspection */
 /** @noinspection PhpDocSignatureInspection */
 
-namespace webignition\Tests\CssValidatorOutput\Parser;
+namespace webignition\CssValidatorOutput\Parser\Tests;
 
-use webignition\CssValidatorOutput\CssValidatorOutput;
 use webignition\CssValidatorOutput\Model\ErrorMessage;
 use webignition\CssValidatorOutput\Model\ExceptionOutput;
 use webignition\CssValidatorOutput\Model\IncorrectUsageOutput;
@@ -14,7 +13,6 @@ use webignition\CssValidatorOutput\Model\ValidationOutput;
 use webignition\CssValidatorOutput\Parser\Configuration;
 use webignition\CssValidatorOutput\Parser\InvalidValidatorOutputException;
 use webignition\CssValidatorOutput\Parser\OutputParser;
-use webignition\Tests\CssValidatorOutput\Factory\FixtureLoader;
 
 class OutputParserTest extends \PHPUnit\Framework\TestCase
 {

@@ -1,7 +1,7 @@
 <?php
 /** @noinspection PhpDocSignatureInspection */
 
-namespace webignition\Tests\CssValidatorOutput\Parser;
+namespace webignition\CssValidatorOutput\Parser\Tests;
 
 use webignition\CssValidatorOutput\Parser\Sanitizer;
 
