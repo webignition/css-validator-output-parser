@@ -2,10 +2,14 @@
 
 namespace webignition\CssValidatorOutput\Parser;
 
-use webignition\CssValidatorOutput\CssValidatorOutput;
-use webignition\CssValidatorOutput\Message\AbstractMessage;
-use webignition\CssValidatorOutput\Message\Error;
-use webignition\CssValidatorOutput\Message\Factory as MessageFactory;
+use webignition\CssValidatorOutput\Model\AbstractMessage;
+use webignition\CssValidatorOutput\Model\ErrorMessage;
+use webignition\CssValidatorOutput\Model\IncorrectUsageOutput;
+use webignition\CssValidatorOutput\Model\MessageFactory;
+use webignition\CssValidatorOutput\Model\MessageList;
+use webignition\CssValidatorOutput\Model\ObservationResponse;
+use webignition\CssValidatorOutput\Model\OutputInterface;
+use webignition\CssValidatorOutput\Model\ValidationOutput;
 use webignition\Url\Host\Host;
 use webignition\Url\Url;
 
@@ -15,11 +19,11 @@ class OutputParser
      * @param string $validatorOutput
      * @param Configuration $configuration
      *
-     * @return CssValidatorOutput
+     * @return OutputInterface
      *
      * @throws InvalidValidatorOutputException
      */
-    public function parse(string $validatorOutput, Configuration $configuration): CssValidatorOutput
+    public function parse(string $validatorOutput, Configuration $configuration): OutputInterface
     {
         $sanitizer = new Sanitizer();
         $validatorOutput = trim($sanitizer->getSanitizedOutput($validatorOutput));
@@ -28,18 +32,12 @@ class OutputParser
         $header = trim($headerBodyParts[0]);
         $body = trim($headerBodyParts[1]);
 
-        $output = new CssValidatorOutput();
-
         if (ExceptionOutputParser::is($body)) {
-            $output->setException(ExceptionOutputParser::parse($body));
-
-            return $output;
+            return ExceptionOutputParser::parse($body);
         }
 
         if ($this->isIncorrectUsageOutput($header)) {
-            $output->setIsIncorrectUsageOutput(true);
-
-            return $output;
+            return new IncorrectUsageOutput();
         }
 
         $bodyXmlContent = $this->extractXmlContentFromBody($body);
@@ -48,21 +46,25 @@ class OutputParser
         }
 
         $optionsParser = new OptionsParser();
-        $output->setOptions($optionsParser->parse($header));
+        $options = $optionsParser->parse($header);
 
         $bodyDom = new \DOMDocument();
         $bodyDom->loadXML($bodyXmlContent);
 
-        $container = $bodyDom->getElementsByTagName('observationresponse')->item(0);
+        $observationResponseElement = $bodyDom->getElementsByTagName('observationresponse')->item(0);
 
-        if ($this->isPassedNoMessagesOutput($container)) {
+        $sourceUrl = $observationResponseElement->getAttribute('ref');
+        $dateTime = $this->createObservationResponseDateTime($observationResponseElement);
+
+        $messageList = new MessageList();
+        $observationResponse = new ObservationResponse($sourceUrl, $dateTime, $messageList);
+        $output = new ValidationOutput($options, $observationResponse);
+
+        if ($this->isPassedNoMessagesOutput($observationResponseElement)) {
             return $output;
         }
 
-        $output->setSourceUrl($container->getAttribute('ref'));
-        $output->setDateTime(new \DateTime($container->getAttribute('date')));
-
-        $messageElements = $container->getElementsByTagName('message');
+        $messageElements = $observationResponseElement->getElementsByTagName('message');
 
         foreach ($messageElements as $messageElement) {
             $message = MessageFactory::createFromDOMElement($messageElement);
@@ -89,7 +91,7 @@ class OutputParser
                 continue;
             }
 
-            $output->addMessage($message);
+            $messageList->addMessage($message);
         }
 
         return $output;
@@ -138,7 +140,7 @@ class OutputParser
 
         $dataUrlLinePattern = '/^url\(data:image\/.*is an incorrect URL$/';
 
-        $messageContent = $message->getMessage();
+        $messageContent = $message->getTitle();
 
         if (preg_match($valueErrorLinePattern, $messageContent)) {
             $messageLines = explode("\n", $messageContent);
@@ -170,7 +172,7 @@ class OutputParser
             return false;
         }
 
-        /* @var Error $message */
+        /* @var ErrorMessage $message */
         if ('' === $message->getRef()) {
             return false;
         }
@@ -201,11 +203,21 @@ class OutputParser
         ];
 
         foreach ($patterns as $pattern) {
-            if (preg_match($pattern, $message->getMessage()) > 0) {
+            if (preg_match($pattern, $message->getTitle()) > 0) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private function createObservationResponseDateTime(\DOMElement $observationResponseElement)
+    {
+        try {
+            return new \DateTime($observationResponseElement->getAttribute('date'));
+        } catch (\Exception $e) {
+            /** @noinspection PhpUnhandledExceptionInspection */
+            return new \DateTime();
+        }
     }
 }

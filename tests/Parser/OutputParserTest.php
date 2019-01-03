@@ -5,7 +5,12 @@
 namespace webignition\Tests\CssValidatorOutput\Parser;
 
 use webignition\CssValidatorOutput\CssValidatorOutput;
+use webignition\CssValidatorOutput\Model\ErrorMessage;
+use webignition\CssValidatorOutput\Model\ExceptionOutput;
+use webignition\CssValidatorOutput\Model\IncorrectUsageOutput;
 use webignition\CssValidatorOutput\Model\Options;
+use webignition\CssValidatorOutput\Model\OutputInterface;
+use webignition\CssValidatorOutput\Model\ValidationOutput;
 use webignition\CssValidatorOutput\Parser\Configuration;
 use webignition\CssValidatorOutput\Parser\InvalidValidatorOutputException;
 use webignition\CssValidatorOutput\Parser\OutputParser;
@@ -40,15 +45,20 @@ class OutputParserTest extends \PHPUnit\Framework\TestCase
     ) {
         $configuration = new Configuration($configurationValues);
 
+        /* @var ValidationOutput $output */
         $output = $this->parser->parse($rawOutput, $configuration);
 
-        $this->assertInstanceOf(CssValidatorOutput::class, $output);
+        $this->assertInstanceOf(OutputInterface::class, $output);
+        $this->assertInstanceOf(ValidationOutput::class, $output);
 
-        $this->assertEquals($expectedOutputErrorCount, $output->getErrorCount());
-        $this->assertEquals($expectedOutputWarningCount, $output->getWarningCount());
+        $messageList = $output->getMessages();
+
+        $this->assertEquals($expectedOutputErrorCount, $messageList->getErrorCount());
+        $this->assertEquals($expectedOutputWarningCount, $messageList->getWarningCount());
 
         if (is_array($expectedErrorValuesCollection)) {
-            $errors = $output->getErrors();
+            /* @var ErrorMessage[] $errors */
+            $errors = $messageList->getErrors();
 
             foreach ($errors as $errorIndex => $error) {
                 $expectedErrorValues = $expectedErrorValuesCollection[$errorIndex];
@@ -56,7 +66,7 @@ class OutputParserTest extends \PHPUnit\Framework\TestCase
                 $this->assertEquals($expectedErrorValues['ref'], $error->getRef());
                 $this->assertEquals($expectedErrorValues['line'], $error->getLineNumber());
                 $this->assertEquals($expectedErrorValues['context'], $error->getContext());
-                $this->assertEquals($expectedErrorValues['message'], $error->getMessage());
+                $this->assertEquals($expectedErrorValues['message'], $error->getTitle());
             }
         }
     }
@@ -369,10 +379,8 @@ class OutputParserTest extends \PHPUnit\Framework\TestCase
     {
         $output = $this->parser->parse($rawOutput, new Configuration());
 
-        $this->assertInstanceOf(CssValidatorOutput::class, $output);
-        $this->assertTrue($output->hasException());
-        $this->assertEquals(0, $output->getWarningCount());
-        $this->assertEquals(0, $output->getErrorCount());
+        $this->assertInstanceOf(OutputInterface::class, $output);
+        $this->assertInstanceOf(ExceptionOutput::class, $output);
     }
 
     public function getOutputExceptionOutputDataProvider(): array
@@ -412,30 +420,26 @@ class OutputParserTest extends \PHPUnit\Framework\TestCase
 
     public function testParseIncorrectUsageOutput()
     {
+        /* @var IncorrectUsageOutput $output */
         $output = $this->parser->parse(
             FixtureLoader::load('incorrect-usage.txt'),
             new Configuration()
         );
 
-        $this->assertTrue($output->getIsIncorrectUsageOutput());
-
-        $options = $output->getOptions();
-        $this->assertNull($options);
-
-        $datetime = $output->getDateTime();
-        $this->assertNull($datetime);
-
-        $this->assertEquals(0, $output->getMessageCount());
-        $this->assertEquals(0, $output->getErrorCount());
-        $this->assertEquals(0, $output->getWArningCount());
+        $this->assertInstanceOf(OutputInterface::class, $output);
+        $this->assertInstanceOf(IncorrectUsageOutput::class, $output);
     }
 
     public function testParsesMetaData()
     {
+        /* @var ValidationOutput $output */
         $output = $this->parser->parse(
             FixtureLoader::load('ValidatorOutput/output01.txt'),
             new Configuration()
         );
+
+        $this->assertInstanceOf(OutputInterface::class, $output);
+        $this->assertInstanceOf(ValidationOutput::class, $output);
 
         $options = $output->getOptions();
         $this->assertInstanceOf(Options::class, $options);
@@ -447,9 +451,9 @@ class OutputParserTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('all', $options->getMedium());
         $this->assertEquals('css3', $options->getProfile());
 
-        $datetime = $output->getDateTime();
+        $observationResponse = $output->getObservationResponse();
+        $datetime = $observationResponse->getDateTime();
         $this->assertInstanceOf(\DateTime::class, $datetime);
-
         $this->assertEquals('2012-12-27T04:09:39+00:00', $datetime->format('c'));
     }
 
