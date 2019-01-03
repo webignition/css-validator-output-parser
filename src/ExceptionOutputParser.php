@@ -40,7 +40,9 @@ class ExceptionOutputParser
         }
 
         if (self::isUnknownMimeTypeError($firstLine)) {
-            return new ExceptionOutput(ExceptionOutput::TYPE_UNKNOWN_MIME_TYPE);
+            $contentType = trim(substr($firstLine, strrpos($firstLine, ':') + 1));
+
+            return new ExceptionOutput(ExceptionOutput::TYPE_UNKNOWN_CONTENT_TYPE, $contentType);
         }
 
         if (self::isUnknownHostError($firstLine)) {

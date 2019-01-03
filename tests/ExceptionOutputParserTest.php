@@ -71,7 +71,7 @@ class ExceptionOutputParserTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider parseDataProvider
      */
-    public function testParse(string $rawOutput, string $expectedType, ?int $expectedCode)
+    public function testParse(string $rawOutput, string $expectedType, string $expectedSubtype)
     {
         $headerBodyParts = explode("\n", $rawOutput, 2);
         $body = trim($headerBodyParts[1]);
@@ -79,7 +79,7 @@ class ExceptionOutputParserTest extends \PHPUnit\Framework\TestCase
         $output = ExceptionOutputParser::parse($body);
 
         $this->assertEquals($expectedType, $output->getType());
-        $this->assertEquals($expectedCode, $output->getCode());
+        $this->assertEquals($expectedSubtype, $output->getSubType());
     }
 
     public function parseDataProvider(): array
@@ -88,54 +88,54 @@ class ExceptionOutputParserTest extends \PHPUnit\Framework\TestCase
             'regular validator output' => [
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/example.txt'),
                 'expectedType' => ExceptionOutput::TYPE_UNKNOWN,
-                'expectedCode' => null,
+                'expectedSubtype' => '',
             ],
             'HTTP 401' => [
                 'rawOutput' => FixtureLoader::load('Exception/java.net.ProtocolException.http-401.txt'),
                 'expectedType' => ExceptionOutput::TYPE_HTTP,
-                'expectedCode' => 401,
+                'expectedSubtype' => '401',
             ],
             'HTTP 404' => [
                 'rawOutput' => FixtureLoader::load('Exception/java.io.FileNotFoundException.http-404.txt'),
                 'expectedType' => ExceptionOutput::TYPE_HTTP,
-                'expectedCode' => 404,
+                'expectedSubtype' => '404',
             ],
             'HTTP 500' => [
                 'rawOutput' => FixtureLoader::load('Exception/java.io.FileNotFoundException.http-500.txt'),
                 'expectedType' => ExceptionOutput::TYPE_HTTP,
-                'expectedCode' => 500,
+                'expectedSubtype' => '500',
             ],
             'unknown mime type' => [
                 'rawOutput' => FixtureLoader::load('Exception/java.io.IOException.unknownmimetype.txt'),
-                'expectedType' => ExceptionOutput::TYPE_UNKNOWN_MIME_TYPE,
-                'expectedCode' => null,
+                'expectedType' => ExceptionOutput::TYPE_UNKNOWN_CONTENT_TYPE,
+                'expectedSubtype' => 'application/pdf',
             ],
             'unknown file' => [
                 'rawOutput' => FixtureLoader::load('Exception/java.lang.Exception.unknownfile.txt'),
                 'expectedType' => ExceptionOutput::TYPE_UNKNOWN_FILE,
-                'expectedCode' => null,
+                'expectedSubtype' => '',
             ],
             'illegal url' => [
                 'rawOutput' => FixtureLoader::load(
                     'Exception/java.lang.IllegalArgumentException.illegalurl.txt'
                 ),
                 'expectedType' => ExceptionOutput::TYPE_CURL,
-                'expectedCode' => 3,
+                'expectedSubtype' => '3',
             ],
             'unknown host' => [
                 'rawOutput' => FixtureLoader::load('Exception/java.net.UnknownHostException.txt'),
                 'expectedType' => ExceptionOutput::TYPE_UNKNOWN_HOST,
-                'expectedCode' => null,
+                'expectedSubtype' => '',
             ],
             'ssl exception' => [
                 'rawOutput' => FixtureLoader::load('Exception/javax.net.ssl.SSLException.txt'),
                 'expectedType' => ExceptionOutput::TYPE_SSL_ERROR,
-                'expectedCode' => null,
+                'expectedSubtype' => '',
             ],
             'unknown exception' => [
                 'rawOutput' => FixtureLoader::load('Exception/UnknownException.txt'),
                 'expectedType' => ExceptionOutput::TYPE_UNKNOWN,
-                'expectedCode' => null,
+                'expectedSubtype' => '',
             ],
         ];
     }
