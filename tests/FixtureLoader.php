@@ -1,12 +1,12 @@
 <?php
 
-namespace webignition\Tests\CssValidatorOutput\Factory;
+namespace webignition\CssValidatorOutput\Parser\Tests;
 
 class FixtureLoader
 {
     public static function load(string $name): string
     {
-        $fixturePath = realpath(__DIR__ . '/../Fixtures/' . $name);
+        $fixturePath = realpath(__DIR__ . '/Fixtures/' . $name);
 
         if (empty($fixturePath)) {
             throw new \RuntimeException(sprintf(

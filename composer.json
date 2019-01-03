@@ -13,12 +13,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "webignition\\CssValidatorOutput\\": "src/"
+            "webignition\\CssValidatorOutput\\Parser\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "webignition\\Tests\\CssValidatorOutput\\": "tests/"
+            "webignition\\CssValidatorOutput\\Parser\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -31,7 +31,8 @@
     },
     "require": {
         "php": ">=7.2.0",
-        "webignition/url":">=2,<3"
+        "webignition/url":">=2,<3",
+        "webignition/css-validator-output-models": ">=0.7,<1"
     },
     "require-dev": {
         "phpunit/phpunit": "^7",

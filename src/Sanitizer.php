@@ -1,6 +1,6 @@
 <?php
 
-namespace webignition\CssValidatorOutput;
+namespace webignition\CssValidatorOutput\Parser;
 
 /**
  * W3C CSS validator ucn output can contain invalid PCDATA as taken from source

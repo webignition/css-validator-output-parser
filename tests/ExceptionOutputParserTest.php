@@ -1,20 +1,19 @@
 <?php
 /** @noinspection PhpDocSignatureInspection */
 
-namespace webignition\Tests\CssValidatorOutput\ExceptionOutput;
+namespace webignition\CssValidatorOutput\Parser\Tests;
 
-use webignition\CssValidatorOutput\ExceptionOutput\Parser;
-use webignition\CssValidatorOutput\ExceptionOutput\Type\Value;
-use webignition\Tests\CssValidatorOutput\Factory\FixtureLoader;
+use webignition\CssValidatorOutput\Parser\ExceptionOutputParser;
+use webignition\CssValidatorOutput\Model\ExceptionOutput;
 
-class ParserTest extends \PHPUnit\Framework\TestCase
+class ExceptionOutputParserTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider isDataProvider
      */
     public function testIs(string $validatorBodyContent, bool $expectedIs)
     {
-        $this->assertEquals($expectedIs, Parser::is($validatorBodyContent));
+        $this->assertEquals($expectedIs, ExceptionOutputParser::is($validatorBodyContent));
     }
 
     public function isDataProvider(): array
@@ -70,65 +69,73 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider getOutputDataProvider
+     * @dataProvider parseDataProvider
      */
-    public function testGetOutput(string $rawOutput, string $expectedOutputType)
+    public function testParse(string $rawOutput, string $expectedType, ?int $expectedCode)
     {
         $headerBodyParts = explode("\n", $rawOutput, 2);
         $body = trim($headerBodyParts[1]);
 
-        $parser = new Parser();
-        $parser->setRawOutput($body);
+        $output = ExceptionOutputParser::parse($body);
 
-        $output = $parser->getOutput();
-
-        $this->assertEquals($expectedOutputType, $output->getType()->get());
+        $this->assertEquals($expectedType, $output->getType());
+        $this->assertEquals($expectedCode, $output->getCode());
     }
 
-    public function getOutputDataProvider(): array
+    public function parseDataProvider(): array
     {
         return [
             'regular validator output' => [
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/example.txt'),
-                'expectedOutputType' => Value::UNKNOWN,
+                'expectedType' => ExceptionOutput::TYPE_UNKNOWN,
+                'expectedCode' => null,
             ],
             'HTTP 401' => [
                 'rawOutput' => FixtureLoader::load('Exception/java.net.ProtocolException.http-401.txt'),
-                'expectedOutputType' => 'http401',
+                'expectedType' => ExceptionOutput::TYPE_HTTP,
+                'expectedCode' => 401,
             ],
             'HTTP 404' => [
                 'rawOutput' => FixtureLoader::load('Exception/java.io.FileNotFoundException.http-404.txt'),
-                'expectedOutputType' => 'http404',
+                'expectedType' => ExceptionOutput::TYPE_HTTP,
+                'expectedCode' => 404,
             ],
             'HTTP 500' => [
                 'rawOutput' => FixtureLoader::load('Exception/java.io.FileNotFoundException.http-500.txt'),
-                'expectedOutputType' => 'http500',
+                'expectedType' => ExceptionOutput::TYPE_HTTP,
+                'expectedCode' => 500,
             ],
             'unknown mime type' => [
                 'rawOutput' => FixtureLoader::load('Exception/java.io.IOException.unknownmimetype.txt'),
-                'expectedOutputType' => Value::UNKNOWN_MIME_TYPE,
+                'expectedType' => ExceptionOutput::TYPE_UNKNOWN_MIME_TYPE,
+                'expectedCode' => null,
             ],
             'unknown file' => [
                 'rawOutput' => FixtureLoader::load('Exception/java.lang.Exception.unknownfile.txt'),
-                'expectedOutputType' => Value::UNKNOWN_FILE,
+                'expectedType' => ExceptionOutput::TYPE_UNKNOWN_FILE,
+                'expectedCode' => null,
             ],
             'illegal url' => [
                 'rawOutput' => FixtureLoader::load(
                     'Exception/java.lang.IllegalArgumentException.illegalurl.txt'
                 ),
-                'expectedOutputType' => 'curl3',
+                'expectedType' => ExceptionOutput::TYPE_CURL,
+                'expectedCode' => 3,
             ],
             'unknown host' => [
                 'rawOutput' => FixtureLoader::load('Exception/java.net.UnknownHostException.txt'),
-                'expectedOutputType' => 'curl6',
+                'expectedType' => ExceptionOutput::TYPE_UNKNOWN_HOST,
+                'expectedCode' => null,
             ],
             'ssl exception' => [
                 'rawOutput' => FixtureLoader::load('Exception/javax.net.ssl.SSLException.txt'),
-                'expectedOutputType' => Value::SSL_EXCEPTION,
+                'expectedType' => ExceptionOutput::TYPE_SSL_ERROR,
+                'expectedCode' => null,
             ],
             'unknown exception' => [
                 'rawOutput' => FixtureLoader::load('Exception/UnknownException.txt'),
-                'expectedOutputType' => Value::UNKNOWN,
+                'expectedType' => ExceptionOutput::TYPE_UNKNOWN,
+                'expectedCode' => null,
             ],
         ];
     }
