@@ -33,11 +33,13 @@ class Sanitizer
 
         $rawOutputCharacters = preg_split('//u', $rawOutput, -1, PREG_SPLIT_NO_EMPTY);
 
-        foreach ($rawOutputCharacters as $rawOutputCharacter) {
-            if ($this->isCharacterInValidRange($rawOutputCharacter)) {
-                $sanitizedOutput .= $rawOutputCharacter;
-            } else {
-                $sanitizedOutput .= '\x' . dechex(mb_ord($rawOutputCharacter));
+        if (is_array($rawOutputCharacters)) {
+            foreach ($rawOutputCharacters as $rawOutputCharacter) {
+                if ($this->isCharacterInValidRange($rawOutputCharacter)) {
+                    $sanitizedOutput .= $rawOutputCharacter;
+                } else {
+                    $sanitizedOutput .= '\x' . dechex(mb_ord($rawOutputCharacter));
+                }
             }
         }
 

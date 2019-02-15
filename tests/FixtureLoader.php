@@ -15,6 +15,6 @@ class FixtureLoader
             ));
         }
 
-        return file_get_contents($fixturePath);
+        return (string) file_get_contents($fixturePath);
     }
 }

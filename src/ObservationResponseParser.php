@@ -29,9 +29,9 @@ class ObservationResponseParser
         foreach ($messageElements as $messageElement) {
             $message = MessageFactory::createFromDOMElement($messageElement);
             $isVendorExtensionMessage = $this->isVendorExtensionMessage($message);
-            $isError = $message->isError();
+            $reportVExtIssuesAsWarnings = $configuration->getReportVendorExtensionIssuesAsWarnings();
 
-            if ($configuration->getReportVendorExtensionIssuesAsWarnings() && $isError && $isVendorExtensionMessage) {
+            if ($reportVExtIssuesAsWarnings && $isVendorExtensionMessage && $message instanceof ErrorMessage) {
                 $message = MessageFactory::createWarningFromError($message);
             }
 

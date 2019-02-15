@@ -17,7 +17,7 @@ class ExceptionOutputParser
 
     public static function parse(string $rawOutput): ExceptionOutput
     {
-        $firstLine = substr($rawOutput, 0, strpos($rawOutput, "\n"));
+        $firstLine = substr($rawOutput, 0, (int) strpos($rawOutput, "\n"));
 
         if (self::isFileNotFoundError($firstLine)) {
             return new ExceptionOutput(ExceptionOutput::TYPE_HTTP, '404');
