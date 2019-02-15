@@ -26,20 +26,4 @@ java.lang.StringIndexOutOfBoundsException: String index out of range: -1
 	</title>
 </message>
 
-<message type="error" ref="http://dropthebit.com/wp-content/themes/toolbox/reset.css?v=1">
-	<context line="1">html</context>
-	<title>
-		Property -ms-text-size-adjust doesn&amp;#39;t exist :
-		100%
-	</title>
-</message>
-
-<message type="error" ref="http://dropthebit.com/wp-content/themes/toolbox/reset.css?v=1">
-	<context line="1">a:link</context>
-	<title>
-		Property -webkit-tap-highlight-color doesn&amp;#39;t exist :
-		#FF5E99
-	</title>
-</message>
-
 </observationresponse>

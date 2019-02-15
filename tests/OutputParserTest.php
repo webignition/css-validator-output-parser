@@ -87,8 +87,8 @@ class OutputParserTest extends \PHPUnit\Framework\TestCase
             ],
             'string index out of bounds exception before regular output' => [
                 'flags' => Flags::NONE,
-                'rawOutput' => FixtureLoader::load('ValidatorOutput/string-index-out-of-bounds-exception.txt'),
-                'expectedOutputErrorCount' => 3,
+                'rawOutput' => FixtureLoader::load('ValidatorOutput/exception-before-regular-output.txt'),
+                'expectedOutputErrorCount' => 1,
                 'expectedOutputWarningCount' => 0,
             ],
             'false image data url messages; no flags' => [
