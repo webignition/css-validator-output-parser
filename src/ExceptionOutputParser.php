@@ -20,19 +20,19 @@ class ExceptionOutputParser
         $firstLine = substr($rawOutput, 0, strpos($rawOutput, "\n"));
 
         if (self::isFileNotFoundError($firstLine)) {
-            return new ExceptionOutput(ExceptionOutput::TYPE_HTTP, 404);
+            return new ExceptionOutput(ExceptionOutput::TYPE_HTTP, '404');
         }
 
         if (self::isHttpAuthProtocolExceptionOutput($firstLine)) {
-            return new ExceptionOutput(ExceptionOutput::TYPE_HTTP, 401);
+            return new ExceptionOutput(ExceptionOutput::TYPE_HTTP, '401');
         }
 
         if (self::isIllegalUrlError($firstLine)) {
-            return new ExceptionOutput(ExceptionOutput::TYPE_CURL, 3);
+            return new ExceptionOutput(ExceptionOutput::TYPE_CURL, '3');
         }
 
         if (self::isInternalServerError($firstLine)) {
-            return new ExceptionOutput(ExceptionOutput::TYPE_HTTP, 500);
+            return new ExceptionOutput(ExceptionOutput::TYPE_HTTP, '500');
         }
 
         if (self::isSslExceptionOutput($firstLine)) {
