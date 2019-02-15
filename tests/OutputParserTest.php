@@ -145,22 +145,22 @@ class OutputParserTest extends \PHPUnit\Framework\TestCase
                 'expectedOutputErrorCount' => 3,
                 'expectedOutputWarningCount' => 0,
             ],
-            'ignore warnings: no flags' => [
+            'warnings: no flags' => [
                 'flags' => Flags::NONE,
-                'rawOutput' => FixtureLoader::load('ValidatorOutput/output01.txt'),
-                'expectedOutputErrorCount' => 3,
-                'expectedOutputWarningCount' => 2,
+                'rawOutput' => FixtureLoader::load('ValidatorOutput/warnings.txt'),
+                'expectedOutputErrorCount' => 1,
+                'expectedOutputWarningCount' => 1,
             ],
-            'ignore warnings: ignore warnings flag' => [
+            'warnings: ignore warnings flag' => [
                 'flags' => Flags::IGNORE_WARNINGS,
-                'rawOutput' => FixtureLoader::load('ValidatorOutput/output01.txt'),
-                'expectedOutputErrorCount' => 3,
+                'rawOutput' => FixtureLoader::load('ValidatorOutput/warnings.txt'),
+                'expectedOutputErrorCount' => 1,
                 'expectedOutputWarningCount' => 0,
             ],
-            'ignore warnings: all flags' => [
+            'warnings: all flags' => [
                 'flags' => $allFlags,
-                'rawOutput' => FixtureLoader::load('ValidatorOutput/output01.txt'),
-                'expectedOutputErrorCount' => 2,
+                'rawOutput' => FixtureLoader::load('ValidatorOutput/warnings.txt'),
+                'expectedOutputErrorCount' => 1,
                 'expectedOutputWarningCount' => 0,
             ],
             'invalid PCDATA in validator output' => [
@@ -236,7 +236,7 @@ class OutputParserTest extends \PHPUnit\Framework\TestCase
     public function testParsesMetaData()
     {
         /* @var ValidationOutput $output */
-        $output = $this->parser->parse(FixtureLoader::load('ValidatorOutput/output01.txt'));
+        $output = $this->parser->parse(FixtureLoader::load('ValidatorOutput/warnings.txt'));
 
         $this->assertInstanceOf(OutputInterface::class, $output);
         $this->assertInstanceOf(ValidationOutput::class, $output);
