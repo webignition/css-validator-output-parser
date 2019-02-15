@@ -5,13 +5,11 @@ namespace webignition\CssValidatorOutput\Parser;
 class Configuration
 {
     const KEY_IGNORE_WARNINGS = 'ignore-warnings';
-    const KEY_REF_DOMAINS_TO_IGNORE = 'ref-domains-to-ignore';
     const KEY_IGNORE_VENDOR_EXTENSION_ISSUES = 'ignore-vendor-extension-issues';
     const KEY_IGNORE_FALSE_DATA_URL_MESSAGES = 'ignore-false-data-url-messages';
     const KEY_REPORT_VENDOR_EXTENSION_ISSUES_AS_WARNINGS = 'report-vendor-extension-issues-as-warnings';
 
     const DEFAULT_IGNORE_WARNINGS = false;
-    const DEFAULT_REF_DOMAINS_TO_IGNORE = [];
     const DEFAULT_IGNORE_VENDOR_EXTENSION_ISSUES = false;
     const DEFAULT_IGNORE_FALSE_DATA_URL_MESSAGES = false;
     const DEFAULT_REPORT_VENDOR_EXTENSION_ISSUES_AS_WARNINGS = false;
@@ -20,11 +18,6 @@ class Configuration
      * @var bool
      */
     private $ignoreWarnings = self::DEFAULT_IGNORE_WARNINGS;
-
-    /**
-     * @var array
-     */
-    private $refDomainsToIgnore = self::DEFAULT_REF_DOMAINS_TO_IGNORE;
 
     /**
      * @var bool
@@ -51,13 +44,6 @@ class Configuration
                 $configurationValues[self::KEY_IGNORE_WARNINGS],
                 FILTER_VALIDATE_BOOLEAN
             );
-        }
-
-        if (array_key_exists(self::KEY_REF_DOMAINS_TO_IGNORE, $configurationValues)) {
-            $refDomainsToIgnore = $configurationValues[self::KEY_REF_DOMAINS_TO_IGNORE];
-            if (is_array($refDomainsToIgnore)) {
-                $this->refDomainsToIgnore = $refDomainsToIgnore;
-            }
         }
 
         if (array_key_exists(self::KEY_IGNORE_VENDOR_EXTENSION_ISSUES, $configurationValues)) {
@@ -95,11 +81,6 @@ class Configuration
     public function getIgnoreWarnings(): bool
     {
         return $this->ignoreWarnings;
-    }
-
-    public function getRefDomainsToIgnore(): array
-    {
-        return $this->refDomainsToIgnore;
     }
 
     public function getIgnoreVendorExtensionIssues(): bool
