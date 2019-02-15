@@ -11,13 +11,13 @@ class OutputParser
 {
     /**
      * @param string $validatorOutput
-     * @param Configuration $configuration
+     * @param int $flags
      *
      * @return OutputInterface
      *
      * @throws InvalidValidatorOutputException
      */
-    public function parse(string $validatorOutput, Configuration $configuration): OutputInterface
+    public function parse(string $validatorOutput, int $flags = Flags::NONE): OutputInterface
     {
         $sanitizer = new Sanitizer();
         $validatorOutput = trim($sanitizer->getSanitizedOutput($validatorOutput));
@@ -59,7 +59,7 @@ class OutputParser
         $observationResponseElement = $bodyDom->getElementsByTagName('observationresponse')->item(0);
 
         $observationResponseParser = new ObservationResponseParser();
-        $observationResponse = $observationResponseParser->parse($observationResponseElement, $configuration);
+        $observationResponse = $observationResponseParser->parse($observationResponseElement, $flags);
 
         return new ValidationOutput($options, $observationResponse);
     }
