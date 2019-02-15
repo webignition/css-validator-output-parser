@@ -94,19 +94,19 @@ class OutputParserTest extends \PHPUnit\Framework\TestCase
             'false image data url messages; no flags' => [
                 'flags' => Flags::NONE,
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/incorrect-data-url-background-image-errors.txt'),
-                'expectedOutputErrorCount' => 4,
+                'expectedOutputErrorCount' => 3,
                 'expectedOutputWarningCount' => 0,
             ],
             'false image data url messages; ignore false image data url messages flag' => [
                 'flags' => Flags::IGNORE_FALSE_IMAGE_DATA_URL_MESSAGES,
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/incorrect-data-url-background-image-errors.txt'),
-                'expectedOutputErrorCount' => 1,
+                'expectedOutputErrorCount' => 0,
                 'expectedOutputWarningCount' => 0,
             ],
             'false image data url messages; all flags' => [
                 'flags' => $allFlags,
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/incorrect-data-url-background-image-errors.txt'),
-                'expectedOutputErrorCount' => 1,
+                'expectedOutputErrorCount' => 0,
                 'expectedOutputWarningCount' => 0,
             ],
             'vextwarning=true; no flags' => [
