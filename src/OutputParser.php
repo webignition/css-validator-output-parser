@@ -3,6 +3,7 @@
 namespace webignition\CssValidatorOutput\Parser;
 
 use webignition\CssValidatorOutput\Model\IncorrectUsageOutput;
+use webignition\CssValidatorOutput\Model\Options;
 use webignition\CssValidatorOutput\Model\OutputInterface;
 use webignition\CssValidatorOutput\Model\ValidationOutput;
 
@@ -40,6 +41,17 @@ class OutputParser
 
         $optionsParser = new OptionsParser();
         $options = $optionsParser->parse($header);
+
+        if (null === $options) {
+            $options = new Options(
+                false,
+                'ucn',
+                'en',
+                2,
+                'all',
+                'css3'
+            );
+        }
 
         $bodyDom = new \DOMDocument();
         $bodyDom->loadXML($bodyXmlContent);

@@ -28,6 +28,11 @@ class ObservationResponseParser
 
         foreach ($messageElements as $messageElement) {
             $message = MessageFactory::createFromDOMElement($messageElement);
+
+            if (null === $message) {
+                continue;
+            }
+
             $isVendorExtensionMessage = $this->isVendorExtensionMessage($message);
             $reportVExtIssuesAsWarnings = $configuration->getReportVendorExtensionIssuesAsWarnings();
 

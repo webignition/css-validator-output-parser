@@ -369,6 +369,12 @@ class OutputParserTest extends \PHPUnit\Framework\TestCase
                 'expectedOutputErrorCount' => 1,
                 'expectedOutputWarningCount' => 12,
             ],
+            'invalid message, marked as neither error nor warning' => [
+                'configurationValues' => [],
+                'rawOutput' => FixtureLoader::load('ValidatorOutput/invalid-message.txt'),
+                'expectedOutputErrorCount' => 0,
+                'expectedOutputWarningCount' => 0,
+            ],
         ];
     }
 
