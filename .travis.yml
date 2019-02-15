@@ -6,6 +6,7 @@ install:
   - composer install --prefer-dist
 
 script:
+  - composer static-analysis
   - composer cs
   - composer test
 

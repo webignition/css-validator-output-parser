@@ -1,0 +1,5 @@
+parameters:
+  ignoreErrors:
+    -
+      message: '#ObservationResponseParser::parse\(\) expects DOMElement#'
+      path: '%currentWorkingDirectory%/src/OutputParser.php'

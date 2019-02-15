@@ -16,12 +16,14 @@ class OptionsParserTest extends \PHPUnit\Framework\TestCase
 
         $this->assertInstanceOf(Options::class, $options);
 
-        $this->assertFalse($options->getVendorExtensionIssuesAsWarnings());
-        $this->assertEquals('ucn', $options->getOutputFormat());
-        $this->assertEquals('en', $options->getLanguage());
-        $this->assertEquals(2, $options->getWarningLevel());
-        $this->assertEquals('all', $options->getMedium());
-        $this->assertEquals('css3', $options->getProfile());
+        if ($options instanceof Options) {
+            $this->assertFalse($options->getVendorExtensionIssuesAsWarnings());
+            $this->assertEquals('ucn', $options->getOutputFormat());
+            $this->assertEquals('en', $options->getLanguage());
+            $this->assertEquals(2, $options->getWarningLevel());
+            $this->assertEquals('all', $options->getMedium());
+            $this->assertEquals('css3', $options->getProfile());
+        }
     }
 
     public function testParseInvalidOptions()

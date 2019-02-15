@@ -49,22 +49,24 @@ class OutputParserTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(OutputInterface::class, $output);
         $this->assertInstanceOf(ValidationOutput::class, $output);
 
-        $messageList = $output->getMessages();
+        if ($output instanceof ValidationOutput) {
+            $messageList = $output->getMessages();
 
-        $this->assertEquals($expectedOutputErrorCount, $messageList->getErrorCount());
-        $this->assertEquals($expectedOutputWarningCount, $messageList->getWarningCount());
+            $this->assertEquals($expectedOutputErrorCount, $messageList->getErrorCount());
+            $this->assertEquals($expectedOutputWarningCount, $messageList->getWarningCount());
 
-        if (is_array($expectedErrorValuesCollection)) {
-            /* @var ErrorMessage[] $errors */
-            $errors = $messageList->getErrors();
+            if (is_array($expectedErrorValuesCollection)) {
+                /* @var ErrorMessage[] $errors */
+                $errors = $messageList->getErrors();
 
-            foreach ($errors as $errorIndex => $error) {
-                $expectedErrorValues = $expectedErrorValuesCollection[$errorIndex];
+                foreach ($errors as $errorIndex => $error) {
+                    $expectedErrorValues = $expectedErrorValuesCollection[$errorIndex];
 
-                $this->assertEquals($expectedErrorValues['ref'], $error->getRef());
-                $this->assertEquals($expectedErrorValues['line'], $error->getLineNumber());
-                $this->assertEquals($expectedErrorValues['context'], $error->getContext());
-                $this->assertEquals($expectedErrorValues['message'], $error->getTitle());
+                    $this->assertEquals($expectedErrorValues['ref'], $error->getRef());
+                    $this->assertEquals($expectedErrorValues['line'], $error->getLineNumber());
+                    $this->assertEquals($expectedErrorValues['context'], $error->getContext());
+                    $this->assertEquals($expectedErrorValues['message'], $error->getTitle());
+                }
             }
         }
     }
@@ -367,6 +369,12 @@ class OutputParserTest extends \PHPUnit\Framework\TestCase
                 'expectedOutputErrorCount' => 1,
                 'expectedOutputWarningCount' => 12,
             ],
+            'invalid message, marked as neither error nor warning' => [
+                'configurationValues' => [],
+                'rawOutput' => FixtureLoader::load('ValidatorOutput/invalid-message.txt'),
+                'expectedOutputErrorCount' => 0,
+                'expectedOutputWarningCount' => 0,
+            ],
         ];
     }
 
@@ -439,20 +447,22 @@ class OutputParserTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(OutputInterface::class, $output);
         $this->assertInstanceOf(ValidationOutput::class, $output);
 
-        $options = $output->getOptions();
-        $this->assertInstanceOf(Options::class, $options);
+        if ($output instanceof ValidationOutput) {
+            $options = $output->getOptions();
+            $this->assertInstanceOf(Options::class, $options);
 
-        $this->assertFalse($options->getVendorExtensionIssuesAsWarnings());
-        $this->assertEquals('ucn', $options->getOutputFormat());
-        $this->assertEquals('en', $options->getLanguage());
-        $this->assertEquals(2, $options->getWarningLevel());
-        $this->assertEquals('all', $options->getMedium());
-        $this->assertEquals('css3', $options->getProfile());
+            $this->assertFalse($options->getVendorExtensionIssuesAsWarnings());
+            $this->assertEquals('ucn', $options->getOutputFormat());
+            $this->assertEquals('en', $options->getLanguage());
+            $this->assertEquals(2, $options->getWarningLevel());
+            $this->assertEquals('all', $options->getMedium());
+            $this->assertEquals('css3', $options->getProfile());
 
-        $observationResponse = $output->getObservationResponse();
-        $datetime = $observationResponse->getDateTime();
-        $this->assertInstanceOf(\DateTime::class, $datetime);
-        $this->assertEquals('2012-12-27T04:09:39+00:00', $datetime->format('c'));
+            $observationResponse = $output->getObservationResponse();
+            $datetime = $observationResponse->getDateTime();
+            $this->assertInstanceOf(\DateTime::class, $datetime);
+            $this->assertEquals('2012-12-27T04:09:39+00:00', $datetime->format('c'));
+        }
     }
 
     public function testParseNonXmlBody()

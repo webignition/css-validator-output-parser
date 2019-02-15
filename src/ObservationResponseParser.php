@@ -28,10 +28,15 @@ class ObservationResponseParser
 
         foreach ($messageElements as $messageElement) {
             $message = MessageFactory::createFromDOMElement($messageElement);
-            $isVendorExtensionMessage = $this->isVendorExtensionMessage($message);
-            $isError = $message->isError();
 
-            if ($configuration->getReportVendorExtensionIssuesAsWarnings() && $isError && $isVendorExtensionMessage) {
+            if (null === $message) {
+                continue;
+            }
+
+            $isVendorExtensionMessage = $this->isVendorExtensionMessage($message);
+            $reportVExtIssuesAsWarnings = $configuration->getReportVendorExtensionIssuesAsWarnings();
+
+            if ($reportVExtIssuesAsWarnings && $isVendorExtensionMessage && $message instanceof ErrorMessage) {
                 $message = MessageFactory::createWarningFromError($message);
             }
 
@@ -98,12 +103,12 @@ class ObservationResponseParser
 
         $statusElement = $statusElements->item(0);
 
-        return 'passed' === $statusElement->getAttribute('value');
+        return $statusElement instanceof \DOMElement && 'passed' === $statusElement->getAttribute('value');
     }
 
     private function hasRefDomainToIgnore(AbstractMessage $message, array $refDomainsToIgnore): bool
     {
-        if (!$message->isError()) {
+        if (!$message instanceof ErrorMessage) {
             return false;
         }
 
