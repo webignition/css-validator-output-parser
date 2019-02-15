@@ -10,7 +10,7 @@ use webignition\CssValidatorOutput\Model\IncorrectUsageOutput;
 use webignition\CssValidatorOutput\Model\Options;
 use webignition\CssValidatorOutput\Model\OutputInterface;
 use webignition\CssValidatorOutput\Model\ValidationOutput;
-use webignition\CssValidatorOutput\Parser\Configuration;
+use webignition\CssValidatorOutput\Parser\Flags;
 use webignition\CssValidatorOutput\Parser\InvalidValidatorOutputException;
 use webignition\CssValidatorOutput\Parser\OutputParser;
 
@@ -35,16 +35,14 @@ class OutputParserTest extends \PHPUnit\Framework\TestCase
      * @dataProvider getOutputSuccessfulOutputDataProvider
      */
     public function testParseSuccessfulOutput(
-        array $configurationValues,
+        int $flags,
         string $rawOutput,
         int $expectedOutputErrorCount,
         int $expectedOutputWarningCount,
         ?array $expectedErrorValuesCollection = null
     ) {
-        $configuration = new Configuration($configurationValues);
-
         /* @var ValidationOutput $output */
-        $output = $this->parser->parse($rawOutput, $configuration);
+        $output = $this->parser->parse($rawOutput, $flags);
 
         $this->assertInstanceOf(OutputInterface::class, $output);
         $this->assertInstanceOf(ValidationOutput::class, $output);
@@ -73,135 +71,136 @@ class OutputParserTest extends \PHPUnit\Framework\TestCase
 
     public function getOutputSuccessfulOutputDataProvider(): array
     {
+        $allFlags =
+            Flags::IGNORE_WARNINGS |
+            Flags::IGNORE_VENDOR_EXTENSION_ISSUES |
+            Flags::IGNORE_FALSE_IMAGE_DATA_URL_MESSAGES |
+            Flags::REPORT_VENDOR_EXTENSION_ISSUES_AS_WARNINGS;
+
         return [
             'no messages' => [
-                'configurationValues' => [],
+                'flags' => Flags::NONE,
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/no-messages.txt'),
                 'expectedOutputErrorCount' => 0,
                 'expectedOutputWarningCount' => 0,
                 'expectedErrors' => null,
             ],
             'string index out of bounds exception before regular output' => [
-                'configurationValues' => [],
+                'flags' => Flags::NONE,
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/string-index-out-of-bounds-exception.txt'),
                 'expectedOutputErrorCount' => 3,
                 'expectedOutputWarningCount' => 0,
             ],
-            'ignore false data url messages: false' => [
-                'configurationValues' => [],
+            'false image data url messages; no flags' => [
+                'flags' => Flags::NONE,
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/incorrect-data-url-background-image-errors.txt'),
                 'expectedOutputErrorCount' => 4,
                 'expectedOutputWarningCount' => 0,
             ],
-            'ignore false data url messages: true' => [
-                'configurationValues' => [
-                    Configuration::KEY_IGNORE_FALSE_DATA_URL_MESSAGES => true,
-                ],
+            'false image data url messages; ignore false image data url messages flag' => [
+                'flags' => Flags::IGNORE_FALSE_IMAGE_DATA_URL_MESSAGES,
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/incorrect-data-url-background-image-errors.txt'),
                 'expectedOutputErrorCount' => 1,
                 'expectedOutputWarningCount' => 0,
             ],
-            'vextwarning=true; ignore vendor extension issues: false' => [
-                'configurationValues' => [
-                    Configuration::KEY_IGNORE_VENDOR_EXTENSION_ISSUES => false,
-                ],
+            'false image data url messages; all flags' => [
+                'flags' => $allFlags,
+                'rawOutput' => FixtureLoader::load('ValidatorOutput/incorrect-data-url-background-image-errors.txt'),
+                'expectedOutputErrorCount' => 1,
+                'expectedOutputWarningCount' => 0,
+            ],
+            'vextwarning=true; no flags' => [
+                'flags' => Flags::NONE,
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/output06.txt'),
                 'expectedOutputErrorCount' => 25,
                 'expectedOutputWarningCount' => 95,
             ],
-            'vextwarning=true; ignore vendor extension issues: true' => [
-                'configurationValues' => [
-                    Configuration::KEY_IGNORE_VENDOR_EXTENSION_ISSUES => true,
-                ],
+            'vextwarning=true; ignore vendor extension issues flag' => [
+                'flags' => Flags::IGNORE_VENDOR_EXTENSION_ISSUES,
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/output06.txt'),
                 'expectedOutputErrorCount' => 11,
                 'expectedOutputWarningCount' => 5,
             ],
-            'vextwarning=false; ignore vendor extension issues: false' => [
-                'configurationValues' => [
-                    Configuration::KEY_IGNORE_VENDOR_EXTENSION_ISSUES => false,
-                ],
+            'vextwarning=true; all flags' => [
+                'flags' => $allFlags,
+                'rawOutput' => FixtureLoader::load('ValidatorOutput/output06.txt'),
+                'expectedOutputErrorCount' => 11,
+                'expectedOutputWarningCount' => 0,
+            ],
+            'vextwarning=false; no flags' => [
+                'flags' => Flags::NONE,
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/output07.txt'),
                 'expectedOutputErrorCount' => 52,
                 'expectedOutputWarningCount' => 5,
             ],
-            'vextwarning=false; ignore vendor extension issues: true' => [
-                'configurationValues' => [
-                    Configuration::KEY_IGNORE_VENDOR_EXTENSION_ISSUES => true,
-                ],
+            'vextwarning=false; ignore vendor extension issues flag' => [
+                'flags' => Flags::IGNORE_VENDOR_EXTENSION_ISSUES,
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/output07.txt'),
                 'expectedOutputErrorCount' => 7,
                 'expectedOutputWarningCount' => 5,
             ],
-            'vendor-specific at rules; ignore vendor extension issues: false' => [
-                'configurationValues' => [
-                    Configuration::KEY_IGNORE_VENDOR_EXTENSION_ISSUES => false,
-                ],
+            'vendor-specific at rules; no flags' => [
+                'flags' => Flags::NONE,
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/vendor-specific-at-rules.txt'),
                 'expectedOutputErrorCount' => 11,
                 'expectedOutputWarningCount' => 2,
             ],
-            'vendor-specific at rules; ignore vendor extension issues: true' => [
-                'configurationValues' => [
-                    Configuration::KEY_IGNORE_VENDOR_EXTENSION_ISSUES => true,
-                ],
+            'vendor-specific at rules; ignore vendor extension issues flag' => [
+                'flags' => Flags::IGNORE_VENDOR_EXTENSION_ISSUES,
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/vendor-specific-at-rules.txt'),
                 'expectedOutputErrorCount' => 1,
                 'expectedOutputWarningCount' => 0,
             ],
-            'ignore warnings: false' => [
-                'configurationValues' => [
-                    Configuration::KEY_IGNORE_WARNINGS => false,
-                ],
+            'vendor-specific at rules; all flags' => [
+                'flags' => $allFlags,
+                'rawOutput' => FixtureLoader::load('ValidatorOutput/vendor-specific-at-rules.txt'),
+                'expectedOutputErrorCount' => 1,
+                'expectedOutputWarningCount' => 0,
+            ],
+            'ignore warnings: no flags' => [
+                'flags' => Flags::NONE,
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/output01.txt'),
                 'expectedOutputErrorCount' => 3,
                 'expectedOutputWarningCount' => 2,
             ],
-            'ignore warnings: true' => [
-                'configurationValues' => [
-                    Configuration::KEY_IGNORE_WARNINGS => true,
-                ],
+            'ignore warnings: ignore warnings flag' => [
+                'flags' => Flags::IGNORE_WARNINGS,
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/output01.txt'),
                 'expectedOutputErrorCount' => 3,
                 'expectedOutputWarningCount' => 0,
             ],
-            'report vendor extension issues as warnings and ignore warnings' => [
-                'configurationValues' => [
-                    Configuration::KEY_REPORT_VENDOR_EXTENSION_ISSUES_AS_WARNINGS => true,
-                    Configuration::KEY_IGNORE_WARNINGS => true,
-                ],
-                'rawOutput' => FixtureLoader::load('ValidatorOutput/vendor-specific-at-rules.txt'),
-                'expectedOutputErrorCount' => 1,
+            'ignore warnings: all flags' => [
+                'flags' => $allFlags,
+                'rawOutput' => FixtureLoader::load('ValidatorOutput/output01.txt'),
+                'expectedOutputErrorCount' => 2,
                 'expectedOutputWarningCount' => 0,
             ],
             'invalid PCDATA in validator output' => [
-                'configurationValues' => [],
+                'flags' => Flags::NONE,
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/invalid-pcdata.txt'),
                 'expectedOutputErrorCount' => 1,
                 'expectedOutputWarningCount' => 0,
             ],
             'large output: 890 errors, 5 warnings' => [
-                'configurationValues' => [],
+                'flags' => Flags::NONE,
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/output02.txt'),
                 'expectedOutputErrorCount' => 890,
                 'expectedOutputWarningCount' => 5,
             ],
             'large output: 623 errors, 272 warnings' => [
-                'configurationValues' => [],
+                'flags' => Flags::NONE,
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/output03.txt'),
                 'expectedOutputErrorCount' => 623,
                 'expectedOutputWarningCount' => 272,
             ],
-            'report vendor extension issues as warnings' => [
-                'configurationValues' => [
-                    Configuration::KEY_REPORT_VENDOR_EXTENSION_ISSUES_AS_WARNINGS => true
-                ],
+            'vendor-specific at rules; report vendor extension issues as warnings flag' => [
+                'flags' => Flags::REPORT_VENDOR_EXTENSION_ISSUES_AS_WARNINGS,
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/vendor-specific-at-rules.txt'),
                 'expectedOutputErrorCount' => 1,
                 'expectedOutputWarningCount' => 12,
             ],
             'invalid message, marked as neither error nor warning' => [
-                'configurationValues' => [],
+                'flags' => Flags::NONE,
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/invalid-message.txt'),
                 'expectedOutputErrorCount' => 0,
                 'expectedOutputWarningCount' => 0,
@@ -214,7 +213,7 @@ class OutputParserTest extends \PHPUnit\Framework\TestCase
      */
     public function testParseExceptionOutput(string $rawOutput)
     {
-        $output = $this->parser->parse($rawOutput, new Configuration());
+        $output = $this->parser->parse($rawOutput);
 
         $this->assertInstanceOf(OutputInterface::class, $output);
         $this->assertInstanceOf(ExceptionOutput::class, $output);
@@ -258,10 +257,7 @@ class OutputParserTest extends \PHPUnit\Framework\TestCase
     public function testParseIncorrectUsageOutput()
     {
         /* @var IncorrectUsageOutput $output */
-        $output = $this->parser->parse(
-            FixtureLoader::load('incorrect-usage.txt'),
-            new Configuration()
-        );
+        $output = $this->parser->parse(FixtureLoader::load('incorrect-usage.txt'));
 
         $this->assertInstanceOf(OutputInterface::class, $output);
         $this->assertInstanceOf(IncorrectUsageOutput::class, $output);
@@ -270,10 +266,7 @@ class OutputParserTest extends \PHPUnit\Framework\TestCase
     public function testParsesMetaData()
     {
         /* @var ValidationOutput $output */
-        $output = $this->parser->parse(
-            FixtureLoader::load('ValidatorOutput/output01.txt'),
-            new Configuration()
-        );
+        $output = $this->parser->parse(FixtureLoader::load('ValidatorOutput/output01.txt'));
 
         $this->assertInstanceOf(OutputInterface::class, $output);
         $this->assertInstanceOf(ValidationOutput::class, $output);
@@ -301,7 +294,7 @@ class OutputParserTest extends \PHPUnit\Framework\TestCase
         $fixture = FixtureLoader::load('ValidatorOutput/non-xml-body.txt');
 
         try {
-            $this->parser->parse($fixture, new Configuration());
+            $this->parser->parse($fixture);
             $this->fail(InvalidValidatorOutputException::class . ' not thrown');
         } catch (InvalidValidatorOutputException $invalidValidatorOutputException) {
             $this->assertEquals(trim($fixture), $invalidValidatorOutputException->getRawOutput());

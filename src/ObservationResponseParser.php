@@ -10,7 +10,7 @@ use webignition\CssValidatorOutput\Model\ObservationResponse;
 
 class ObservationResponseParser
 {
-    public function parse(\DOMElement $observationResponseElement, Configuration $configuration): ObservationResponse
+    public function parse(\DOMElement $observationResponseElement, int $flags = Flags::NONE): ObservationResponse
     {
         $sourceUrl = $observationResponseElement->getAttribute('ref');
         $dateTime = $this->createObservationResponseDateTime($observationResponseElement);
@@ -32,21 +32,24 @@ class ObservationResponseParser
             }
 
             $isVendorExtensionMessage = $this->isVendorExtensionMessage($message);
-            $reportVExtIssuesAsWarnings = $configuration->getReportVendorExtensionIssuesAsWarnings();
+            $reportVExtIssuesAsWarnings = $flags & Flags::REPORT_VENDOR_EXTENSION_ISSUES_AS_WARNINGS;
+            $ignoreWarnings = $flags & Flags::IGNORE_WARNINGS;
+            $ignoreVendorExtensionIssues = $flags & Flags::IGNORE_VENDOR_EXTENSION_ISSUES;
+            $ignoreFalseImageDataUrlMessages = $flags & Flags::IGNORE_FALSE_IMAGE_DATA_URL_MESSAGES;
 
             if ($reportVExtIssuesAsWarnings && $isVendorExtensionMessage && $message instanceof ErrorMessage) {
                 $message = MessageFactory::createWarningFromError($message);
             }
 
-            if ($message->isWarning() && $configuration->getIgnoreWarnings()) {
+            if ($ignoreWarnings && $message->isWarning()) {
                 continue;
             }
 
-            if ($configuration->getIgnoreVendorExtensionIssues() && $isVendorExtensionMessage) {
+            if ($ignoreVendorExtensionIssues && $isVendorExtensionMessage) {
                 continue;
             }
 
-            if ($configuration->getIgnoreFalseImageDataUrlMessages() && $this->isFalseImageDataUrlMessage($message)) {
+            if ($ignoreFalseImageDataUrlMessages && $this->isFalseImageDataUrlMessage($message)) {
                 continue;
             }
 
