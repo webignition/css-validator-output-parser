@@ -26,6 +26,7 @@
         "test": "./vendor/bin/phpunit --colors=always",
         "cs": "./vendor/bin/phpcs src tests --colors --standard=PSR2",
         "ci": [
+            "@composer static-analysis",
             "@composer cs",
             "@composer test"
         ]

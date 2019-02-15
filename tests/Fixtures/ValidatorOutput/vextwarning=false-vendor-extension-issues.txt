@@ -1,0 +1,70 @@
+{vextwarning=false, output=ucn, lang=en, warning=2, medium=all, profile=css3}
+<?xml version='1.0' encoding="utf-8"?>
+<observationresponse xmlns="http://www.w3.org/2009/10/unicorn/observationresponse" ref="http://blog.simplytestable.com" date="2013-01-03T01:23:34Z" xml:lang="en">
+
+<message type="error" level="0" ref="http://blog.simplytestable.com/vendor/twitter-bootstrap/bootstrap/css/bootstrap-responsive.css">
+	<context line="37" ></context>
+	<title>Property -webkit-box-sizing is an unknown vendor extension</title>
+</message>
+
+<message type="error" ref="http://blog.simplytestable.com/vendor/twitter-bootstrap/bootstrap/css/bootstrap.css">
+	<context line="449">h1, h2, h3, h4, h5, h6</context>
+	<title>
+		Property text-rendering doesn&amp;#39;t exist :
+		optimizelegibility
+	</title>
+</message>
+
+<message type="error" ref="http://blog.simplytestable.com/vendor/twitter-bootstrap/bootstrap/css/bootstrap.css">
+	<context line="449">h1, h2, h3, h4, h5, h6</context>
+	<title>
+		Property -ms-foo doesn&amp;#39;t exist :
+		optimizelegibility
+	</title>
+</message>
+
+<message type="error" ref="http://blog.simplytestable.com/vendor/twitter-bootstrap/bootstrap/css/bootstrap.css">
+	<context line="1189"></context>
+	<title>
+		Unknown pseudo-element or pseudo-class :required
+	</title>
+</message>
+
+<message type="error" ref="http://blog.simplytestable.com/vendor/twitter-bootstrap/bootstrap/css/bootstrap.css">
+	<context line="96"></context>
+	<title>
+		Unknown pseudo-element or pseudo-class ::-moz-focus-inner
+		[-moz-focus-inner]
+	</title>
+</message>
+
+<message type="error" ref="http://blog.simplytestable.com/vendor/twitter-bootstrap/bootstrap/css/bootstrap.css">
+	<context line="1235"></context>
+	<title>
+		Unknown pseudo-element or pseudo-class :-moz-placeholder
+	</title>
+</message>
+
+<message type="error" ref="http://blog.simplytestable.com/vendor/twitter-bootstrap/bootstrap/css/bootstrap.css">
+	<context line="44">a:focus</context>
+	<title>
+		-webkit-focus-ring-color is not a outline-color value :
+		5px auto -webkit-focus-ring-color
+	</title>
+</message>
+
+<message type="error" ref="http://blog.simplytestable.com/vendor/twitter-bootstrap/bootstrap/css/bootstrap.css">
+	<context line="4601"></context>
+	<title>
+		Sorry, the at-rule @foo is not implemented.
+	</title>
+</message>
+
+<message type="error" ref="http://blog.simplytestable.com/vendor/twitter-bootstrap/bootstrap/css/bootstrap.css">
+	<context line="4592"></context>
+	<title>
+		Sorry, the at-rule @-webkit-keyframes is not implemented.
+	</title>
+</message>
+
+</observationresponse>
