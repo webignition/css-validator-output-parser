@@ -181,18 +181,6 @@ class OutputParserTest extends \PHPUnit\Framework\TestCase
                 'expectedOutputErrorCount' => 1,
                 'expectedOutputWarningCount' => 0,
             ],
-            'large output: 890 errors, 5 warnings' => [
-                'flags' => Flags::NONE,
-                'rawOutput' => FixtureLoader::load('ValidatorOutput/output02.txt'),
-                'expectedOutputErrorCount' => 890,
-                'expectedOutputWarningCount' => 5,
-            ],
-            'large output: 623 errors, 272 warnings' => [
-                'flags' => Flags::NONE,
-                'rawOutput' => FixtureLoader::load('ValidatorOutput/output03.txt'),
-                'expectedOutputErrorCount' => 623,
-                'expectedOutputWarningCount' => 272,
-            ],
             'vendor-specific at rules; report vendor extension issues as warnings flag' => [
                 'flags' => Flags::REPORT_VENDOR_EXTENSION_ISSUES_AS_WARNINGS,
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/vendor-specific-at-rules.txt'),
