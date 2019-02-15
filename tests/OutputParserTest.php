@@ -78,37 +78,37 @@ class OutputParserTest extends \PHPUnit\Framework\TestCase
             Flags::REPORT_VENDOR_EXTENSION_ISSUES_AS_WARNINGS;
 
         return [
-            'no messages' => [
-                'flags' => Flags::NONE,
-                'rawOutput' => FixtureLoader::load('ValidatorOutput/no-messages.txt'),
-                'expectedOutputErrorCount' => 0,
-                'expectedOutputWarningCount' => 0,
-                'expectedErrors' => null,
-            ],
-            'string index out of bounds exception before regular output' => [
-                'flags' => Flags::NONE,
-                'rawOutput' => FixtureLoader::load('ValidatorOutput/exception-before-regular-output.txt'),
-                'expectedOutputErrorCount' => 1,
-                'expectedOutputWarningCount' => 0,
-            ],
-            'false image data url messages; no flags' => [
-                'flags' => Flags::NONE,
-                'rawOutput' => FixtureLoader::load('ValidatorOutput/incorrect-data-url-background-image-errors.txt'),
-                'expectedOutputErrorCount' => 3,
-                'expectedOutputWarningCount' => 0,
-            ],
-            'false image data url messages; ignore false image data url messages flag' => [
-                'flags' => Flags::IGNORE_FALSE_IMAGE_DATA_URL_MESSAGES,
-                'rawOutput' => FixtureLoader::load('ValidatorOutput/incorrect-data-url-background-image-errors.txt'),
-                'expectedOutputErrorCount' => 0,
-                'expectedOutputWarningCount' => 0,
-            ],
-            'false image data url messages; all flags' => [
-                'flags' => $allFlags,
-                'rawOutput' => FixtureLoader::load('ValidatorOutput/incorrect-data-url-background-image-errors.txt'),
-                'expectedOutputErrorCount' => 0,
-                'expectedOutputWarningCount' => 0,
-            ],
+//            'no messages' => [
+//                'flags' => Flags::NONE,
+//                'rawOutput' => FixtureLoader::load('ValidatorOutput/no-messages.txt'),
+//                'expectedOutputErrorCount' => 0,
+//                'expectedOutputWarningCount' => 0,
+//                'expectedErrors' => null,
+//            ],
+//            'string index out of bounds exception before regular output' => [
+//                'flags' => Flags::NONE,
+//                'rawOutput' => FixtureLoader::load('ValidatorOutput/exception-before-regular-output.txt'),
+//                'expectedOutputErrorCount' => 1,
+//                'expectedOutputWarningCount' => 0,
+//            ],
+//            'false image data url messages; no flags' => [
+//                'flags' => Flags::NONE,
+//                'rawOutput' => FixtureLoader::load('ValidatorOutput/incorrect-data-url-background-image-errors.txt'),
+//                'expectedOutputErrorCount' => 3,
+//                'expectedOutputWarningCount' => 0,
+//            ],
+//            'false image data url messages; ignore false image data url messages flag' => [
+//                'flags' => Flags::IGNORE_FALSE_IMAGE_DATA_URL_MESSAGES,
+//                'rawOutput' => FixtureLoader::load('ValidatorOutput/incorrect-data-url-background-image-errors.txt'),
+//                'expectedOutputErrorCount' => 0,
+//                'expectedOutputWarningCount' => 0,
+//            ],
+//            'false image data url messages; all flags' => [
+//                'flags' => $allFlags,
+//                'rawOutput' => FixtureLoader::load('ValidatorOutput/incorrect-data-url-background-image-errors.txt'),
+//                'expectedOutputErrorCount' => 0,
+//                'expectedOutputWarningCount' => 0,
+//            ],
             'vextwarning=true; no flags' => [
                 'flags' => Flags::NONE,
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/vextwarning=true-vendor-extension-issues.txt'),
@@ -120,6 +120,12 @@ class OutputParserTest extends \PHPUnit\Framework\TestCase
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/vextwarning=true-vendor-extension-issues.txt'),
                 'expectedOutputErrorCount' => 3,
                 'expectedOutputWarningCount' => 0,
+            ],
+            'vextwarning=true; report vendor extension issues as warnings' => [
+                'flags' => Flags::REPORT_VENDOR_EXTENSION_ISSUES_AS_WARNINGS,
+                'rawOutput' => FixtureLoader::load('ValidatorOutput/vextwarning=true-vendor-extension-issues.txt'),
+                'expectedOutputErrorCount' => 3,
+                'expectedOutputWarningCount' => 6,
             ],
             'vextwarning=true; all flags' => [
                 'flags' => $allFlags,
@@ -137,24 +143,6 @@ class OutputParserTest extends \PHPUnit\Framework\TestCase
                 'flags' => Flags::IGNORE_VENDOR_EXTENSION_ISSUES,
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/vextwarning=false-vendor-extension-issues.txt'),
                 'expectedOutputErrorCount' => 3,
-                'expectedOutputWarningCount' => 0,
-            ],
-            'vendor-specific at rules; no flags' => [
-                'flags' => Flags::NONE,
-                'rawOutput' => FixtureLoader::load('ValidatorOutput/vendor-specific-at-rules.txt'),
-                'expectedOutputErrorCount' => 11,
-                'expectedOutputWarningCount' => 2,
-            ],
-            'vendor-specific at rules; ignore vendor extension issues flag' => [
-                'flags' => Flags::IGNORE_VENDOR_EXTENSION_ISSUES,
-                'rawOutput' => FixtureLoader::load('ValidatorOutput/vendor-specific-at-rules.txt'),
-                'expectedOutputErrorCount' => 1,
-                'expectedOutputWarningCount' => 0,
-            ],
-            'vendor-specific at rules; all flags' => [
-                'flags' => $allFlags,
-                'rawOutput' => FixtureLoader::load('ValidatorOutput/vendor-specific-at-rules.txt'),
-                'expectedOutputErrorCount' => 1,
                 'expectedOutputWarningCount' => 0,
             ],
             'ignore warnings: no flags' => [
@@ -180,12 +168,6 @@ class OutputParserTest extends \PHPUnit\Framework\TestCase
                 'rawOutput' => FixtureLoader::load('ValidatorOutput/invalid-pcdata.txt'),
                 'expectedOutputErrorCount' => 1,
                 'expectedOutputWarningCount' => 0,
-            ],
-            'vendor-specific at rules; report vendor extension issues as warnings flag' => [
-                'flags' => Flags::REPORT_VENDOR_EXTENSION_ISSUES_AS_WARNINGS,
-                'rawOutput' => FixtureLoader::load('ValidatorOutput/vendor-specific-at-rules.txt'),
-                'expectedOutputErrorCount' => 1,
-                'expectedOutputWarningCount' => 12,
             ],
             'invalid message, marked as neither error nor warning' => [
                 'flags' => Flags::NONE,
