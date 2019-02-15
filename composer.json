@@ -22,6 +22,7 @@
         }
     },
     "scripts": {
+        "static-analysis": "./vendor/bin/phpstan analyse src tests -c phpstan.neon --level=7",
         "test": "./vendor/bin/phpunit --colors=always",
         "cs": "./vendor/bin/phpcs src tests --colors --standard=PSR2",
         "ci": [
