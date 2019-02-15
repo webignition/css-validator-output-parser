@@ -98,12 +98,12 @@ class ObservationResponseParser
 
         $statusElement = $statusElements->item(0);
 
-        return 'passed' === $statusElement->getAttribute('value');
+        return $statusElement instanceof \DOMElement && 'passed' === $statusElement->getAttribute('value');
     }
 
     private function hasRefDomainToIgnore(AbstractMessage $message, array $refDomainsToIgnore): bool
     {
-        if (!$message->isError()) {
+        if (!$message instanceof ErrorMessage) {
             return false;
         }
 
