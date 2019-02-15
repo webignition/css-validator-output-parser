@@ -7,8 +7,6 @@ use webignition\CssValidatorOutput\Model\ErrorMessage;
 use webignition\CssValidatorOutput\Model\MessageFactory;
 use webignition\CssValidatorOutput\Model\MessageList;
 use webignition\CssValidatorOutput\Model\ObservationResponse;
-use webignition\Url\Host\Host;
-use webignition\Url\Url;
 
 class ObservationResponseParser
 {
@@ -41,10 +39,6 @@ class ObservationResponseParser
             }
 
             if ($message->isWarning() && $configuration->getIgnoreWarnings()) {
-                continue;
-            }
-
-            if ($this->hasRefDomainToIgnore($message, $configuration->getRefDomainsToIgnore())) {
                 continue;
             }
 
@@ -104,27 +98,6 @@ class ObservationResponseParser
         $statusElement = $statusElements->item(0);
 
         return $statusElement instanceof \DOMElement && 'passed' === $statusElement->getAttribute('value');
-    }
-
-    private function hasRefDomainToIgnore(AbstractMessage $message, array $refDomainsToIgnore): bool
-    {
-        if (!$message instanceof ErrorMessage) {
-            return false;
-        }
-
-        /* @var ErrorMessage $message */
-        if ('' === $message->getRef()) {
-            return false;
-        }
-
-        $messageRefUrl = new Url($message->getRef());
-        foreach ($refDomainsToIgnore as $refDomainToIgnore) {
-            if ($messageRefUrl->hasHost() && $messageRefUrl->getHost()->isEquivalentTo(new Host($refDomainToIgnore))) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     private function isVendorExtensionMessage(AbstractMessage $message): bool
