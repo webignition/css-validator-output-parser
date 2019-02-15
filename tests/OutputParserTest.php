@@ -111,20 +111,20 @@ class OutputParserTest extends \PHPUnit\Framework\TestCase
             ],
             'vextwarning=true; no flags' => [
                 'flags' => Flags::NONE,
-                'rawOutput' => FixtureLoader::load('ValidatorOutput/output06.txt'),
-                'expectedOutputErrorCount' => 25,
-                'expectedOutputWarningCount' => 95,
+                'rawOutput' => FixtureLoader::load('ValidatorOutput/vextwarning=true-vendor-extension-issues.txt'),
+                'expectedOutputErrorCount' => 8,
+                'expectedOutputWarningCount' => 1,
             ],
             'vextwarning=true; ignore vendor extension issues flag' => [
                 'flags' => Flags::IGNORE_VENDOR_EXTENSION_ISSUES,
-                'rawOutput' => FixtureLoader::load('ValidatorOutput/output06.txt'),
-                'expectedOutputErrorCount' => 11,
-                'expectedOutputWarningCount' => 5,
+                'rawOutput' => FixtureLoader::load('ValidatorOutput/vextwarning=true-vendor-extension-issues.txt'),
+                'expectedOutputErrorCount' => 3,
+                'expectedOutputWarningCount' => 0,
             ],
             'vextwarning=true; all flags' => [
                 'flags' => $allFlags,
-                'rawOutput' => FixtureLoader::load('ValidatorOutput/output06.txt'),
-                'expectedOutputErrorCount' => 11,
+                'rawOutput' => FixtureLoader::load('ValidatorOutput/vextwarning=true-vendor-extension-issues.txt'),
+                'expectedOutputErrorCount' => 3,
                 'expectedOutputWarningCount' => 0,
             ],
             'vextwarning=false; no flags' => [

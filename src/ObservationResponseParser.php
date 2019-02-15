@@ -106,9 +106,9 @@ class ObservationResponseParser
     private function isVendorExtensionMessage(AbstractMessage $message): bool
     {
         $patterns = [
-            '/is an unknown vendor extension/', #
-            '/^Property \-[a-z\-]+ doesn\&#39;t exist/', #
-            '/^Unknown pseudo\-element or pseudo\-class [:]{1,2}\-[a-z\-]+/', #
+            '/is an unknown vendor extension/',
+            '/^Property \-[a-z\-]+ doesn\&#39;t exist/',
+            '/^Unknown pseudo\-element or pseudo\-class [:]{1,2}\-[a-z\-]+/',
             '/-webkit\-focus\-ring\-color is not a outline\-color value/',
             '/Sorry, the at\-rule @\-[a-z\-]+ is not implemented./'
         ];
